@@ -1,11 +1,12 @@
 {
   "name": "vibe-engineering-skills",
   "owner": {
-    "name": "vibe-engineering-skills contributors"
+    "name": "Adam Matthew Steinberger",
+    "email": "adam.steinberger@vizius.com"
   },
   "metadata": {
     "description": "Agent Skills for vibe engineering — 18 plugins and 71 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure, identity automation, DevSecOps, AI/ML, data engineering, frontend, mobile, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "1.0.1"
+    "version": "1.0.2"
   },
   "plugins": [
     {
@@ -15,7 +16,8 @@
       "version": "0.1.0",
       "category": "engineering-process",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -25,7 +27,8 @@
       "version": "0.2.0",
       "category": "ai",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -35,7 +38,8 @@
       "version": "0.1.0",
       "category": "ai",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -45,7 +49,8 @@
       "version": "0.2.0",
       "category": "cloud-infrastructure",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -55,7 +60,8 @@
       "version": "0.2.0",
       "category": "cloud-infrastructure",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -65,7 +71,8 @@
       "version": "0.1.0",
       "category": "security",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -75,7 +82,8 @@
       "version": "0.2.0",
       "category": "devops",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -85,7 +93,8 @@
       "version": "0.1.0",
       "category": "engineering-process",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -95,7 +104,8 @@
       "version": "0.1.0",
       "category": "frontend",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -105,7 +115,8 @@
       "version": "0.1.0",
       "category": "frontend",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -115,7 +126,8 @@
       "version": "0.1.0",
       "category": "cloud-infrastructure",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -125,7 +137,8 @@
       "version": "0.1.0",
       "category": "cloud-infrastructure",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -135,7 +148,8 @@
       "version": "0.1.0",
       "category": "cloud-infrastructure",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -145,7 +159,8 @@
       "version": "0.2.0",
       "category": "engineering-process",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -155,7 +170,8 @@
       "version": "0.1.0",
       "category": "security",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -165,7 +181,8 @@
       "version": "0.2.0",
       "category": "security",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -175,7 +192,8 @@
       "version": "0.2.0",
       "category": "engineering-process",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -185,7 +203,8 @@
       "version": "0.1.0",
       "category": "content",
       "author": {
-        "name": "vibe-engineering-skills contributors"
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     }
   ]

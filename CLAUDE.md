@@ -38,7 +38,7 @@ plugins/<plugin-name>/
   "name": "agile-delivery",
   "version": "0.1.0",
   "description": "Agile Delivery: …",
-  "author": { "name": "vibe-engineering-skills contributors" }
+  "author": { "name": "Adam Matthew Steinberger", "email": "adam.steinberger@vizius.com" }
 }
 ```
 
@@ -68,9 +68,11 @@ description: Use when … Triggers on … Also triggers on …
 
 ## Conventions
 
-- `author` is always `{ "name": "vibe-engineering-skills contributors" }`, in both
-  `plugin.json` and each `marketplace.json` entry. Tracked files carry no personal names and
-  no email addresses — attribution lives in the Git history.
+- `author` is always `{ "name": "Adam Matthew Steinberger", "email":
+  "adam.steinberger@vizius.com" }`, in both
+  `plugin.json` and each `marketplace.json` entry, and the same identity is used for
+  `authors`/`maintainers` in `pyproject.toml`. The MIT copyright holder is separate and is
+  **The Vizius Group**, not an individual.
 - Skills are general-purpose. Never add content that documents a specific organization's
   internal systems, hostnames, ticket IDs, or personnel; that belongs in a private
   marketplace, not this public one.

@@ -69,7 +69,7 @@ plugins/<plugin-name>/
   "name": "agile-delivery",
   "version": "0.1.0",
   "description": "Agile Delivery: …",
-  "author": { "name": "vibe-engineering-skills contributors" }
+  "author": { "name": "Adam Matthew Steinberger", "email": "adam.steinberger@vizius.com" }
 }
 ```
 
@@ -152,9 +152,11 @@ Also keep these in sync, or installation breaks:
 
 ## 7. Conventions
 
-- `author` is always `{ "name": "vibe-engineering-skills contributors" }`, in both
-  `plugin.json` and each `marketplace.json` entry. Do not add personal names or email
-  addresses to tracked files; attribution lives in the Git history.
+- `author` is always `{ "name": "Adam Matthew Steinberger", "email":
+  "adam.steinberger@vizius.com" }`, in both
+  `plugin.json` and each `marketplace.json` entry, matching `authors`/`maintainers` in
+  `pyproject.toml`. The MIT copyright holder is separate and is **The Vizius Group**.
+  Do not add any *other* person's name or email to tracked files.
 - Plugin and skill names are kebab-case and unique within the marketplace.
 - Versioning is per-plugin semver in `plugin.json`. Most plugins are `0.1.0`; revised ones
   are `0.2.0`. Bump the version whenever a plugin's skills change.

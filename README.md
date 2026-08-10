@@ -105,6 +105,6 @@ conventions and the SKILL.md format.
 
 ## License
 
-[MIT](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/LICENSE) © 2026 vibe-engineering-skills contributors.
+[MIT](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/LICENSE) © 2026 The Vizius Group.
 
 Contributions are accepted under the same license — see [CONTRIBUTING.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/CONTRIBUTING.md).

@@ -3,6 +3,7 @@
   "version": "0.2.0",
   "description": "Azure Cloud Infrastructure: Azure RBAC administration, Kubernetes IaC with GitOps/Helm/Terraform, and Azure service catalog with production decision guide for compute, messaging, networking, and AI.",
   "author": {
-    "name": "vibe-engineering-skills contributors"
+    "name": "Adam Matthew Steinberger",
+    "email": "adam.steinberger@vizius.com"
   }
 }
