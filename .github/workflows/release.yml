@@ -75,9 +75,20 @@ jobs:
           repository-url: https://test.pypi.org/legacy/
           skip-existing: true
 
-  # Proves the uploaded artifact actually installs and runs, from TestPyPI, before the
-  # irreversible upload. Extra index because this package has no dependencies of its own but
-  # pip still needs a real index to resolve against.
+  # Proves the uploaded artifact actually installs and runs — FROM TESTPYPI — before the
+  # irreversible upload.
+  #
+  # TestPyPI is the only index configured here. An earlier version also passed
+  # `--extra-index-url https://pypi.org/simple/`, which was a real hole: this package has zero
+  # runtime dependencies, so the extra index bought nothing, but it meant pip could satisfy
+  # this check from the production index instead — so a re-run, or any tag whose version
+  # already existed on PyPI, would "verify" an artifact TestPyPI never received and the gate
+  # would pass without testing anything. With a single index that is structurally impossible,
+  # and the report check below asserts the provenance rather than assuming it.
+  #
+  # If a runtime dependency is ever added and is not mirrored on TestPyPI, this job will fail
+  # to resolve. That is the intended outcome: decide consciously then, rather than reaching
+  # back to PyPI by default and quietly losing the guarantee.
   verify-testpypi:
     name: Verify the TestPyPI artifact
     needs: testpypi
@@ -94,16 +105,43 @@ jobs:
         run: |
           set -euo pipefail
           version="${GITHUB_REF_NAME#v}"
+          index="https://test.pypi.org/simple/"
+          spec="vibe-engineering-skills==${version}"
+
+          # TestPyPI's index can lag its own upload by a few seconds.
+          installed=0
           for attempt in 1 2 3 4 5 6; do
-            if pip install --quiet \
-                 --index-url https://test.pypi.org/simple/ \
-                 --extra-index-url https://pypi.org/simple/ \
-                 "vibe-engineering-skills==${version}"; then
+            if pip install --quiet --index-url "$index" "$spec"; then
+              installed=1
               break
             fi
             echo "not indexed yet; retrying in 20s (attempt ${attempt}/6)"
             sleep 20
           done
+          if [ "$installed" -ne 1 ]; then
+            echo "::error::could not install ${spec} from TestPyPI after 6 attempts"
+            exit 1
+          fi
+
+          # Assert provenance instead of assuming it. Checking for the ABSENCE of the
+          # production hosts is more durable than matching TestPyPI's CDN hostname, which is
+          # free to change; production's is the thing that must never appear.
+          pip install --dry-run --quiet --ignore-installed \
+            --report /tmp/resolve.json --index-url "$index" "$spec"
+          urls=$(jq -r '.install[].download_info.url' /tmp/resolve.json)
+          echo "resolved from:"; printf '%s\n' "$urls" | sed 's/^/  /'
+          # Fail closed. An empty list would otherwise sail through the grep below and report
+          # success while having verified nothing — the same shape of bug as the check this
+          # step replaced, so it gets an explicit assertion rather than trust in `set -e`.
+          if [ -z "$urls" ]; then
+            echo "::error::resolution report listed no downloads; cannot verify provenance"
+            exit 1
+          fi
+          if printf '%s\n' "$urls" | grep -qE '//(files\.pythonhosted\.org|pypi\.org)/'; then
+            echo "::error::resolved from the production index, not TestPyPI"
+            exit 1
+          fi
+
           vibe-skills --version
           vibe-skills list > /dev/null
           vibe-skills install --all --dest /tmp/verify-skills
