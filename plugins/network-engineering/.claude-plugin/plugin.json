@@ -1,0 +1,8 @@
+{
+  "name": "network-engineering",
+  "version": "0.1.0",
+  "description": "Network Engineering: networking fundamentals from first principles through 2026 gold standards including eBPF, Cilium, and AKS.",
+  "author": {
+    "name": "vibe-engineering-skills contributors"
+  }
+}

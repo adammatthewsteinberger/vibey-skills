@@ -1,0 +1,8 @@
+{
+  "name": "quality-engineering",
+  "version": "0.2.0",
+  "description": "Quality Engineering: Python testing and quality practices, test strategy and frameworks, and systematic debugging with observability — structured logging, OpenTelemetry, distributed tracing, and error handling patterns.",
+  "author": {
+    "name": "vibe-engineering-skills contributors"
+  }
+}

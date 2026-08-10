@@ -1,0 +1,192 @@
+{
+  "name": "vibe-engineering-skills",
+  "owner": {
+    "name": "vibe-engineering-skills contributors"
+  },
+  "metadata": {
+    "description": "Agent Skills for vibe engineering — 18 plugins and 71 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure, identity automation, DevSecOps, AI/ML, data engineering, frontend, mobile, software architecture, quality engineering, engineering process, and technical writing.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "agile-delivery",
+      "source": "./plugins/agile-delivery",
+      "description": "Agile Delivery: Security-First Scrum methodology, evidence-based delivery velocity, and engineering metrics.",
+      "version": "0.1.0",
+      "category": "engineering-process",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "ai-and-data",
+      "source": "./plugins/ai-and-data",
+      "description": "AI and Data Engineering: data pipelines and warehousing, AI/ML landscape and production patterns, RAG and AI agent development, and LLM token and cost optimization on Azure (including provider-agnostic prompt/context compression).",
+      "version": "0.2.0",
+      "category": "ai",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "ai-chatbot-strategy",
+      "source": "./plugins/ai-chatbot-strategy",
+      "description": "AI Chatbot Strategy: foundational AI and chatbot concepts for business, RAG architecture explained for non-technical decision-makers, custom chatbot build and deployment guide, and chatbot business value with ROI frameworks.",
+      "version": "0.1.0",
+      "category": "ai",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "azure-bootstrap",
+      "source": "./plugins/azure-bootstrap",
+      "description": "Azure Bootstrap: usage reference for the azure-bootstrap Python library (v3.0.0) — the 4-phase logging↔config bootstrap, v2 stdlib primitives, ten logging transports, opt-in Tier 2/Tier 3 subpackages, v3 DB/outbox/email/HTTP/AKS/governance/scaffold modules, end-to-end recipes, and TypeScript/Next.js HTTP integration plus pattern ports.",
+      "version": "0.2.0",
+      "category": "cloud-infrastructure",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "azure-cloud-infra",
+      "source": "./plugins/azure-cloud-infra",
+      "description": "Azure Cloud Infrastructure: Azure RBAC administration, Kubernetes IaC with GitOps/Helm/Terraform, and Azure service catalog with production decision guide for compute, messaging, networking, and AI.",
+      "version": "0.2.0",
+      "category": "cloud-infrastructure",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "compliance-frameworks",
+      "source": "./plugins/compliance-frameworks",
+      "description": "Compliance Frameworks: NIST 800-171, PCI-DSS v4, SOC 2, CMMC/CUI, and OWASP SAMM security compliance guidance.",
+      "version": "0.1.0",
+      "category": "security",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "devsecops-cicd",
+      "source": "./plugins/devsecops-cicd",
+      "description": "DevSecOps and CI/CD: end-to-end pipeline security, Bitbucket/Azure DevOps integration, CI/CD field guide with OIDC/supply-chain/progressive delivery, and GitHub/Atlassian advanced practitioner survey.",
+      "version": "0.2.0",
+      "category": "devops",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "engineering-process",
+      "source": "./plugins/engineering-process",
+      "description": "Engineering Process: requirements gathering and elicitation, SDLC models and practices, process engineering and project management frameworks, and research methodology with Turabian citation standards.",
+      "version": "0.1.0",
+      "category": "engineering-process",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "frontend-design",
+      "source": "./plugins/frontend-design",
+      "description": "Frontend Design: graphic design and UX/UI best practices, Next.js production patterns, and full-stack performance optimization for Python, Next.js, and Azure.",
+      "version": "0.1.0",
+      "category": "frontend",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "mobile-development",
+      "source": "./plugins/mobile-development",
+      "description": "Mobile Development: enterprise mobile on Azure — React Native New Architecture, native iOS (Swift/SwiftUI) and Android (Kotlin/Compose), mobile UI/UX and design patterns, Azure hosting/Intune/CI-CD after App Center, and mobile security (OWASP MASVS, secure storage/comms, MFA/passkeys).",
+      "version": "0.1.0",
+      "category": "frontend",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "network-engineering",
+      "source": "./plugins/network-engineering",
+      "description": "Network Engineering: networking fundamentals from first principles through 2026 gold standards including eBPF, Cilium, and AKS.",
+      "version": "0.1.0",
+      "category": "cloud-infrastructure",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "okta-api-reference",
+      "source": "./plugins/okta-api-reference",
+      "description": "Okta API Reference: the core Management REST API and official Python SDK, the Identity Governance (OIG) API surface and its lack of a Python SDK, and the current landscape of MCP servers for Okta core and IGA automation.",
+      "version": "0.1.0",
+      "category": "cloud-infrastructure",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "okta-workflows",
+      "source": "./plugins/okta-workflows",
+      "description": "Okta Workflows: a field reference for identity source-of-truth → Okta sync pipelines (e.g. Entra ID) — the platform's production quirks, hard record caps, and verified workarounds across branching (If/Else & If/ElseIf), looping constructs, Tables, event hooks/streaming/handler flows, the Okta and Azure AD/Microsoft Entra ID connectors, execution limits & throttling, error handling & retry, and flopack import/export, plus the recent 2025–2026 platform changes.",
+      "version": "0.1.0",
+      "category": "cloud-infrastructure",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "quality-engineering",
+      "source": "./plugins/quality-engineering",
+      "description": "Quality Engineering: Python testing and quality practices, test strategy and frameworks, and systematic debugging with observability — structured logging, OpenTelemetry, distributed tracing, and error handling patterns.",
+      "version": "0.2.0",
+      "category": "engineering-process",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "security-first-dev",
+      "source": "./plugins/security-first-dev",
+      "description": "Security-First Development: secure greenfield development with Security-First Scrum, codebase modernization, and enterprise cybersecurity implementation.",
+      "version": "0.1.0",
+      "category": "security",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "security-principles",
+      "source": "./plugins/security-principles",
+      "description": "Security Principles: cybersecurity first principles, threat modeling playbook, AI-era security field guide, and AI safety and secure development practices for Python and TypeScript/Next.js.",
+      "version": "0.2.0",
+      "category": "security",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "software-architecture",
+      "source": "./plugins/software-architecture",
+      "description": "Software Architecture: production architecture for Python, Next.js/TypeScript, and Azure at scale; Azure architecture patterns; and the software design process including ADRs, C4 model, fitness functions, and just-enough design.",
+      "version": "0.2.0",
+      "category": "engineering-process",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    },
+    {
+      "name": "writing-craft",
+      "source": "./plugins/writing-craft",
+      "description": "Writing Craft: white paper writing, prose mechanics, technical prose, narrative structure, and elite legal brief writing.",
+      "version": "0.1.0",
+      "category": "content",
+      "author": {
+        "name": "vibe-engineering-skills contributors"
+      }
+    }
+  ]
+}

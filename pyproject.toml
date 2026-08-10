@@ -1,0 +1,91 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "vibe-engineering-skills"
+dynamic = ["version"]
+description = "Agent Skills for vibe engineering — 71 evidence-grounded practitioner references as a Claude Code plugin marketplace"
+readme = "README.md"
+requires-python = ">=3.10"
+
+# PEP 639: an SPDX expression plus license-files. The classifier
+# "License :: OSI Approved :: MIT License" is deliberately omitted — pairing a legacy
+# license classifier with an SPDX expression is a hard error in current build tooling.
+license = "MIT"
+license-files = ["LICENSE"]
+
+# No `authors` block and no email address anywhere: this project publishes under a
+# collective identity, and attribution lives in the Git history.
+maintainers = [{ name = "vibe-engineering-skills contributors" }]
+
+# Pure data plus a stdlib-only CLI. Keeping this empty is a feature: `uvx` can run it
+# with no resolution step, and installing docs should never pull in a dependency tree.
+dependencies = []
+
+keywords = [
+  "claude",
+  "claude-code",
+  "agent-skills",
+  "skills",
+  "ai-agents",
+  "llm",
+  "plugin-marketplace",
+  "devsecops",
+  "security",
+  "azure",
+  "prompt-engineering",
+  "developer-tools",
+]
+
+classifiers = [
+  "Development Status :: 5 - Production/Stable",
+  "Environment :: Console",
+  "Intended Audience :: Developers",
+  "Intended Audience :: System Administrators",
+  "Natural Language :: English",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3 :: Only",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+  "Topic :: Documentation",
+  "Topic :: Software Development :: Documentation",
+  "Topic :: Software Development :: Libraries :: Python Modules",
+  "Topic :: Utilities",
+]
+
+[project.urls]
+Homepage = "https://pypi.org/project/vibe-engineering-skills/"
+Documentation = "https://pypi.org/project/vibe-engineering-skills/"
+Changelog = "https://pypi.org/project/vibe-engineering-skills/#history"
+
+[project.scripts]
+vibe-engineering-skills = "vibe_engineering_skills.cli:main"
+vibe-skills = "vibe_engineering_skills.cli:main"
+
+[tool.hatch.version]
+path = "src/vibe_engineering_skills/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/vibe_engineering_skills"]
+
+# The plugins tree must stay at the repo root — Claude Code requires
+# .claude-plugin/marketplace.json there with `source: ./plugins/<name>`. Rather than
+# duplicating 71 skill files into src/, the wheel maps the root tree in at build time,
+# so there is exactly one source of truth on disk.
+[tool.hatch.build.targets.wheel.force-include]
+"plugins" = "vibe_engineering_skills/plugins"
+".claude-plugin/marketplace.json" = "vibe_engineering_skills/marketplace.json"
+
+[tool.hatch.build.targets.sdist]
+include = [
+  "src/",
+  "plugins/",
+  ".claude-plugin/",
+  "tools/",
+  "README.md",
+  "LICENSE",
+]

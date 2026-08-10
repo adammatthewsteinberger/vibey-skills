@@ -1,0 +1,62 @@
+name: CI
+
+on:
+  push:
+    branches: ["**"]
+  pull_request:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate manifests and build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+
+      # Stdlib only, so it runs before anything is installed.
+      - name: Validate marketplace manifests and skill frontmatter
+        run: python3 tools/validate_manifests.py
+
+      - name: Build sdist and wheel
+        run: uv build
+
+      - name: Check package metadata
+        run: uvx twine check dist/*
+
+      - name: Verify the wheel carries every skill
+        run: |
+          set -euo pipefail
+          expected=$(find plugins -name SKILL.md | wc -l | tr -d ' ')
+          packaged=$(python3 -m zipfile -l dist/*.whl | grep -c 'plugins/.*SKILL.md')
+          echo "skills in tree: $expected / packaged in wheel: $packaged"
+          test "$expected" = "$packaged"
+
+      - name: Smoke-test the built wheel
+        run: |
+          set -euo pipefail
+          python3 -m venv /tmp/smoke
+          /tmp/smoke/bin/pip install --quiet dist/*.whl
+          /tmp/smoke/bin/vibe-skills --version
+          /tmp/smoke/bin/vibe-skills list
+          /tmp/smoke/bin/vibe-skills install --all --dest /tmp/smoke-skills
+          test "$(find /tmp/smoke-skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')" = "$(find plugins -name SKILL.md | wc -l | tr -d ' ')"
+
+      - name: Upload distributions
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/

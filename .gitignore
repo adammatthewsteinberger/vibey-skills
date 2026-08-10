@@ -1,0 +1,22 @@
+# Archived working material, research sources, and pre-built bundles —
+# not part of the published marketplace.
+archive/
+
+# claudeloop run artifacts: the migration plan, its audit log, and the scrub
+# gate. The gate greps for strings that must never appear in this repo, so it
+# cannot live in the tree it protects.
+.claudeloop/
+
+# Local agent session state
+.remember/
+.claude/
+
+# Python build artifacts
+dist/
+build/
+*.egg-info/
+__pycache__/
+.venv/
+
+# macOS
+.DS_Store

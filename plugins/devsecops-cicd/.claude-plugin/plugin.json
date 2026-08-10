@@ -1,0 +1,8 @@
+{
+  "name": "devsecops-cicd",
+  "version": "0.2.0",
+  "description": "DevSecOps and CI/CD: end-to-end pipeline security, Bitbucket/Azure DevOps integration, CI/CD field guide with OIDC/supply-chain/progressive delivery, and GitHub/Atlassian advanced practitioner survey.",
+  "author": {
+    "name": "vibe-engineering-skills contributors"
+  }
+}
