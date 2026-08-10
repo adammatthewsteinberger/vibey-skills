@@ -12,10 +12,10 @@ content.
 
 ## Source of truth
 
-- [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json) — the marketplace
+- [.claude-plugin/marketplace.json](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/.claude-plugin/marketplace.json) — the marketplace
   manifest Claude Code reads when this repo is added with `/plugin marketplace add`. Each
   entry's `source` points at a directory under `plugins/`.
-- [plugins/](plugins/) — the authoritative plugin sources. Edit skills here.
+- [plugins/](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins) — the authoritative plugin sources. Edit skills here.
 
 `plugins/` must stay at the repository root: Claude Code requires
 `.claude-plugin/marketplace.json` at the root with `source: ./plugins/<name>`. The Python
@@ -88,19 +88,75 @@ description: Use when … Triggers on … Also triggers on …
 3. Mirror `version`, `description`, and `category` into the matching entry in
    `.claude-plugin/marketplace.json`.
 4. Update `plugins/<name>/README.md` and the plugin table in the root
-   [README.md](README.md) if the skill list or summary changed.
-5. Run the validator — it must exit 0:
+   [README.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/README.md) if the skill list or summary changed.
+5. Run both checkers — each must exit 0:
    ```bash
    python3 tools/validate_manifests.py
+   python3 tools/check_links.py
    ```
 
 Keep `.claude-plugin/marketplace.json` and the per-plugin `plugin.json` files in sync —
 a mismatch in `name` or `source` will break installation.
 
+## Documentation links: absolute at the root, relative under `docs/`
+
+This is a hard rule, not a style preference, because three renderers resolve links against
+three different base URLs:
+
+| Surface | Base | Relative links |
+|---|---|---|
+| GitHub repo view | the repo root | work |
+| PyPI project page | `https://pypi.org/project/vibe-engineering-skills/` | **break** |
+| Pages site | `https://theviziusgroup.github.io/vibe-engineering-skills/` | work only inside `docs/` |
+
+- **Root Markdown** (`README.md`, `CONTRIBUTING.md`, `CLAUDE.md`, `SECURITY.md`,
+  `CODE_OF_CONDUCT.md`) must use **absolute** `https://github.com/…/blob/main/…` URLs —
+  `blob` for files, `tree` for directories. 1.0.0 shipped
+  `](.claude-plugin/marketplace.json)`, which renders fine on GitHub and 404s on PyPI.
+- **Files under `docs/`** must use **relative** links so `mkdocs build --strict` can verify
+  them and the Pages site stays self-contained.
+
+`tools/check_links.py` enforces both directions and runs in CI. It is hermetic — no HTTP —
+because a link checker that needs the network gets switched off the first time CI flakes.
+
+## Documentation site
+
+`mkdocs.yml` builds a Material site published to
+<https://theviziusgroup.github.io/vibe-engineering-skills/> by
+`.github/workflows/docs.yml`.
+
+The skills reference is **generated**, not written: `docs/gen_reference.py` synthesises a page
+per plugin and per skill from `plugins/**` at build time, exactly as the wheel maps that same
+tree in via hatchling `force-include`. Never add a skill page to `docs/` by hand — edit the
+`SKILL.md` it comes from. Adding a plugin or skill needs no `mkdocs.yml` change; the nav is
+generated too.
+
+```bash
+pip install -e ".[docs]"
+mkdocs serve
+mkdocs build --strict   # what CI runs; warnings are errors
+```
+
+`docs.yml` also triggers on `plugins/**`, since a skill edit changes the site even when
+nothing under `docs/` was touched.
+
 ## Releasing
 
-`.github/workflows/ci.yml` runs the validator, `uv build`, and `uvx twine check dist/*` on
-every push and pull request. Pushing a `v*` tag triggers `.github/workflows/release.yml`,
-which builds and publishes to PyPI via Trusted Publishing (OIDC) — no API token is stored
-anywhere. Bump the version in `src/vibe_engineering_skills/__init__.py` and
-`marketplace.json`'s `metadata.version` together, then tag.
+`.github/workflows/ci.yml` runs both checkers, `uv build`, `uvx twine check dist/*`, a
+wheel-completeness assertion, a wheel smoke test, and `mkdocs build --strict` on every push
+and pull request.
+
+Pushing a `v*` tag triggers `.github/workflows/release.yml`, which builds, then publishes in
+this order:
+
+1. **TestPyPI** — separate instance, separate trusted publisher.
+2. **Verify** — installs that exact version from TestPyPI and asserts all 71 skills land.
+3. **PyPI** — only if the verify step passed.
+4. **GitHub Release** — sdist and wheel attached.
+
+TestPyPI comes first because a PyPI version number is immutable: it can never be reused, even
+after a yank, so the only chance to catch a bad artifact is before it is uploaded.
+
+Both publishes use Trusted Publishing (OIDC) — no API token is stored anywhere. Bump the
+version in `src/vibe_engineering_skills/__init__.py` and `marketplace.json`'s
+`metadata.version` together (CI asserts they match, and that the tag matches both), then tag.

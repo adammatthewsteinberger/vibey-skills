@@ -57,10 +57,25 @@ classifiers = [
   "Topic :: Utilities",
 ]
 
+# 1.0.0 shipped these all pointing at the PyPI project page, because every truthful value
+# for Repository embeds the publishing org handle and the scrub gate forbade it outright.
+# The gate now exempts exactly this project's own coordinates and nothing else, so these
+# can be correct: a package page that does not link to its own source is a dead end.
 [project.urls]
-Homepage = "https://pypi.org/project/vibe-engineering-skills/"
-Documentation = "https://pypi.org/project/vibe-engineering-skills/"
-Changelog = "https://pypi.org/project/vibe-engineering-skills/#history"
+Homepage = "https://theviziusgroup.github.io/vibe-engineering-skills/"
+Documentation = "https://theviziusgroup.github.io/vibe-engineering-skills/"
+Repository = "https://github.com/TheViziusGroup/vibe-engineering-skills"
+Issues = "https://github.com/TheViziusGroup/vibe-engineering-skills/issues"
+Changelog = "https://github.com/TheViziusGroup/vibe-engineering-skills/releases"
+
+# Docs-only dependencies. Runtime `dependencies` stays empty on purpose — building the
+# documentation site must never add anything to what `uvx vibe-skills` has to resolve.
+[project.optional-dependencies]
+docs = [
+  "mkdocs-material>=9.5",
+  "mkdocs-gen-files>=0.5",
+  "mkdocs-literate-nav>=0.6",
+]
 
 [project.scripts]
 vibe-engineering-skills = "vibe_engineering_skills.cli:main"
@@ -86,6 +101,8 @@ include = [
   "plugins/",
   ".claude-plugin/",
   "tools/",
+  "docs/",
+  "mkdocs.yml",
   "README.md",
   "LICENSE",
 ]

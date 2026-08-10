@@ -13,7 +13,7 @@ Add this repository as a marketplace, then install the plugins you want:
 /plugin marketplace add /path/to/vibe-engineering-skills
 
 # …or directly from the Git remote
-/plugin marketplace add <owner>/vibe-engineering-skills
+/plugin marketplace add TheViziusGroup/vibe-engineering-skills
 
 # Browse and install
 /plugin
@@ -21,7 +21,7 @@ Add this repository as a marketplace, then install the plugins you want:
 
 Once added, `/plugin install <name>@vibe-engineering-skills` installs any single plugin (for example `/plugin install security-principles@vibe-engineering-skills`).
 
-The marketplace manifest lives at [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json); each plugin's source lives under [plugins/](plugins/).
+The marketplace manifest lives at [.claude-plugin/marketplace.json](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/.claude-plugin/marketplace.json); each plugin's source lives under [plugins/](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins).
 
 ## Install from PyPI
 
@@ -51,24 +51,24 @@ prints the path to the packaged manifest for `/plugin marketplace add`.
 
 | Plugin | Version | Category | Skills | Covers |
 |---|---|---|---|---|
-| [agile-delivery](plugins/agile-delivery) | 0.1.0 | engineering-process | 3 | Security-First Scrum, delivery velocity, engineering metrics |
-| [ai-and-data](plugins/ai-and-data) | 0.2.0 | ai | 4 | Data engineering, AI/ML landscape, RAG & agents, LLM cost optimization & compression |
-| [ai-chatbot-strategy](plugins/ai-chatbot-strategy) | 0.1.0 | ai | 4 | Chatbot fundamentals, RAG for business, build/deploy, ROI |
-| [azure-bootstrap](plugins/azure-bootstrap) | 0.2.0 | cloud-infrastructure | 4 | azure-bootstrap library (v3.0.0): v1 bootstrap, v2 primitives, ten logging transports, subpackages, v3 DB/email/HTTP/AKS/governance/scaffold, TypeScript integration |
-| [azure-cloud-infra](plugins/azure-cloud-infra) | 0.2.0 | cloud-infrastructure | 3 | Azure RBAC, Kubernetes IaC, Azure service catalog |
-| [compliance-frameworks](plugins/compliance-frameworks) | 0.1.0 | security | 5 | NIST 800-171, PCI-DSS v4, SOC 2, CMMC/CUI, OWASP SAMM |
-| [devsecops-cicd](plugins/devsecops-cicd) | 0.2.0 | devops | 4 | DevSecOps pipelines, Bitbucket/Azure, CI/CD field guide, GitHub/Atlassian |
-| [engineering-process](plugins/engineering-process) | 0.1.0 | engineering-process | 4 | Requirements, SDLC, process engineering, research methodology |
-| [frontend-design](plugins/frontend-design) | 0.1.0 | frontend | 3 | Graphic/UX/UI design, Next.js patterns, performance optimization |
-| [mobile-development](plugins/mobile-development) | 0.1.0 | frontend | 5 | React Native New Architecture, native iOS/Android, mobile UI/UX & patterns, Azure hosting/Intune/CI-CD, mobile security & MFA |
-| [network-engineering](plugins/network-engineering) | 0.1.0 | cloud-infrastructure | 2 | Network fundamentals, modern stack (eBPF, Cilium, AKS) |
-| [okta-api-reference](plugins/okta-api-reference) | 0.1.0 | cloud-infrastructure | 3 | Okta core Management API & Python SDK, Identity Governance (OIG) API surface, and the MCP server landscape for Okta core and IGA automation |
-| [okta-workflows](plugins/okta-workflows) | 0.1.0 | cloud-infrastructure | 9 | Okta Workflows field guide for identity source-of-truth → Okta sync: branching, loops, Tables, hooks/streaming, Okta & Entra connectors, execution limits, error handling, flopack deployment — quirks, caps & verified workarounds |
-| [quality-engineering](plugins/quality-engineering) | 0.2.0 | engineering-process | 3 | Python testing, test strategy, debugging & observability |
-| [security-first-dev](plugins/security-first-dev) | 0.1.0 | security | 3 | Security-First Scrum, codebase modernization, cybersecurity implementation |
-| [security-principles](plugins/security-principles) | 0.2.0 | security | 4 | Cybersecurity principles, threat modeling, AI-era security, AI safety |
-| [software-architecture](plugins/software-architecture) | 0.2.0 | engineering-process | 3 | Production architecture, architecture patterns, software design |
-| [writing-craft](plugins/writing-craft) | 0.1.0 | content | 5 | White papers, prose mechanics, technical prose, narrative, legal briefs |
+| [agile-delivery](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/agile-delivery) | 0.1.0 | engineering-process | 3 | Security-First Scrum, delivery velocity, engineering metrics |
+| [ai-and-data](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/ai-and-data) | 0.2.0 | ai | 4 | Data engineering, AI/ML landscape, RAG & agents, LLM cost optimization & compression |
+| [ai-chatbot-strategy](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/ai-chatbot-strategy) | 0.1.0 | ai | 4 | Chatbot fundamentals, RAG for business, build/deploy, ROI |
+| [azure-bootstrap](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/azure-bootstrap) | 0.2.0 | cloud-infrastructure | 4 | azure-bootstrap library (v3.0.0): v1 bootstrap, v2 primitives, ten logging transports, subpackages, v3 DB/email/HTTP/AKS/governance/scaffold, TypeScript integration |
+| [azure-cloud-infra](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/azure-cloud-infra) | 0.2.0 | cloud-infrastructure | 3 | Azure RBAC, Kubernetes IaC, Azure service catalog |
+| [compliance-frameworks](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/compliance-frameworks) | 0.1.0 | security | 5 | NIST 800-171, PCI-DSS v4, SOC 2, CMMC/CUI, OWASP SAMM |
+| [devsecops-cicd](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/devsecops-cicd) | 0.2.0 | devops | 4 | DevSecOps pipelines, Bitbucket/Azure, CI/CD field guide, GitHub/Atlassian |
+| [engineering-process](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/engineering-process) | 0.1.0 | engineering-process | 4 | Requirements, SDLC, process engineering, research methodology |
+| [frontend-design](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/frontend-design) | 0.1.0 | frontend | 3 | Graphic/UX/UI design, Next.js patterns, performance optimization |
+| [mobile-development](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/mobile-development) | 0.1.0 | frontend | 5 | React Native New Architecture, native iOS/Android, mobile UI/UX & patterns, Azure hosting/Intune/CI-CD, mobile security & MFA |
+| [network-engineering](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/network-engineering) | 0.1.0 | cloud-infrastructure | 2 | Network fundamentals, modern stack (eBPF, Cilium, AKS) |
+| [okta-api-reference](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/okta-api-reference) | 0.1.0 | cloud-infrastructure | 3 | Okta core Management API & Python SDK, Identity Governance (OIG) API surface, and the MCP server landscape for Okta core and IGA automation |
+| [okta-workflows](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/okta-workflows) | 0.1.0 | cloud-infrastructure | 9 | Okta Workflows field guide for identity source-of-truth → Okta sync: branching, loops, Tables, hooks/streaming, Okta & Entra connectors, execution limits, error handling, flopack deployment — quirks, caps & verified workarounds |
+| [quality-engineering](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/quality-engineering) | 0.2.0 | engineering-process | 3 | Python testing, test strategy, debugging & observability |
+| [security-first-dev](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/security-first-dev) | 0.1.0 | security | 3 | Security-First Scrum, codebase modernization, cybersecurity implementation |
+| [security-principles](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/security-principles) | 0.2.0 | security | 4 | Cybersecurity principles, threat modeling, AI-era security, AI safety |
+| [software-architecture](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/software-architecture) | 0.2.0 | engineering-process | 3 | Production architecture, architecture patterns, software design |
+| [writing-craft](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/writing-craft) | 0.1.0 | content | 5 | White papers, prose mechanics, technical prose, narrative, legal briefs |
 
 See each plugin's `README.md` for its full skill list and trigger descriptions.
 
@@ -96,15 +96,15 @@ To add or change a plugin:
 1. Edit the plugin under `plugins/<name>/` — update `skills/<skill>/SKILL.md`, the plugin
    `README.md`, and bump `version` in `.claude-plugin/plugin.json`.
 2. Mirror the `version`, `description`, and `category` into the matching entry in
-   [.claude-plugin/marketplace.json](.claude-plugin/marketplace.json).
+   [.claude-plugin/marketplace.json](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/.claude-plugin/marketplace.json).
 3. Update the table in this README if the plugin's skill count or summary changes.
 4. Run `python3 tools/validate_manifests.py`.
 
-See [CONTRIBUTING.md](CONTRIBUTING.md) for the full workflow and [CLAUDE.md](CLAUDE.md) for
+See [CONTRIBUTING.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/CONTRIBUTING.md) for the full workflow and [CLAUDE.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/CLAUDE.md) for
 conventions and the SKILL.md format.
 
 ## License
 
-[MIT](LICENSE) © 2026 vibe-engineering-skills contributors.
+[MIT](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/LICENSE) © 2026 vibe-engineering-skills contributors.
 
-Contributions are accepted under the same license — see [CONTRIBUTING.md](CONTRIBUTING.md).
+Contributions are accepted under the same license — see [CONTRIBUTING.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/CONTRIBUTING.md).

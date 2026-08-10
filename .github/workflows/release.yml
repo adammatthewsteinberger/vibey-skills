@@ -46,9 +46,75 @@ jobs:
           name: dist
           path: dist/
 
+  # TestPyPI first, and PyPI only if it succeeds. A PyPI version number is immutable — it
+  # can never be reused, even after a yank — so the one chance to catch a bad artifact is
+  # before it lands. TestPyPI is a separate instance with its own account and its own
+  # trusted publisher; configure one there for this project or this job will fail.
+  #
+  # `skip-existing` because TestPyPI may already hold a version from a re-run of the same
+  # tag; that should not block the real publish.
+  testpypi:
+    name: Publish to TestPyPI
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: testpypi
+      url: https://test.pypi.org/p/vibe-engineering-skills
+    permissions:
+      id-token: write
+    steps:
+      - name: Download distributions
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Publish to TestPyPI
+        uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+
+  # Proves the uploaded artifact actually installs and runs, from TestPyPI, before the
+  # irreversible upload. Extra index because this package has no dependencies of its own but
+  # pip still needs a real index to resolve against.
+  verify-testpypi:
+    name: Verify the TestPyPI artifact
+    needs: testpypi
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install from TestPyPI and smoke-test
+        run: |
+          set -euo pipefail
+          version="${GITHUB_REF_NAME#v}"
+          for attempt in 1 2 3 4 5 6; do
+            if pip install --quiet \
+                 --index-url https://test.pypi.org/simple/ \
+                 --extra-index-url https://pypi.org/simple/ \
+                 "vibe-engineering-skills==${version}"; then
+              break
+            fi
+            echo "not indexed yet; retrying in 20s (attempt ${attempt}/6)"
+            sleep 20
+          done
+          vibe-skills --version
+          vibe-skills list > /dev/null
+          vibe-skills install --all --dest /tmp/verify-skills
+          expected=$(find plugins -name SKILL.md | wc -l | tr -d ' ')
+          actual=$(find /tmp/verify-skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
+          echo "skills expected ${expected} / installed ${actual}"
+          test "$expected" = "$actual"
+
   pypi:
     name: Publish to PyPI
-    needs: build
+    needs: verify-testpypi
     runs-on: ubuntu-latest
     environment:
       name: pypi

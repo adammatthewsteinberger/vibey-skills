@@ -27,9 +27,15 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
-      # Stdlib only, so it runs before anything is installed.
+      # Stdlib only, so these run before anything is installed.
       - name: Validate marketplace manifests and skill frontmatter
         run: python3 tools/validate_manifests.py
+
+      # PyPI renders README.md against its own project URL, so a relative link that looks
+      # correct on GitHub 404s there — that shipped in 1.0.0. Hermetic (no HTTP), because a
+      # link checker that needs the network gets disabled the first time CI flakes.
+      - name: Check documentation links
+        run: python3 tools/check_links.py
 
       - name: Build sdist and wheel
         run: uv build
@@ -60,3 +66,33 @@ jobs:
         with:
           name: dist
           path: dist/
+
+  docs:
+    name: Build docs (strict)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install docs dependencies
+        run: pip install -e ".[docs]"
+
+      # --strict turns warnings into errors. That is what makes the 71 generated skill
+      # pages trustworthy: nobody is going to eyeball 71 pages for a dead link.
+      - name: Build the documentation site
+        run: mkdocs build --strict
+
+      - name: Verify every plugin and skill produced a page
+        run: |
+          set -euo pipefail
+          plugins=$(python3 -c "import json;print(len(json.load(open('.claude-plugin/marketplace.json'))['plugins']))")
+          skills=$(find plugins -name SKILL.md | wc -l | tr -d ' ')
+          built_plugins=$(find site/reference -mindepth 2 -maxdepth 2 -name index.html | wc -l | tr -d ' ')
+          built_skills=$(find site/reference -mindepth 3 -maxdepth 3 -name index.html | wc -l | tr -d ' ')
+          echo "plugins $plugins -> $built_plugins ; skills $skills -> $built_skills"
+          test "$plugins" = "$built_plugins"
+          test "$skills" = "$built_skills"

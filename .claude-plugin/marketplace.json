@@ -5,7 +5,7 @@
   },
   "metadata": {
     "description": "Agent Skills for vibe engineering — 18 plugins and 71 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure, identity automation, DevSecOps, AI/ML, data engineering, frontend, mobile, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "1.0.0"
+    "version": "1.0.1"
   },
   "plugins": [
     {

@@ -11,6 +11,10 @@ archive/
 .remember/
 .claude/
 
+# mkdocs build output and its throwaway venv
+site/
+.venv-docs/
+
 # Python build artifacts
 dist/
 build/
