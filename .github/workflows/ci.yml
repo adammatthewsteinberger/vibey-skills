@@ -56,9 +56,11 @@ jobs:
           set -euo pipefail
           python3 -m venv /tmp/smoke
           /tmp/smoke/bin/pip install --quiet dist/*.whl
-          /tmp/smoke/bin/vibe-skills --version
-          /tmp/smoke/bin/vibe-skills list
-          /tmp/smoke/bin/vibe-skills install --all --dest /tmp/smoke-skills
+          /tmp/smoke/bin/vibey-skills --version
+          /tmp/smoke/bin/vibey-skills list
+          /tmp/smoke/bin/vibey-skills install --all --dest /tmp/smoke-skills
+          # The deprecated alias must still work (one warning line on stderr, then delegate).
+          /tmp/smoke/bin/vibe-skills --version 2>&1 | grep -q 'deprecated'
           test "$(find /tmp/smoke-skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')" = "$(find plugins -name SKILL.md | wc -l | tr -d ' ')"
 
       - name: Upload distributions

@@ -36,7 +36,7 @@ jobs:
         run: |
           set -euo pipefail
           tag="${GITHUB_REF_NAME#v}"
-          pkg=$(python3 -c "import re,pathlib; print(re.search(r'__version__ = \"([^\"]+)\"', pathlib.Path('src/vibe_engineering_skills/__init__.py').read_text()).group(1))")
+          pkg=$(python3 -c "import re,pathlib; print(re.search(r'__version__ = \"([^\"]+)\"', pathlib.Path('src/vibey_skills/__init__.py').read_text()).group(1))")
           echo "tag=$tag package=$pkg"
           test "$tag" = "$pkg"
 
@@ -59,7 +59,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: testpypi
-      url: https://test.pypi.org/p/vibe-engineering-skills
+      url: https://test.pypi.org/p/vibey-skills
     permissions:
       id-token: write
     steps:
@@ -106,7 +106,7 @@ jobs:
           set -euo pipefail
           version="${GITHUB_REF_NAME#v}"
           index="https://test.pypi.org/simple/"
-          spec="vibe-engineering-skills==${version}"
+          spec="vibey-skills==${version}"
 
           # TestPyPI's index can lag its own upload by a few seconds.
           installed=0
@@ -142,9 +142,9 @@ jobs:
             exit 1
           fi
 
-          vibe-skills --version
-          vibe-skills list > /dev/null
-          vibe-skills install --all --dest /tmp/verify-skills
+          vibey-skills --version
+          vibey-skills list > /dev/null
+          vibey-skills install --all --dest /tmp/verify-skills
           expected=$(find plugins -name SKILL.md | wc -l | tr -d ' ')
           actual=$(find /tmp/verify-skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')
           echo "skills expected ${expected} / installed ${actual}"
@@ -156,7 +156,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: pypi
-      url: https://pypi.org/p/vibe-engineering-skills
+      url: https://pypi.org/p/vibey-skills
     permissions:
       # Trusted Publishing (OIDC): the workflow mints a short-lived token from PyPI.
       # No API token is stored in this repository or in any secret.

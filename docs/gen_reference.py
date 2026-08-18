@@ -28,7 +28,7 @@ from pathlib import Path
 
 import mkdocs_gen_files
 
-SLUG = "TheViziusGroup/vibe-engineering-skills"
+SLUG = "adammatthewsteinberger/vibey-skills"
 BLOB = f"https://github.com/{SLUG}/blob/main"
 
 ROOT = Path(__file__).resolve().parent.parent

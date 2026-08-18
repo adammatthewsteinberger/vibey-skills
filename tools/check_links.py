@@ -8,7 +8,7 @@ Three surfaces render this project's Markdown, each against a different base URL
     Pages site         https://<org>.github.io/<name>/           relative links work in docs/
 
 1.0.0 shipped `](.claude-plugin/marketplace.json)` in README.md, which PyPI resolved to
-`https://pypi.org/project/vibe-engineering-skills/.claude-plugin/marketplace.json` — a 404
+`https://pypi.org/project/<name>/.claude-plugin/marketplace.json` — a 404
 that looked fine on GitHub. That class of bug is invisible to a human reviewer and to
 `mkdocs build`, so it gets its own check.
 
@@ -20,8 +20,11 @@ Rules enforced:
      path that actually exists, and blob-vs-tree must match file-vs-directory.
   3. Relative links inside docs/ must resolve on disk (mkdocs --strict also covers this,
      but this runs without installing mkdocs).
-  4. No link may reference a non-canonical repo of the publishing org — most importantly
-     the private pre-scrub archive, which must never be pointed at from public docs.
+  4. No link may reference the former publishing org (the project was developed as
+     TheViziusGroup/vibe-engineering-skills and republished under the maintainer's own
+     account as vibey-skills). The only file allowed to name the old coordinates is
+     NOTICE.md, which exists precisely to record the attribution; everywhere else a
+     stale org URL is a bug — every such link must point at the canonical slug below.
 
 Deliberately hermetic: no HTTP requests. A link checker that needs the network is a link
 checker that gets disabled the first time CI flakes. Reachability of third-party URLs is out
@@ -37,7 +40,11 @@ import sys
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parent.parent
-SLUG = "TheViziusGroup/vibe-engineering-skills"
+SLUG = "adammatthewsteinberger/vibey-skills"
+
+# The pre-rename coordinates. Attribution lives in NOTICE.md; nothing else may link here.
+FORMER_ORG = "TheViziusGroup"
+FORMER_ORG_ALLOWED = {"NOTICE.md"}
 
 ROOT_DOCS = [
     "README.md",
@@ -53,22 +60,15 @@ SELF_PATH = re.compile(
 )
 
 # Capture the repo name, then compare it exactly. A negative lookahead was tried first and
-# was wrong: `(?!vibe-engineering-skills(?:[/.)]|$))` treats `$` as end-of-STRING, not
-# end-of-line, so a URL followed by `"` or a newline slipped past and every occurrence in
-# mkdocs.yml and pyproject.toml was reported as a foreign repo. Capture-then-compare cannot
-# have that class of bug — the same reason the scrub gate tokenises instead of substituting.
+# was wrong: `(?!<repo>(?:[/.)]|$))` treats `$` as end-of-STRING, not end-of-line, so a URL
+# followed by `"` or a newline slipped past and every occurrence in mkdocs.yml and
+# pyproject.toml was reported as a foreign repo. Capture-then-compare cannot have that class
+# of bug.
 #
-# ORG is derived from SLUG rather than written out beside a wildcard, on purpose. Writing the
-# org handle followed by a capture group would put an org-plus-arbitrary-repo literal into a
-# published file — exactly the shape this project's scrub gate rejects, since a checker that
-# searches for an identifier must not itself contain that identifier in a form it would flag.
-# The first version did, and the gate caught it (twice: once in the sdist, then again in the
-# comment that explained the fix). Deriving both halves from the canonical slug means the only
-# such literal anywhere in this file is the canonical one on the SLUG line above.
-ORG = SLUG.split("/")[0]
-REPO_NAME = SLUG.split("/")[1]
-ORG_REPO = re.compile(rf"https://github\.com/{re.escape(ORG)}/([A-Za-z0-9._-]+)")
-CANONICAL_REPOS = {REPO_NAME, f"{REPO_NAME}.git"}
+# Sibling repositories under the same owner (the README's "Related projects" block) are
+# legitimate, so the current org is NOT policed for foreign repos — only the former org is.
+FORMER_ORG_REPO = re.compile(rf"https://github\.com/{re.escape(FORMER_ORG)}/([A-Za-z0-9._-]+)")
+FORMER_PAGES = re.compile(rf"https://{re.escape(FORMER_ORG.lower())}\.github\.io/")
 
 # Only tracked files matter: .claudeloop/ holds the migration plan and run report, which
 # reference internal repos on purpose and are gitignored precisely so they never ship.
@@ -140,17 +140,23 @@ def check_docs_relative_links(problems: list[str]) -> None:
             problems.append(f"{rel}: relative link `{target}` does not resolve on disk")
 
 
-def check_no_foreign_org_repos(problems: list[str]) -> None:
+def check_no_former_org_links(problems: list[str]) -> None:
     for p in scanned_markdown() + [REPO / "mkdocs.yml", REPO / "pyproject.toml"]:
         if not p.is_file():
             continue
         rel = p.relative_to(REPO)
-        for repo in sorted(set(ORG_REPO.findall(p.read_text(encoding="utf-8")))):
-            if repo in CANONICAL_REPOS:
-                continue
+        if str(rel) in FORMER_ORG_ALLOWED:
+            continue
+        text = p.read_text(encoding="utf-8")
+        for repo in sorted(set(FORMER_ORG_REPO.findall(text))):
             problems.append(
-                f"{rel}: links to a different repository of the publishing org "
-                f"(`{repo}`) — public docs must reference only this project"
+                f"{rel}: links to the former publishing org (`{FORMER_ORG}/{repo}`) — "
+                f"use https://github.com/{SLUG} (attribution belongs in NOTICE.md only)"
+            )
+        if FORMER_PAGES.search(text):
+            problems.append(
+                f"{rel}: links to the former Pages site — "
+                f"use https://{SLUG.split('/')[0]}.github.io/{SLUG.split('/')[1]}/"
             )
 
 
@@ -159,7 +165,7 @@ def main() -> int:
     check_root_docs_are_absolute(problems)
     check_self_paths_exist(problems)
     check_docs_relative_links(problems)
-    check_no_foreign_org_repos(problems)
+    check_no_former_org_links(problems)
 
     if problems:
         print(f"check_links: {len(problems)} problem(s)\n", file=sys.stderr)

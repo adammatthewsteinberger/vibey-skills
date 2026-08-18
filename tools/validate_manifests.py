@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the vibe-engineering-skills marketplace.
+"""Validate the vibey-skills marketplace.
 
 Stdlib only — no dependencies, no build step. Run from anywhere:
 
@@ -120,7 +120,7 @@ def pyproject_version(report: Report) -> str | None:
         return static.group(1)
 
     if re.search(r"^dynamic\s*=\s*\[[^\]]*\bversion\b", text, re.MULTILINE):
-        init = ROOT / "src" / "vibe_engineering_skills" / "__init__.py"
+        init = ROOT / "src" / "vibey_skills" / "__init__.py"
         try:
             source = init.read_text(encoding="utf-8")
         except FileNotFoundError:

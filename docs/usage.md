@@ -1,24 +1,25 @@
 # Usage
 
-Two console scripts are installed and are interchangeable: `vibe-engineering-skills` and the
-shorter `vibe-skills`.
+The console script is `vibey-skills`. `vibe-skills` — the short alias from the
+`vibe-engineering-skills` era — still works but prints a one-line deprecation warning and
+will be removed in a future release.
 
 ## Listing
 
 ```bash
-vibe-skills list                       # every plugin, its skills, and trigger descriptions
-vibe-skills list --plugin azure-cloud-infra
-vibe-skills list --json                # machine-readable
+vibey-skills list                       # every plugin, its skills, and trigger descriptions
+vibey-skills list --plugin azure-cloud-infra
+vibey-skills list --json                # machine-readable
 ```
 
 ## Installing
 
 ```bash
-vibe-skills install --all                        # all 71 skills
-vibe-skills install security-principles azure-cloud-infra
-vibe-skills install --all --dest ./.claude/skills
-vibe-skills install --all --dry-run              # print the plan, touch nothing
-vibe-skills install --all --link                 # symlink instead of copy
+vibey-skills install --all                        # all 71 skills
+vibey-skills install security-principles azure-cloud-infra
+vibey-skills install --all --dest ./.claude/skills
+vibey-skills install --all --dry-run              # print the plan, touch nothing
+vibey-skills install --all --link                 # symlink instead of copy
 ```
 
 ## Conflicts and updates
@@ -28,18 +29,18 @@ skipped names are printed at the end. This is deliberate — the alternative sil
 a skill you edited locally.
 
 ```console
-$ vibe-skills install --all
-vibe-skills: copied 71 skill(s) into /Users/you/.claude/skills
+$ vibey-skills install --all
+vibey-skills: copied 71 skill(s) into /Users/you/.claude/skills
 
-$ vibe-skills install --all
-vibe-skills: 71 skill(s) already present, skipped: agile-delivery, ...
-vibe-skills: re-run with --force to overwrite
+$ vibey-skills install --all
+vibey-skills: 71 skill(s) already present, skipped: agile-delivery, ...
+vibey-skills: re-run with --force to overwrite
 ```
 
 To update after a release, overwrite explicitly:
 
 ```bash
-vibe-skills install --all --force
+vibey-skills install --all --force
 ```
 
 `--link` symlinks instead of copying, so skills track the installed package version and a
@@ -48,14 +49,14 @@ vibe-skills install --all --force
 ## Locating the packaged files
 
 ```bash
-vibe-skills path          # the packaged plugins/ root
-vibe-skills marketplace   # the packaged marketplace.json, for /plugin marketplace add
+vibey-skills path          # the packaged plugins/ root
+vibey-skills marketplace   # the packaged marketplace.json, for /plugin marketplace add
 ```
 
 ## Programmatic use
 
 ```python
-from vibe_engineering_skills import iter_skills, plugins_root
+from vibey_skills import iter_skills, plugins_root
 
 for skill in iter_skills():
     print(skill.plugin, skill.name, skill.path)
