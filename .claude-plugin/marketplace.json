@@ -6,7 +6,7 @@
   },
   "metadata": {
     "description": "Agent Skills for vibe engineering — 18 plugins and 71 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure, identity automation, DevSecOps, AI/ML, data engineering, frontend, mobile, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "2.0.0"
+    "version": "2.1.0"
   },
   "plugins": [
     {
@@ -43,10 +43,10 @@
       }
     },
     {
-      "name": "azure-bootstrap",
-      "source": "./plugins/azure-bootstrap",
-      "description": "Azure Bootstrap: usage reference for the azure-bootstrap Python library (v3.0.0) — the 4-phase logging↔config bootstrap, v2 stdlib primitives, ten logging transports, opt-in Tier 2/Tier 3 subpackages, v3 DB/outbox/email/HTTP/AKS/governance/scaffold modules, end-to-end recipes, and TypeScript/Next.js HTTP integration plus pattern ports.",
-      "version": "0.2.0",
+      "name": "vibey-bootstrap",
+      "source": "./plugins/vibey-bootstrap",
+      "description": "vibey-bootstrap (formerly azure-bootstrap): usage reference for the vibey-bootstrap Python library (v4.0.0) — the 4-phase logging↔config bootstrap, v2 stdlib primitives, ten logging transports, opt-in Tier 2/Tier 3 subpackages, v3 DB/outbox/email/HTTP/AKS/governance/scaffold modules, end-to-end recipes, and TypeScript/Next.js HTTP integration plus pattern ports.",
+      "version": "0.3.0",
       "category": "cloud-infrastructure",
       "author": {
         "name": "Adam Matthew Steinberger",
