@@ -1,4 +1,6 @@
-# vibe-engineering-skills
+# vibey-skills
+
+Formerly **vibe-engineering-skills** — see [NOTICE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/NOTICE.md).
 
 **18 plugins. 71 Agent Skills.** Evidence-grounded practitioner references for the parts of
 software engineering an agent is most likely to get confidently wrong: security, compliance,
@@ -14,14 +16,14 @@ source-cited document rather than a prompt snippet, written so a model can act o
 === "Claude Code marketplace"
 
     ```bash
-    /plugin marketplace add TheViziusGroup/vibe-engineering-skills
-    /plugin install security-principles@vibe-engineering-skills
+    /plugin marketplace add adammatthewsteinberger/vibey-skills
+    /plugin install security-principles@vibey-skills
     ```
 
 === "PyPI (any agent)"
 
     ```bash
-    uvx vibe-engineering-skills install --all
+    uvx vibey-skills install --all
     ```
 
     Copies every skill into `~/.claude/skills`, which also works for any other harness
@@ -40,4 +42,8 @@ and the [Skills reference](reference/index.md) for all 71 skills.
 
 ## License
 
-MIT. See [LICENSE](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/LICENSE).
+MIT, © 2026 The Vizius Group and Adam Matthew Steinberger. See
+[LICENSE](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/LICENSE) and
+[NOTICE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/NOTICE.md) —
+the project was originally developed at The Vizius Group as `vibe-engineering-skills` and is
+republished here with their permission.

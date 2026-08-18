@@ -7,7 +7,7 @@ body:
       value: |
         Thanks for the report. Please search existing issues first. Suspected
         security problems (including a skill that recommends something unsafe)
-        go through [private reporting](https://github.com/TheViziusGroup/vibe-engineering-skills/security/advisories/new),
+        go through [private reporting](https://github.com/adammatthewsteinberger/vibey-skills/security/advisories/new),
         not a public issue.
 
   - type: dropdown
@@ -18,7 +18,7 @@ body:
         - Skill content is wrong, outdated, or mis-cited
         - Skill does not trigger when it should (or triggers when it shouldn't)
         - Manifest / marketplace install problem
-        - vibe-skills CLI problem
+        - vibey-skills CLI problem
         - Documentation site problem
         - Other
     validations:
@@ -36,7 +36,7 @@ body:
     id: version
     attributes:
       label: Version
-      description: Output of `vibe-skills --version`, or the marketplace commit you installed from
+      description: Output of `vibey-skills --version`, or the marketplace commit you installed from
       placeholder: "1.0.2"
     validations:
       required: true

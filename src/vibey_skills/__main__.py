@@ -1,4 +1,4 @@
-"""Entry point for ``python -m vibe_engineering_skills``."""
+"""Entry point for ``python -m vibey_skills``."""
 
 from .cli import main
 

@@ -4,6 +4,6 @@
   "description": "Azure Cloud Infrastructure: Azure RBAC administration, Kubernetes IaC with GitOps/Helm/Terraform, and Azure service catalog with production decision guide for compute, messaging, networking, and AI.",
   "author": {
     "name": "Adam Matthew Steinberger",
-    "email": "adam.steinberger@vizius.com"
+    "email": "adam@matthewsteinberger.com"
   }
 }

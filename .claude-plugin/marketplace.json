@@ -1,12 +1,12 @@
 {
-  "name": "vibe-engineering-skills",
+  "name": "vibey-skills",
   "owner": {
     "name": "Adam Matthew Steinberger",
-    "email": "adam.steinberger@vizius.com"
+    "email": "adam@matthewsteinberger.com"
   },
   "metadata": {
     "description": "Agent Skills for vibe engineering — 18 plugins and 71 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure, identity automation, DevSecOps, AI/ML, data engineering, frontend, mobile, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "1.0.2"
+    "version": "2.0.0"
   },
   "plugins": [
     {
@@ -17,7 +17,7 @@
       "category": "engineering-process",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -28,7 +28,7 @@
       "category": "ai",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -39,7 +39,7 @@
       "category": "ai",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -50,7 +50,7 @@
       "category": "cloud-infrastructure",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -61,7 +61,7 @@
       "category": "cloud-infrastructure",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -72,7 +72,7 @@
       "category": "security",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -83,7 +83,7 @@
       "category": "devops",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -94,7 +94,7 @@
       "category": "engineering-process",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -105,7 +105,7 @@
       "category": "frontend",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -116,7 +116,7 @@
       "category": "frontend",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -127,7 +127,7 @@
       "category": "cloud-infrastructure",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -138,7 +138,7 @@
       "category": "cloud-infrastructure",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -149,7 +149,7 @@
       "category": "cloud-infrastructure",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -160,7 +160,7 @@
       "category": "engineering-process",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -171,7 +171,7 @@
       "category": "security",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -182,7 +182,7 @@
       "category": "security",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -193,7 +193,7 @@
       "category": "engineering-process",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     },
     {
@@ -204,7 +204,7 @@
       "category": "content",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam.steinberger@vizius.com"
+        "email": "adam@matthewsteinberger.com"
       }
     }
   ]

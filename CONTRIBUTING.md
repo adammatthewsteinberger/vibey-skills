@@ -1,6 +1,6 @@
-# Contributing to vibe-engineering-skills
+# Contributing to vibey-skills
 
-> Read [CLAUDE.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/CLAUDE.md) before making changes. It is the governing convention for this
+> Read [CLAUDE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CLAUDE.md) before making changes. It is the governing convention for this
 > repository and takes precedence over this document wherever they overlap.
 
 This repository is a **Claude Code plugin marketplace**: 18 plugins composed of 71 Agent
@@ -9,13 +9,13 @@ is Markdown (skill content) and JSON (manifests). "Correct" means valid manifest
 accurate, well-triggered skill content.
 
 Contributions are welcome. By submitting a pull request you agree that your contribution is
-licensed under the same [MIT License](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/LICENSE) that covers this project — inbound licensing
+licensed under the same [MIT License](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/LICENSE) that covers this project — inbound licensing
 matches outbound, with no separate CLA to sign.
 
 Questions, bug reports, and proposals all go through
-[GitHub issues](https://github.com/TheViziusGroup/vibe-engineering-skills/issues). For
-suspected security issues, see [SECURITY.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/SECURITY.md) instead. Participation is governed
-by our [Code of Conduct](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/CODE_OF_CONDUCT.md).
+[GitHub issues](https://github.com/adammatthewsteinberger/vibey-skills/issues). For
+suspected security issues, see [SECURITY.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/SECURITY.md) instead. Participation is governed
+by our [Code of Conduct](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CODE_OF_CONDUCT.md).
 
 ---
 
@@ -39,7 +39,7 @@ plugins/                          Authoritative plugin sources, one directory pe
   <plugin>/.claude-plugin/plugin.json   Plugin manifest
   <plugin>/README.md                    Plugin overview + skill list
   <plugin>/skills/<skill>/SKILL.md      Individual skill definition
-src/vibe_engineering_skills/      Python package + `vibe-skills` CLI
+src/vibey_skills/                 Python package + `vibey-skills` CLI
 tools/validate_manifests.py       Manifest and skill-frontmatter validator
 README.md / CLAUDE.md             Overview + Claude Code conventions
 .cursor/rules/claude.mdc          Cursor rules (aliases CLAUDE.md)
@@ -69,7 +69,7 @@ plugins/<plugin-name>/
   "name": "agile-delivery",
   "version": "0.1.0",
   "description": "Agile Delivery: …",
-  "author": { "name": "Adam Matthew Steinberger", "email": "adam.steinberger@vizius.com" }
+  "author": { "name": "Adam Matthew Steinberger", "email": "adam@matthewsteinberger.com" }
 }
 ```
 
@@ -117,7 +117,7 @@ only make sense inside one company belongs in a private marketplace, not this on
 1. Create `plugins/<plugin>/skills/<new-skill>/SKILL.md`.
 2. Add a bullet for it in `plugins/<plugin>/README.md`.
 3. Bump the plugin `version` and mirror it into `.claude-plugin/marketplace.json`.
-4. Update the skill count and summary for that plugin in the root [README.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/README.md) table.
+4. Update the skill count and summary for that plugin in the root [README.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/README.md) table.
 
 ### Add a new plugin
 
@@ -125,7 +125,7 @@ only make sense inside one company belongs in a private marketplace, not this on
    one skill under `skills/`.
 2. Add a plugin entry to `.claude-plugin/marketplace.json` with `name`, `source`
    (`./plugins/<plugin>`), `description`, `version`, `category`, and `author`.
-3. Add a row to the plugin table in the root [README.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/README.md).
+3. Add a row to the plugin table in the root [README.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/README.md).
 
 ## 6. Validation
 
@@ -153,18 +153,20 @@ Also keep these in sync, or installation breaks:
 ## 7. Conventions
 
 - `author` is always `{ "name": "Adam Matthew Steinberger", "email":
-  "adam.steinberger@vizius.com" }`, in both
+  "adam@matthewsteinberger.com" }`, in both
   `plugin.json` and each `marketplace.json` entry, matching `authors`/`maintainers` in
-  `pyproject.toml`. The MIT copyright holder is separate and is **The Vizius Group**.
-  Do not add any *other* person's name or email to tracked files.
+  `pyproject.toml`. The MIT copyright in `LICENSE` is held jointly by **The Vizius Group**
+  (where the project was originally developed as `vibe-engineering-skills`) and **Adam
+  Matthew Steinberger** — see `NOTICE.md`. Do not add any *other* person's name or email to
+  tracked files.
 - Plugin and skill names are kebab-case and unique within the marketplace.
 - Versioning is per-plugin semver in `plugin.json`. Most plugins are `0.1.0`; revised ones
   are `0.2.0`. Bump the version whenever a plugin's skills change.
 - The package version in `pyproject.toml` (single-sourced from
-  `src/vibe_engineering_skills/__init__.py`) must equal `marketplace.json`'s
+  `src/vibey_skills/__init__.py`) must equal `marketplace.json`'s
   `metadata.version`.
 
 ---
 
-*Questions? Check [CLAUDE.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/CLAUDE.md) first, then
-[open a GitHub issue](https://github.com/TheViziusGroup/vibe-engineering-skills/issues/new).*
+*Questions? Check [CLAUDE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CLAUDE.md) first, then
+[open a GitHub issue](https://github.com/adammatthewsteinberger/vibey-skills/issues/new).*

@@ -4,6 +4,6 @@
   "description": "Azure Bootstrap: usage reference for the azure-bootstrap Python library (v3.0.0) — the 4-phase logging↔config bootstrap, v2 stdlib primitives, ten logging transports, opt-in Tier 2/Tier 3 subpackages, v3 DB/outbox/email/HTTP/AKS/governance/scaffold modules, end-to-end recipes, and TypeScript/Next.js HTTP integration plus pattern ports.",
   "author": {
     "name": "Adam Matthew Steinberger",
-    "email": "adam.steinberger@vizius.com"
+    "email": "adam@matthewsteinberger.com"
   }
 }

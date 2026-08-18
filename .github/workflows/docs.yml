@@ -1,7 +1,7 @@
 name: Docs
 
 # Deploys the documentation site to GitHub Pages at
-# https://theviziusgroup.github.io/vibe-engineering-skills/
+# https://adammatthewsteinberger.github.io/vibey-skills/
 #
 # Triggered by changes to the docs themselves AND to plugins/** — the skills reference is
 # generated from that tree by docs/gen_reference.py, so a skill edit changes the site even

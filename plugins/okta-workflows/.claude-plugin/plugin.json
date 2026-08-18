@@ -4,6 +4,6 @@
   "description": "Okta Workflows: a field reference for identity source-of-truth → Okta sync pipelines (e.g. Entra ID) — the platform's production quirks, hard record caps, and verified workarounds across branching (If/Else & If/ElseIf), looping constructs, Tables, event hooks/streaming/handler flows, the Okta and Azure AD/Microsoft Entra ID connectors, execution limits & throttling, error handling & retry, and flopack import/export, plus the recent 2025–2026 platform changes.",
   "author": {
     "name": "Adam Matthew Steinberger",
-    "email": "adam.steinberger@vizius.com"
+    "email": "adam@matthewsteinberger.com"
   }
 }

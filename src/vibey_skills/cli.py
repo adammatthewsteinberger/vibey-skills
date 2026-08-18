@@ -1,4 +1,4 @@
-"""Command-line interface for vibe-engineering-skills.
+"""Command-line interface for vibey-skills.
 
 ``argparse`` and the stdlib only — installing a pile of Markdown should not drag in a
 dependency tree.
@@ -8,6 +8,10 @@ Commands:
     install      copy skill directories into ~/.claude/skills (or --dest)
     path         print the packaged plugins root
     marketplace  print the packaged marketplace.json path, for /plugin marketplace add
+
+The console script is ``vibey-skills``. ``vibe-skills`` — the short alias from the
+``vibe-engineering-skills`` era — is kept as a deprecated entry point that prints one
+warning line and then delegates here unchanged.
 """
 
 from __future__ import annotations
@@ -66,7 +70,7 @@ def cmd_list(args: argparse.Namespace) -> int:
         entries = [e for e in entries if e["name"] == args.plugin]
         if not entries:
             print(
-                f"vibe-skills: no such plugin {args.plugin!r}. "
+                f"vibey-skills: no such plugin {args.plugin!r}. "
                 f"Known plugins: {', '.join(_plugin_names())}",
                 file=sys.stderr,
             )
@@ -116,7 +120,7 @@ def cmd_list(args: argparse.Namespace) -> int:
     plural = "s" if len(entries) != 1 else ""
     print(f"{len(entries)} plugin{plural}, {total} skills")
     if not args.plugin:
-        print("Run 'vibe-skills list --plugin <name>' to see trigger descriptions.")
+        print("Run 'vibey-skills list --plugin <name>' to see trigger descriptions.")
     return 0
 
 
@@ -129,7 +133,7 @@ def cmd_install(args: argparse.Namespace) -> int:
         unknown = [p for p in args.plugins if p not in known]
         if unknown:
             print(
-                f"vibe-skills: unknown plugin(s): {', '.join(unknown)}\n"
+                f"vibey-skills: unknown plugin(s): {', '.join(unknown)}\n"
                 f"Known plugins: {', '.join(known)}",
                 file=sys.stderr,
             )
@@ -137,7 +141,7 @@ def cmd_install(args: argparse.Namespace) -> int:
         selected = args.plugins
     else:
         print(
-            "vibe-skills: name at least one plugin, or pass --all.\n"
+            "vibey-skills: name at least one plugin, or pass --all.\n"
             f"Known plugins: {', '.join(known)}",
             file=sys.stderr,
         )
@@ -151,7 +155,7 @@ def cmd_install(args: argparse.Namespace) -> int:
             skills.extend(iter_skills(name))
 
     if not skills:
-        print("vibe-skills: nothing to install.", file=sys.stderr)
+        print("vibey-skills: nothing to install.", file=sys.stderr)
         return 1
 
     dest_root = Path(args.dest).expanduser()
@@ -162,7 +166,7 @@ def cmd_install(args: argparse.Namespace) -> int:
         try:
             target = _resolve_within(dest_root, skill.name)
         except ValueError as exc:
-            print(f"vibe-skills: {exc}", file=sys.stderr)
+            print(f"vibey-skills: {exc}", file=sys.stderr)
             return 1
         # cp -n semantics: an existing directory is left completely alone unless --force.
         # A hand-edited local skill is worth more than this package's copy of it.
@@ -176,7 +180,7 @@ def cmd_install(args: argparse.Namespace) -> int:
 
     verb, verbed = ("link", "linked") if args.link else ("copy", "copied")
     if args.dry_run:
-        print(f"vibe-skills: dry run — nothing will be written to {dest_root}")
+        print(f"vibey-skills: dry run — nothing will be written to {dest_root}")
         for source, target in planned:
             action = f"replace (--force) and {verb}" if target.exists() else verb
             print(f"  {action}: {source} -> {target}")
@@ -201,7 +205,7 @@ def cmd_install(args: argparse.Namespace) -> int:
         installed += 1
 
     if installed or not skipped:
-        print(f"vibe-skills: {verbed} {installed} skill(s) into {dest_root}")
+        print(f"vibey-skills: {verbed} {installed} skill(s) into {dest_root}")
     if skipped:
         names = ", ".join(sorted(skipped))
         print(
@@ -226,10 +230,10 @@ def cmd_marketplace(_args: argparse.Namespace) -> int:
 
 def build_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
-        prog="vibe-skills",
+        prog="vibey-skills",
         description=(
             "Agent Skills for vibe engineering — browse and install the "
-            "vibe-engineering-skills plugin marketplace."
+            "vibey-skills plugin marketplace."
         ),
     )
     parser.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
@@ -286,11 +290,28 @@ def main(argv: list[str] | None = None) -> int:
     try:
         return args.func(args)
     except FileNotFoundError as exc:
-        print(f"vibe-skills: {exc}", file=sys.stderr)
+        print(f"vibey-skills: {exc}", file=sys.stderr)
         return 1
     except BrokenPipeError:
-        # `vibe-skills list | head` should exit quietly rather than dumping a traceback.
+        # `vibey-skills list | head` should exit quietly rather than dumping a traceback.
         return 0
+
+
+DEPRECATED_ALIAS_WARNING = (
+    "vibe-skills: this command name is deprecated and will be removed in a future release; "
+    "use `vibey-skills` (the package is now `vibey-skills` on PyPI)."
+)
+
+
+def deprecated_alias_main(argv: list[str] | None = None) -> int:
+    """Entry point for the legacy ``vibe-skills`` console script.
+
+    Prints a single deprecation line to stderr, then behaves exactly like :func:`main`.
+    Kept so that existing shell history, scripts, and docs keep working across the
+    ``vibe-engineering-skills`` → ``vibey-skills`` rename.
+    """
+    print(DEPRECATED_ALIAS_WARNING, file=sys.stderr)
+    return main(argv)
 
 
 if __name__ == "__main__":

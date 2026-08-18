@@ -2,7 +2,7 @@
 
 ## Supported versions
 
-The latest released version of `vibe-engineering-skills` is the only supported version.
+The latest released version of `vibey-skills` is the only supported version.
 Fixes ship in a new release rather than as patches to older ones.
 
 ## Reporting a vulnerability
@@ -28,7 +28,7 @@ This project is a collection of Markdown skill files, JSON manifests, and a smal
 stdlib-only Python CLI that copies those files into a local directory. The realistic threat
 surface is therefore narrow, and reports in these areas are in scope:
 
-- **Path traversal or arbitrary write** in the `vibe-skills install` command — for example a
+- **Path traversal or arbitrary write** in the `vibey-skills install` command — for example a
   plugin or skill name that escapes the `--dest` directory.
 - **Supply-chain integrity** — anything suggesting the published PyPI artifact does not match
   the tagged source, or a weakness in the release workflow's Trusted Publishing setup.
