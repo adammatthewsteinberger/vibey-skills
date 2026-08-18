@@ -1,20 +1,22 @@
 ---
-name: azure-bootstrap-primitives
-description: "Use for azure-bootstrap v2 Tier 1 always-on stdlib primitives and the v2.1/v3.0 logging transports (ten sinks). Covers configure_logging / JsonLogFormatter, correlation_scope and CorrelationFilter (contextvars), masking helpers (mask_api_key/mask_bearer_token/mask_email_address/mask_secrets_in_dict), @traced tracing + bump_counter/latency_snapshot, bootstrap helpers (ensure_bootstrap, load_local_settings, refresh_setting), the error vocabulary (PipelineError/UnrecoverableError/TransientError, is_unrecoverable), soft_fail/run_phases, validate_message, sanitize_path_segment/confine_to_root, compare_secrets and failclose, identity build_credential, audit, and configure_transports for console/app_insights/sumo_logic/panther/file/blob/sql/nosql/adx/event_hubs. Triggers on azure_bootstrap structured logging, correlation IDs, DEBUG_LOGGING_ENABLED, Sumo Logic or Panther transport, FILE_LOG_PATH, or @traced."
+name: vibey-bootstrap-primitives
+description: "Use for vibey-bootstrap v2 Tier 1 always-on stdlib primitives and the v2.1/v3.0 logging transports (ten sinks). Covers configure_logging / JsonLogFormatter, correlation_scope and CorrelationFilter (contextvars), masking helpers (mask_api_key/mask_bearer_token/mask_email_address/mask_secrets_in_dict), @traced tracing + bump_counter/latency_snapshot, bootstrap helpers (ensure_bootstrap, load_local_settings, refresh_setting), the error vocabulary (PipelineError/UnrecoverableError/TransientError, is_unrecoverable), soft_fail/run_phases, validate_message, sanitize_path_segment/confine_to_root, compare_secrets and failclose, identity build_credential, audit, and configure_transports for console/app_insights/sumo_logic/panther/file/blob/sql/nosql/adx/event_hubs. Triggers on vibey_bootstrap structured logging, correlation IDs, DEBUG_LOGGING_ENABLED, Sumo Logic or Panther transport, FILE_LOG_PATH, or @traced."
 ---
+
+> **vibey-bootstrap** is the library formerly published as `azure-bootstrap` (renamed in 4.0.0: package `vibey-bootstrap`, import `vibey_bootstrap`, CLI `vibey-bootstrap`; `azbootstrap` remains as a deprecated alias). Feature-tier labels below (v2 primitives, v3 modules) are historical and unchanged.
 
 # Azure Bootstrap — v2 Tier 1 Primitives & Logging Transports (v2.1 + v3.0)
 
 ## 3. Python: v2 Tier 1 primitives (always-on, stdlib-only)
 
-Everything here is importable from the top-level `azure_bootstrap` namespace (or its
+Everything here is importable from the top-level `vibey_bootstrap` namespace (or its
 subpackage) with **no extra installed**.
 
 ### Structured logging
 
 ```python
-from azure_bootstrap import configure_logging, JsonLogFormatter
-from azure_bootstrap.logging import (
+from vibey_bootstrap import configure_logging, JsonLogFormatter
+from vibey_bootstrap.logging import (
     ExtraFieldsFormatter, effective_log_level, env_flag, debug_logging_enabled,
 )
 
@@ -42,8 +44,8 @@ collides with a reserved `LogRecord` attribute raises `LoggingExtraConflictError
 ### Correlation context
 
 ```python
-from azure_bootstrap import correlation_scope, get_correlation_id, set_correlation_id
-from azure_bootstrap.logging import CorrelationFilter
+from vibey_bootstrap import correlation_scope, get_correlation_id, set_correlation_id
+from vibey_bootstrap.logging import CorrelationFilter
 
 with correlation_scope("req-123", user_id="u-456", email_id="e-789") as cid:
     logger.info("processing")   # log line auto-includes correlation_id, user_id, email_id
@@ -58,11 +60,11 @@ scope.
 ### Masking & sanitization
 
 ```python
-from azure_bootstrap import (
+from vibey_bootstrap import (
     mask_api_key, mask_bearer_token, mask_email_address,
     mask_secrets_in_dict, safe_json_dumps, sanitize_for_log,
 )
-from azure_bootstrap.logging import register_secret_keys, content_preview
+from vibey_bootstrap.logging import register_secret_keys, content_preview
 ```
 
 | Function | Behavior |
@@ -79,7 +81,7 @@ from azure_bootstrap.logging import register_secret_keys, content_preview
 ### Tracing & counters
 
 ```python
-from azure_bootstrap import traced, latency_snapshot, bump_counter, counter_snapshot
+from vibey_bootstrap import traced, latency_snapshot, bump_counter, counter_snapshot
 
 @traced(operation="reports.process", alert_on_error="error",
         sensitive_args=("api_key",), slow_threshold_seconds=2.0)
@@ -98,7 +100,7 @@ is thread-safe and never raises; `counter_snapshot()` returns a copy.
 ### Bootstrap helpers
 
 ```python
-from azure_bootstrap import (
+from vibey_bootstrap import (
     ensure_bootstrap, bootstrap_initialized, load_local_settings, refresh_setting,
 )
 ```
@@ -113,7 +115,7 @@ from azure_bootstrap import (
 ### Error vocabulary
 
 ```python
-from azure_bootstrap import (
+from vibey_bootstrap import (
     PipelineError, UnrecoverableError, TransientError,
     InvalidMessageError, RateLimitError, NetworkError, is_unrecoverable,
 )
@@ -128,7 +130,7 @@ is a single classifier the retry/soft-fail/consumer helpers all consult.
 ### Resilience — soft-fail & phases
 
 ```python
-from azure_bootstrap import (
+from vibey_bootstrap import (
     soft_fail, soft_fail_with, SoftFailResult, run_phase, run_phases, PhaseResult,
 )
 
@@ -156,7 +158,7 @@ results = run_phases([("download", download), ("parse", parse), ("index", index)
 ### Validation
 
 ```python
-from azure_bootstrap import validate_message, queue_message_schema, MessageSchema
+from vibey_bootstrap import validate_message, queue_message_schema, MessageSchema
 
 schema = queue_message_schema(
     required_fields=("correlation_id",),
@@ -172,7 +174,7 @@ and raises `InvalidMessageError` (an `UnrecoverableError` — so consumers dead-
 ### Path safety
 
 ```python
-from azure_bootstrap import sanitize_path_segment, confine_to_root
+from vibey_bootstrap import sanitize_path_segment, confine_to_root
 
 safe = sanitize_path_segment(user_filename)            # strips bidi/zero-width, caps 64 chars
 path = confine_to_root(raw, allowed_root="/data/work") # raises ValueError on escape
@@ -184,8 +186,8 @@ comparison, defeating `..` traversal **and** symlink escape.
 ### Security & fail-close
 
 ```python
-from azure_bootstrap import compare_secrets
-from azure_bootstrap.failclose import require_env, optional_env, fail_open_env
+from vibey_bootstrap import compare_secrets
+from vibey_bootstrap.failclose import require_env, optional_env, fail_open_env
 ```
 
 - `compare_secrets(a, b) -> bool` — constant-time (`hmac.compare_digest`); `False` on
@@ -198,8 +200,8 @@ from azure_bootstrap.failclose import require_env, optional_env, fail_open_env
 ### Identity & audit
 
 ```python
-from azure_bootstrap.identity import build_credential, credential_kind, CredentialKind
-from azure_bootstrap.audit import build_audit_extra
+from vibey_bootstrap.identity import build_credential, credential_kind, CredentialKind
+from vibey_bootstrap.audit import build_audit_extra
 
 cred = build_credential()   # ClientSecret (if secret set) → WorkloadIdentity → DefaultAzureCredential
 logger.info("EMAIL_AUDIT", extra=build_audit_extra("send", sender=addr, subject=subj))
@@ -227,7 +229,7 @@ attaches its handler to the root logger; disabling detaches and closes it. This
 decouples *where logs go* from *how they're formatted*.
 
 ```python
-from azure_bootstrap import (
+from vibey_bootstrap import (
     configure_transports, register_transport,
     enable_transport, disable_transport, list_transports,
 )
@@ -307,7 +309,7 @@ configure_transports(sumo_logic=True)   # or rely on the env flag alone
 | `SUMO_LOGIC_MAX_BUFFER` | `10000` | buffer cap (oldest dropped on overflow) |
 | `SUMO_LOGIC_TIMEOUT` | `5.0` | POST timeout (s) |
 
-### v3.0.0 transports — shared `_BufferedShipper` contract
+### v4.0.0 transports — shared `_BufferedShipper` contract
 
 All v3 network/storage transports subclass `_BufferedShipper` — the same guarantees as
 Sumo Logic: **never block the caller, never raise, bounded buffer with drop counting**,
@@ -324,5 +326,5 @@ background flush thread, batch by count and bytes, flush at `atexit`. Factories 
 | `adx` | `ADX_CLUSTER_URI`, `ADX_DATABASE` |
 | `event_hubs` | `EVENTHUB_FQNS`, `EVENTHUB_NAME` |
 
-Install all transport deps with `pip install 'azure-bootstrap[logging-all]'`. See
+Install all transport deps with `pip install 'vibey-bootstrap[logging-all]'`. See
 `examples/39_v3_transports.py`.

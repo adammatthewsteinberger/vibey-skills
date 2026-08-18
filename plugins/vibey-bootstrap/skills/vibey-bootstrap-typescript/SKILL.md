@@ -1,11 +1,13 @@
 ---
-name: azure-bootstrap-typescript
-description: "Use when consuming an azure-bootstrap Python backend (v3.0.0) from TypeScript/Next.js, or porting its framework-agnostic primitives to TypeScript. azure-bootstrap is pure Python with no npm distribution. Covers the exact HTTP contract (x-api-key endpoints → 401/429, Graph-style webhook handshake/202/401/400, health probes, /api/metrics shape) with typed App Router client code, plus native TS reimplementations: structured JSON logging, correlation via AsyncLocalStorage, mask_* helpers, in-memory counters, TokenBucket, constant-time compare, and HMAC-SHA256 action tokens that interoperate byte-for-byte with Python's tokens module. Also includes the master env-var reference (v1–v3), testing notes (AZURE_BOOTSTRAP_ALLOW_RESET, USE_MOCK_BOOTSTRAP), and troubleshooting. Triggers on calling a Python azure-bootstrap backend from Next.js, validationToken webhook, DATABASE_URL/outbox patterns, or interoperable HMAC tokens."
+name: vibey-bootstrap-typescript
+description: "Use when consuming an vibey-bootstrap Python backend (v4.0.0) from TypeScript/Next.js, or porting its framework-agnostic primitives to TypeScript. vibey-bootstrap is pure Python with no npm distribution. Covers the exact HTTP contract (x-api-key endpoints → 401/429, Graph-style webhook handshake/202/401/400, health probes, /api/metrics shape) with typed App Router client code, plus native TS reimplementations: structured JSON logging, correlation via AsyncLocalStorage, mask_* helpers, in-memory counters, TokenBucket, constant-time compare, and HMAC-SHA256 action tokens that interoperate byte-for-byte with Python's tokens module. Also includes the master env-var reference (v1–v3), testing notes (AZURE_BOOTSTRAP_ALLOW_RESET, USE_MOCK_BOOTSTRAP), and troubleshooting. Triggers on calling a Python vibey-bootstrap backend from Next.js, validationToken webhook, DATABASE_URL/outbox patterns, or interoperable HMAC tokens."
 ---
+
+> **vibey-bootstrap** is the library formerly published as `azure-bootstrap` (renamed in 4.0.0: package `vibey-bootstrap`, import `vibey_bootstrap`, CLI `vibey-bootstrap`; `azbootstrap` remains as a deprecated alias). Feature-tier labels below (v2 primitives, v3 modules) are historical and unchanged.
 
 # Azure Bootstrap — TypeScript/Next.js Integration & Pattern Ports
 
-> **`azure-bootstrap` is a pure Python package** with **no JavaScript/TypeScript
+> **`vibey-bootstrap` is a pure Python package** with **no JavaScript/TypeScript
 > distribution** — you cannot `npm install` or `import` it from a Next.js app. This
 > skill covers two distinct, legitimate things: (Part 7) calling a Python backend that
 > *uses* this library from Next.js over its HTTP surface, and (Part 8) reimplementing
@@ -14,7 +16,7 @@ description: "Use when consuming an azure-bootstrap Python backend (v3.0.0) from
 ## 7. TypeScript/Next.js — A: HTTP client integration
 
 This documents the **exact HTTP contract** a Python backend exposes when it wires up
-`azure_bootstrap.auth`, `health`, `metrics`, and `fastapi_middleware`, then gives typed
+`vibey_bootstrap.auth`, `health`, `metrics`, and `fastapi_middleware`, then gives typed
 Next.js (App Router) client code to consume it.
 
 > Conventions assumed below: backend base URL in `process.env.BACKEND_URL`; the API
@@ -255,7 +257,7 @@ export const adminBucket   = () => new TokenBucket(30, 0.5);  // 30 burst, 0.5/s
 
 ### 8.6 HMAC-SHA256 action tokens — **interoperable with Python `tokens`**
 
-Same wire format as `azure_bootstrap.tokens` / the Service-Bus resubmit token:
+Same wire format as `vibey_bootstrap.tokens` / the Service-Bus resubmit token:
 `base64url(json).base64url(hmac_sha256)`, payload sorted-keys with `exp` (unix
 seconds) and `act`. A token minted here verifies in Python and vice-versa — so a
 Next.js admin UI can issue a `dlq_resubmit` token the Python consumer accepts.
@@ -380,4 +382,4 @@ probes return `{"status":"ok","mock":true}`.
 - `examples/README.md` — numbered reading order (01 → 46 + e2e_*)
 - `CHANGELOG.md` — release-by-release surface
 - `MIGRATING-FROM-V1.md` — v1 → v2 adoption
-- `MIGRATING-TO-V3.md` — v3.0.0 opt-in features (additive, no breaking changes)
+- `MIGRATING-TO-V3.md` — v4.0.0 opt-in features (additive, no breaking changes)

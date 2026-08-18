@@ -1,7 +1,9 @@
 ---
-name: azure-bootstrap-subpackages
-description: "Use for azure-bootstrap v2 Tier 2 / Tier 3 opt-in subpackages, v3.0 runtime modules (db/outbox, email, http, documentdb, aks, governance, azbootstrap scaffold), and the Python end-to-end recipes. Covers alerts, fastapi_middleware, health, auth (Graph webhook + verify_api_key_header + verify_hmac_signature), ratelimit (TokenBucket, MultiUnitLimiter), retry, ingress, notify, heartbeat, config_refresh, subscription, servicebus (handle_message, async consumer, ReplayGuard, DLQ digest, resubmit tokens), sb_lock, openai, tokens, scheduler, metrics, pdf_safety, db/get_db/Outbox/drain_outbox, AcsEmailSender, hardened HTTP client, AKS SIGTERM/build_info/leader election, budget_guard, and Terraform/Helm/GitOps scaffold templates. Triggers on azure_bootstrap subpackage imports, drain_outbox, build_session, install_graph_webhook_route, handle_message, leader_election, or azbootstrap scaffold."
+name: vibey-bootstrap-subpackages
+description: "Use for vibey-bootstrap v2 Tier 2 / Tier 3 opt-in subpackages, v3.0 runtime modules (db/outbox, email, http, documentdb, aks, governance, vibey-bootstrap scaffold), and the Python end-to-end recipes. Covers alerts, fastapi_middleware, health, auth (Graph webhook + verify_api_key_header + verify_hmac_signature), ratelimit (TokenBucket, MultiUnitLimiter), retry, ingress, notify, heartbeat, config_refresh, subscription, servicebus (handle_message, async consumer, ReplayGuard, DLQ digest, resubmit tokens), sb_lock, openai, tokens, scheduler, metrics, pdf_safety, db/get_db/Outbox/drain_outbox, AcsEmailSender, hardened HTTP client, AKS SIGTERM/build_info/leader election, budget_guard, and Terraform/Helm/GitOps scaffold templates. Triggers on vibey_bootstrap subpackage imports, drain_outbox, build_session, install_graph_webhook_route, handle_message, leader_election, or vibey-bootstrap scaffold."
 ---
+
+> **vibey-bootstrap** is the library formerly published as `azure-bootstrap` (renamed in 4.0.0: package `vibey-bootstrap`, import `vibey_bootstrap`, CLI `vibey-bootstrap`; `azbootstrap` remains as a deprecated alias). Feature-tier labels below (v2 primitives, v3 modules) are historical and unchanged.
 
 # Azure Bootstrap — Tier 2 / Tier 3 Subpackages, v3 Runtime & Recipes
 
@@ -12,7 +14,7 @@ demos (the numbers below reference numbered example files).
 
 ### `alerts` — tiered dispatcher
 ```python
-from azure_bootstrap.alerts import (
+from vibey_bootstrap.alerts import (
     register_dispatcher, alert_dev_team, AlertSeverity, install_global_exception_hooks,
 )
 register_dispatcher(my_email_sender, recipients=["dev-alerts@example.com"])
@@ -31,7 +33,7 @@ Tunables (env): `DEV_ALERTS_ENABLED` (kill switch, default on), `DEV_ALERT_RECIP
 
 ### `fastapi_middleware` — request timing + 5xx alerts
 ```python
-from azure_bootstrap.fastapi_middleware import install_middleware
+from vibey_bootstrap.fastapi_middleware import install_middleware
 install_middleware(app, probe_paths=("/health/live","/health/ready"),
                    alert_subject_prefix="[svc] ", fire_alerts=True)
 ```
@@ -42,7 +44,7 @@ context vars, not HTTP headers.
 
 ### `health` — readiness probes
 ```python
-from azure_bootstrap.health import (
+from vibey_bootstrap.health import (
     check_app_config_health, check_app_insights_health, check_app_insights_logging,
 )
 ```
@@ -52,7 +54,7 @@ the App Insights checks are fast readiness checks.
 
 ### `auth` — webhook + API-key + HMAC (needs `fastapi` for route helper)
 ```python
-from azure_bootstrap.auth import (
+from vibey_bootstrap.auth import (
     install_graph_webhook_route, WebhookDedup, verify_api_key_header,
     verify_webhook_client_state, validation_token_handshake,
     verify_hmac_signature,   # v3 — GitHub/Sumo-style sha256=… bodies
@@ -61,7 +63,7 @@ install_graph_webhook_route(app, "/api/webhooks/email",
     background_handler=on_message, rate_limit_bucket=webhook_bucket(),
     dedup=WebhookDedup(ttl_seconds=600))
 ```
-HTTP contract is documented in the `azure-bootstrap-typescript` skill (Part 7).
+HTTP contract is documented in the `vibey-bootstrap-typescript` skill (Part 7).
 `verify_api_key_header(x_api_key, *, env_var="API_KEY", fail_open_when_unset=True)` is
 an async FastAPI dependency raising `HTTPException(401)` on mismatch.
 `verify_hmac_signature(secret, raw_body, header_value)` is constant-time HMAC-SHA256
@@ -69,7 +71,7 @@ for generic webhook signature headers.
 
 ### `ratelimit` — token bucket + multi-unit limiter
 ```python
-from azure_bootstrap.ratelimit import (
+from vibey_bootstrap.ratelimit import (
     TokenBucket, MultiUnitLimiter, fastapi_rate_limit, webhook_bucket, admin_bucket,
 )
 bucket = TokenBucket(budget=240, refill_per_second=4.0, name="webhook")
@@ -84,7 +86,7 @@ async def x(): ...
 
 ### `retry` — tenacity wrappers (needs `tenacity`)
 ```python
-from azure_bootstrap.retry import build_retry, retry_azure_transient, retry_ai_transient
+from vibey_bootstrap.retry import build_retry, retry_azure_transient, retry_ai_transient
 
 @retry_azure_transient(operation="blob.download")   # 3 attempts, 2–10s, NetworkError|RateLimitError
 def download(): ...
@@ -95,7 +97,7 @@ def chat(): ...
 
 ### `ingress` — 4-gate attachment classifier
 ```python
-from azure_bootstrap.ingress import AttachmentClassifier, ClassifiedKind, enforce_zip_safety_limits
+from vibey_bootstrap.ingress import AttachmentClassifier, ClassifiedKind, enforce_zip_safety_limits
 
 result = AttachmentClassifier().classify(           # gates: extension → MIME → size → magic-byte
     filename=name, content_type=mime, size_bytes=len(data), content=data,
@@ -112,7 +114,7 @@ classifier's `allowed_kinds` defaults to `("pdf", "zip")`). Zip-bomb defense:
 
 ### `notify` — two-tier notifications
 ```python
-from azure_bootstrap.notify import (
+from vibey_bootstrap.notify import (
     build_failure_alert_body, build_unprocessable_notification,
     build_validation_notice_body, should_notify_sender, UnprocessableReason,
 )
@@ -133,7 +135,7 @@ tuple). All builders take **keyword-only** args.
 
 ### `heartbeat` — pulse + consumer watchdog
 ```python
-from azure_bootstrap.heartbeat import (
+from vibey_bootstrap.heartbeat import (
     start_background_monitors, record_consumer_iteration, record_message_settled,
 )
 monitors = start_background_monitors(stop_event)   # heartbeat + watchdog daemons
@@ -144,21 +146,21 @@ silence (default 30 min). Env: `HEARTBEAT_INTERVAL_SECONDS`,
 
 ### `config_refresh` — dynamic log flags (run on a schedule)
 ```python
-from azure_bootstrap.config_refresh import refresh_log_flags
+from vibey_bootstrap.config_refresh import refresh_log_flags
 refresh_log_flags(("DEBUG_LOGGING_ENABLED", "LOG_LEVEL"))   # re-reads App Config; reapplies logging
 ```
 
 ### `subscription` — resource renewal loop
 ```python
-from azure_bootstrap.subscription import ensure_resource, renewal_loop, SubscriptionGone
+from vibey_bootstrap.subscription import ensure_resource, renewal_loop, SubscriptionGone
 ```
 Idempotent find-or-create + a SIGTERM-responsive renewal thread (sleeps in ≤5 s
 slices). Built for Graph webhook subscriptions but generic.
 
 ### `servicebus` — consumer + DLQ + async extensions (needs `azure-servicebus`)
 ```python
-from azure_bootstrap.servicebus import handle_message, run_dlq_digest, issue_resubmit_token
-from azure_bootstrap.servicebus.async_ext import (   # v3
+from vibey_bootstrap.servicebus import handle_message, run_dlq_digest, issue_resubmit_token
+from vibey_bootstrap.servicebus.async_ext import (   # v3
     run_async_consumer, ReplayGuard, service_bus_transport_type,
 )
 handle_message(receiver, msg, processor, schema=schema,
@@ -180,14 +182,14 @@ reads `SERVICE_BUS_TRANSPORT_TYPE` (`amqp` or `websocket`).
 
 ### `sb_lock` — message-lock renewal (needs `azure-servicebus`)
 ```python
-from azure_bootstrap.sb_lock import lock_for_process, ManagedLock
+from vibey_bootstrap.sb_lock import lock_for_process, ManagedLock
 with lock_for_process(receiver, msg, max_lock_renewal_seconds=3600):
     ...   # broker won't redeliver mid-process
 ```
 
 ### `openai` — AI usage tracker
 ```python
-from azure_bootstrap.openai import record_usage, acquire, usage_snapshot, check_thresholds_and_alert
+from vibey_bootstrap.openai import record_usage, acquire, usage_snapshot, check_thresholds_and_alert
 record_usage("gpt-4o", prompt_tokens=1200, completion_tokens=300)
 ```
 Sliding-window tokens + cost (built-in pricing for GPT-4o & Claude 3 families;
@@ -197,23 +199,23 @@ override via `register_pricing`). Soft TPM cap via `acquire`. Env:
 
 ### `tokens` — HMAC-SHA256 action tokens
 ```python
-from azure_bootstrap.tokens import issue_action_token, verify_action_token, InvalidActionToken
+from vibey_bootstrap.tokens import issue_action_token, verify_action_token, InvalidActionToken
 tok = issue_action_token(SECRET, action="dlq_resubmit", ttl_seconds=86400, payload={"id": "m1"})
 body = verify_action_token(SECRET, tok, expected_action="dlq_resubmit")   # raises InvalidActionToken
 ```
 Token = `base64url(json_payload).base64url(hmac_sha256)`; payload carries `exp` (unix
 seconds) + `act`. **This is the interop point for the TS port** (see the
-`azure-bootstrap-typescript` skill, Part 8).
+`vibey-bootstrap-typescript` skill, Part 8).
 
 ### `scheduler` — NCRONTAB parser (needs `apscheduler`)
 ```python
-from azure_bootstrap.scheduler import parse_cron_trigger
+from vibey_bootstrap.scheduler import parse_cron_trigger
 trigger = parse_cron_trigger("0 */5 * * * *")   # 5- or 6-field NCRONTAB → APScheduler CronTrigger
 ```
 
 ### `metrics` — aggregate snapshot
 ```python
-from azure_bootstrap.metrics import build_metrics_snapshot
+from vibey_bootstrap.metrics import build_metrics_snapshot
 snap = build_metrics_snapshot()
 # {"latency": {...}, "alert_counters": {...}, "ai_usage": {...},
 #  "bootstrap_initialized": bool, "last_sb_settle_age_seconds": float|None}
@@ -222,7 +224,7 @@ Soft-imports contributors — sections for absent modules are simply omitted.
 
 ### `pdf_safety` — strip active content (needs `pypdf`)
 ```python
-from azure_bootstrap.pdf_safety import sanitize_pdf_for_passthrough
+from vibey_bootstrap.pdf_safety import sanitize_pdf_for_passthrough
 reader = sanitize_pdf_for_passthrough(reader)   # removes OpenAction/AA/JavaScript/URI; best-effort
 ```
 
@@ -239,12 +241,12 @@ Lazy idempotent startup, per-request correlation, a fully traced handler, audit 
 
 ```python
 import logging, uuid
-from azure_bootstrap.alerts import install_global_exception_hooks, register_dispatcher
-from azure_bootstrap.audit import build_audit_extra
-from azure_bootstrap.bootstrap import ensure_bootstrap
-from azure_bootstrap.counters import bump_counter
-from azure_bootstrap.logging import configure_logging, correlation_scope
-from azure_bootstrap.tracing import traced
+from vibey_bootstrap.alerts import install_global_exception_hooks, register_dispatcher
+from vibey_bootstrap.audit import build_audit_extra
+from vibey_bootstrap.bootstrap import ensure_bootstrap
+from vibey_bootstrap.counters import bump_counter
+from vibey_bootstrap.logging import configure_logging, correlation_scope
+from vibey_bootstrap.tracing import traced
 
 logger = logging.getLogger(__name__)
 _started = False
@@ -284,14 +286,14 @@ Bootstrap + alerts + middleware + webhook + health + API-key admin + `/api/metri
 
 ```python
 from fastapi import Depends, FastAPI, Header
-from azure_bootstrap.alerts import install_global_exception_hooks, register_dispatcher
-from azure_bootstrap.auth import WebhookDedup, install_graph_webhook_route, verify_api_key_header
-from azure_bootstrap.bootstrap import ensure_bootstrap
-from azure_bootstrap.fastapi_middleware import install_middleware
-from azure_bootstrap.health import check_app_config_health, check_app_insights_health
-from azure_bootstrap.logging import configure_logging
-from azure_bootstrap.metrics import build_metrics_snapshot
-from azure_bootstrap.ratelimit import admin_bucket, fastapi_rate_limit, webhook_bucket
+from vibey_bootstrap.alerts import install_global_exception_hooks, register_dispatcher
+from vibey_bootstrap.auth import WebhookDedup, install_graph_webhook_route, verify_api_key_header
+from vibey_bootstrap.bootstrap import ensure_bootstrap
+from vibey_bootstrap.fastapi_middleware import install_middleware
+from vibey_bootstrap.health import check_app_config_health, check_app_insights_health
+from vibey_bootstrap.logging import configure_logging
+from vibey_bootstrap.metrics import build_metrics_snapshot
+from vibey_bootstrap.ratelimit import admin_bucket, fastapi_rate_limit, webhook_bucket
 
 configure_logging(); install_global_exception_hooks(); ensure_bootstrap()
 register_dispatcher(my_email_sender, recipients=["dev-alerts@example.com"])
@@ -329,14 +331,14 @@ Consumer loop, heartbeat + watchdog, lock-per-message, SIGTERM-clean shutdown. v
 
 ```python
 import threading
-from azure_bootstrap.aks import build_info, install_sigterm_handler, pod_context_extra
-from azure_bootstrap.bootstrap import ensure_bootstrap
-from azure_bootstrap.heartbeat import record_consumer_iteration, start_background_monitors
-from azure_bootstrap.identity import build_credential
-from azure_bootstrap.logging import configure_logging
-from azure_bootstrap.sb_lock import lock_for_process
-from azure_bootstrap.servicebus import handle_message
-from azure_bootstrap.validation import queue_message_schema
+from vibey_bootstrap.aks import build_info, install_sigterm_handler, pod_context_extra
+from vibey_bootstrap.bootstrap import ensure_bootstrap
+from vibey_bootstrap.heartbeat import record_consumer_iteration, start_background_monitors
+from vibey_bootstrap.identity import build_credential
+from vibey_bootstrap.logging import configure_logging
+from vibey_bootstrap.sb_lock import lock_for_process
+from vibey_bootstrap.servicebus import handle_message
+from vibey_bootstrap.validation import queue_message_schema
 
 def main_loop(receiver, processor, stop_event):
     schema = queue_message_schema(required_fields=("correlation_id",),
@@ -365,13 +367,13 @@ def main_pod():
         for t in monitors: t.join(timeout=5)
 ```
 
-## 7. Python: v3.0.0 runtime modules (opt-in)
+## 7. Python: v4.0.0 runtime modules (opt-in)
 
 ### `db` — SQLAlchemy session + health (needs `[db]`)
 ```python
-from azure_bootstrap.db import get_db, get_sessionmaker, db_health, postgres_rls_statements
-from azure_bootstrap.db.migrations import upgrade_to_head, write_env_py
-from azure_bootstrap.db.outbox import Outbox, drain_outbox, OUTBOX_DDL
+from vibey_bootstrap.db import get_db, get_sessionmaker, db_health, postgres_rls_statements
+from vibey_bootstrap.db.migrations import upgrade_to_head, write_env_py
+from vibey_bootstrap.db.outbox import Outbox, drain_outbox, OUTBOX_DDL
 
 # FastAPI dependency — yields and always closes:
 # def endpoint(db: Session = Depends(get_db)): ...
@@ -391,15 +393,15 @@ sent = drain_outbox(session, AcsEmailSender(), batch_size=10)
 
 ### `email` — ACS sender (needs `[email]`)
 ```python
-from azure_bootstrap.email import AcsEmailSender
+from vibey_bootstrap.email import AcsEmailSender
 sender = AcsEmailSender()   # reads ACS_CONNECTION_STRING, ACS_SENDER_ADDRESS
 sender.send(to=["user@example.com"], subject="...", html_body="...")
 ```
 
 ### `http` — hardened outbound client (needs `[http]` / `[http-async]`)
 ```python
-from azure_bootstrap.http import build_session, request_with_retry, normalize_pem, write_temp_pem
-from azure_bootstrap.http.async_client import build_async_client, async_request_with_retry
+from vibey_bootstrap.http import build_session, request_with_retry, normalize_pem, write_temp_pem
+from vibey_bootstrap.http.async_client import build_async_client, async_request_with_retry
 
 resp = request_with_retry("GET", "https://api.example.com/data", allow_private=False)
 ```
@@ -408,18 +410,18 @@ SSRF guard (`check_ssrf`), default timeout, `traceparent` injection, urllib3 Ret
 
 ### `documentdb` — Mongo/Cosmos (needs `[documentdb]`)
 ```python
-from azure_bootstrap.documentdb import mongo_client_from_env, documentdb_health
+from vibey_bootstrap.documentdb import mongo_client_from_env, documentdb_health
 client = mongo_client_from_env()   # NOSQL_URI
 ```
 Env: `NOSQL_URI`, `NOSQL_DATABASE`.
 
 ### `aks` — pod runtime helpers (stdlib, `[aks]` marker)
 ```python
-from azure_bootstrap.aks import (
+from vibey_bootstrap.aks import (
     install_sigterm_handler, setup_async_sigterm_handler,
     build_info, keda_metric_value, mount_build_info_route, pod_context_extra,
 )
-from azure_bootstrap.aks.leader_election import leader_election, LeaderElection
+from vibey_bootstrap.aks.leader_election import leader_election, LeaderElection
 
 install_sigterm_handler(stop_event)
 info = build_info()   # BUILD_VERSION, GIT_SHA, POD_NAME, POD_NAMESPACE, …
@@ -432,7 +434,7 @@ Env: `BUILD_VERSION` / `APP_VERSION`, `GIT_SHA`, `POD_NAME`, `POD_NAMESPACE`,
 
 ### `governance` — budget guard + usage meter (stdlib, `[governance]` marker)
 ```python
-from azure_bootstrap.governance import budget_guard, track_usage, BudgetGuard, UsageTracker
+from vibey_bootstrap.governance import budget_guard, track_usage, BudgetGuard, UsageTracker
 
 check = budget_guard("my-project", "daily", estimated_usd=0.05)
 if not check.allowed:
@@ -440,11 +442,11 @@ if not check.allowed:
 track_usage("openai", units=1200, unit_type="tokens")
 ```
 
-### `contrib.scaffold` — `azbootstrap` CLI (core install)
+### `contrib.scaffold` — `vibey-bootstrap` CLI (core install)
 ```bash
-azbootstrap list
-azbootstrap scaffold helm/worker/Chart.yaml.template --out ./deploy --var APP_NAME=my-svc
-azbootstrap version
+vibey-bootstrap list
+vibey-bootstrap scaffold helm/worker/Chart.yaml.template --out ./deploy --var APP_NAME=my-svc
+vibey-bootstrap version
 ```
 Templates: Terraform (AKS), Bicep, Helm worker chart, GitOps kustomize base, CI/CD
 workflows, OPA/Conftest policy starters. See `examples/46_scaffold_cli.py`.

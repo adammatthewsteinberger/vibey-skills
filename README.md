@@ -98,7 +98,7 @@ own `README.md` with the full skill list and trigger descriptions.
 | [agile-delivery](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/agile-delivery) | 0.1.0 | engineering-process | 3 | Security-First Scrum, delivery velocity, engineering metrics |
 | [ai-and-data](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/ai-and-data) | 0.2.0 | ai | 4 | Data engineering, AI/ML landscape, RAG & agents, LLM cost optimization & compression |
 | [ai-chatbot-strategy](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/ai-chatbot-strategy) | 0.1.0 | ai | 4 | Chatbot fundamentals, RAG for business, build/deploy, ROI |
-| [azure-bootstrap](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/azure-bootstrap) | 0.2.0 | cloud-infrastructure | 4 | The [azure-bootstrap](https://github.com/adammatthewsteinberger/vibey-bootstrap) library (v3; now published as `vibey-bootstrap`): 4-phase bootstrap, v2 primitives, ten logging transports, subpackages, v3 DB/email/HTTP/AKS/governance/scaffold, TypeScript integration |
+| [vibey-bootstrap](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/vibey-bootstrap) | 0.3.0 | cloud-infrastructure | 4 | The [vibey-bootstrap](https://github.com/adammatthewsteinberger/vibey-bootstrap) library (v4.0.0, formerly `azure-bootstrap`): 4-phase bootstrap, v2 primitives, ten logging transports, subpackages, v3 DB/email/HTTP/AKS/governance/scaffold, TypeScript integration |
 | [azure-cloud-infra](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/azure-cloud-infra) | 0.2.0 | cloud-infrastructure | 3 | Azure RBAC, Kubernetes IaC, Azure service catalog |
 | [compliance-frameworks](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/compliance-frameworks) | 0.1.0 | security | 5 | NIST 800-171, PCI-DSS v4, SOC 2, CMMC/CUI, OWASP SAMM |
 | [devsecops-cicd](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/devsecops-cicd) | 0.2.0 | devops | 4 | DevSecOps pipelines, Bitbucket/Azure, CI/CD field guide, GitHub/Atlassian |
@@ -148,7 +148,7 @@ Part of the same open-source family — MIT, on PyPI:
 - **[engineering-influence-skills](https://github.com/adammatthewsteinberger/engineering-influence-skills)** — companion plugin: a 14-phase content-engineering pipeline for long-form writing
 - **[claudeloop](https://github.com/adammatthewsteinberger/claudeloop)** · **[codexloop](https://github.com/adammatthewsteinberger/codexloop)** · **[cursorloop](https://github.com/adammatthewsteinberger/cursorloop)** · **[agyloop](https://github.com/adammatthewsteinberger/agyloop)** — autonomous coding-session runners with the same contract, different vendor
 - **[vibey](https://github.com/adammatthewsteinberger/vibey)** — six-phase queue conductor over the loop runners
-- **[vibey-bootstrap](https://github.com/adammatthewsteinberger/vibey-bootstrap)** — the Azure Functions cross-cutting layer the `azure-bootstrap` plugin documents (formerly `azure-bootstrap`)
+- **[vibey-bootstrap](https://github.com/adammatthewsteinberger/vibey-bootstrap)** — the Azure Functions cross-cutting layer the `vibey-bootstrap` plugin documents (formerly `azure-bootstrap`)
 - **[homebrew-tap](https://github.com/adammatthewsteinberger/homebrew-tap)** — `brew tap adammatthewsteinberger/tap`
 - **[clippy-pet](https://github.com/adammatthewsteinberger/clippy-pet)** — the fun one
 
