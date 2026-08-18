@@ -60,7 +60,12 @@ jobs:
           /tmp/smoke/bin/vibey-skills list
           /tmp/smoke/bin/vibey-skills install --all --dest /tmp/smoke-skills
           # The deprecated alias must still work (one warning line on stderr, then delegate).
-          /tmp/smoke/bin/vibe-skills --version 2>&1 | grep -q 'deprecated'
+          # Captured rather than piped: `grep -q` exits on the first match and would close the
+          # pipe before Python flushes stdout, turning a passing check into exit 120.
+          alias_out=$(/tmp/smoke/bin/vibe-skills --version 2>&1)
+          echo "$alias_out"
+          echo "$alias_out" | grep -q 'deprecated'
+          echo "$alias_out" | grep -q 'vibey-skills 2'
           test "$(find /tmp/smoke-skills -mindepth 1 -maxdepth 1 -type d | wc -l | tr -d ' ')" = "$(find plugins -name SKILL.md | wc -l | tr -d ' ')"
 
       - name: Upload distributions
