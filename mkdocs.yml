@@ -1,10 +1,10 @@
-site_name: vibe-engineering-skills
+site_name: vibey-skills
 site_description: >-
   Agent Skills for vibe engineering — 71 evidence-grounded practitioner
   references packaged as a Claude Code plugin marketplace.
-site_url: https://theviziusgroup.github.io/vibe-engineering-skills/
-repo_url: https://github.com/TheViziusGroup/vibe-engineering-skills
-repo_name: TheViziusGroup/vibe-engineering-skills
+site_url: https://adammatthewsteinberger.github.io/vibey-skills/
+repo_url: https://github.com/adammatthewsteinberger/vibey-skills
+repo_name: adammatthewsteinberger/vibey-skills
 edit_uri: edit/main/docs/
 
 # Fail the build on a bad internal link rather than shipping one. `mkdocs build --strict`
@@ -82,6 +82,6 @@ nav:
 extra:
   social:
     - icon: fontawesome/brands/github
-      link: https://github.com/TheViziusGroup/vibe-engineering-skills
+      link: https://github.com/adammatthewsteinberger/vibey-skills
     - icon: fontawesome/brands/python
-      link: https://pypi.org/project/vibe-engineering-skills/
+      link: https://pypi.org/project/vibey-skills/

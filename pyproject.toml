@@ -3,7 +3,7 @@ requires = ["hatchling>=1.27"]
 build-backend = "hatchling.build"
 
 [project]
-name = "vibe-engineering-skills"
+name = "vibey-skills"
 dynamic = ["version"]
 description = "Agent Skills for vibe engineering — 71 evidence-grounded practitioner references as a Claude Code plugin marketplace"
 readme = "README.md"
@@ -13,13 +13,14 @@ requires-python = ">=3.10"
 # "License :: OSI Approved :: MIT License" is deliberately omitted — pairing a legacy
 # license classifier with an SPDX expression is a hard error in current build tooling.
 license = "MIT"
-license-files = ["LICENSE"]
+license-files = ["LICENSE", "NOTICE.md"]
 
-# 1.0.0 and 1.0.1 published under a collective identity with no `authors` block and no email.
-# That is reversed as of 1.0.2 at the maintainer's request: named attribution on PyPI, with
-# the MIT copyright held by the organisation rather than the individual.
-authors = [{ name = "Adam Matthew Steinberger", email = "adam.steinberger@vizius.com" }]
-maintainers = [{ name = "Adam Matthew Steinberger", email = "adam.steinberger@vizius.com" }]
+# 1.0.0 and 1.0.1 published under a collective identity with no `authors` block and no email;
+# 1.0.2 added named attribution. As of 2.0.0 the project is published under the maintainer's
+# own account (formerly `vibe-engineering-skills`, developed at The Vizius Group and
+# republished with their permission — see NOTICE.md). LICENSE carries both copyright lines.
+authors = [{ name = "Adam Matthew Steinberger", email = "adam@matthewsteinberger.com" }]
+maintainers = [{ name = "Adam Matthew Steinberger", email = "adam@matthewsteinberger.com" }]
 
 # Pure data plus a stdlib-only CLI. Keeping this empty is a feature: `uvx` can run it
 # with no resolution step, and installing docs should never pull in a dependency tree.
@@ -59,19 +60,17 @@ classifiers = [
   "Topic :: Utilities",
 ]
 
-# 1.0.0 shipped these all pointing at the PyPI project page, because every truthful value
-# for Repository embeds the publishing org handle and the scrub gate forbade it outright.
-# The gate now exempts exactly this project's own coordinates and nothing else, so these
-# can be correct: a package page that does not link to its own source is a dead end.
+# A package page that does not link to its own source is a dead end, so these point at the
+# canonical repo. `tools/check_links.py` keeps them consistent with the SLUG it enforces.
 [project.urls]
-Homepage = "https://theviziusgroup.github.io/vibe-engineering-skills/"
-Documentation = "https://theviziusgroup.github.io/vibe-engineering-skills/"
-Repository = "https://github.com/TheViziusGroup/vibe-engineering-skills"
-Issues = "https://github.com/TheViziusGroup/vibe-engineering-skills/issues"
-Changelog = "https://github.com/TheViziusGroup/vibe-engineering-skills/releases"
+Homepage = "https://adammatthewsteinberger.github.io/vibey-skills/"
+Documentation = "https://adammatthewsteinberger.github.io/vibey-skills/"
+Repository = "https://github.com/adammatthewsteinberger/vibey-skills"
+Issues = "https://github.com/adammatthewsteinberger/vibey-skills/issues"
+Changelog = "https://github.com/adammatthewsteinberger/vibey-skills/releases"
 
 # Docs-only dependencies. Runtime `dependencies` stays empty on purpose — building the
-# documentation site must never add anything to what `uvx vibe-skills` has to resolve.
+# documentation site must never add anything to what `uvx vibey-skills` has to resolve.
 [project.optional-dependencies]
 docs = [
   "mkdocs-material>=9.5",
@@ -79,23 +78,26 @@ docs = [
   "mkdocs-literate-nav>=0.6",
 ]
 
+# `vibey-skills` is the CLI. `vibe-skills` (the short alias from the vibe-engineering-skills
+# era) is kept as a deprecated entry point that prints one warning line and delegates; the
+# long-form `vibe-engineering-skills` script was dropped in 2.0.0.
 [project.scripts]
-vibe-engineering-skills = "vibe_engineering_skills.cli:main"
-vibe-skills = "vibe_engineering_skills.cli:main"
+vibey-skills = "vibey_skills.cli:main"
+vibe-skills = "vibey_skills.cli:deprecated_alias_main"
 
 [tool.hatch.version]
-path = "src/vibe_engineering_skills/__init__.py"
+path = "src/vibey_skills/__init__.py"
 
 [tool.hatch.build.targets.wheel]
-packages = ["src/vibe_engineering_skills"]
+packages = ["src/vibey_skills"]
 
 # The plugins tree must stay at the repo root — Claude Code requires
 # .claude-plugin/marketplace.json there with `source: ./plugins/<name>`. Rather than
 # duplicating 71 skill files into src/, the wheel maps the root tree in at build time,
 # so there is exactly one source of truth on disk.
 [tool.hatch.build.targets.wheel.force-include]
-"plugins" = "vibe_engineering_skills/plugins"
-".claude-plugin/marketplace.json" = "vibe_engineering_skills/marketplace.json"
+"plugins" = "vibey_skills/plugins"
+".claude-plugin/marketplace.json" = "vibey_skills/marketplace.json"
 
 [tool.hatch.build.targets.sdist]
 include = [
@@ -107,4 +109,5 @@ include = [
   "mkdocs.yml",
   "README.md",
   "LICENSE",
+  "NOTICE.md",
 ]

@@ -5,17 +5,17 @@ Guidance for Claude Code when working in this repository.
 ## What this repo is
 
 This is a **Claude Code plugin marketplace**: 18 plugins composed of 71 Agent Skills,
-published to PyPI as `vibe-engineering-skills` under the MIT license. Apart from a small
+published to PyPI as `vibey-skills` under the MIT license. Apart from a small
 packaging CLI there is no application code — the deliverable is the Markdown and JSON that
 define the plugins. "Correctness" means valid manifests and accurate, well-triggered skill
 content.
 
 ## Source of truth
 
-- [.claude-plugin/marketplace.json](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/.claude-plugin/marketplace.json) — the marketplace
+- [.claude-plugin/marketplace.json](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.claude-plugin/marketplace.json) — the marketplace
   manifest Claude Code reads when this repo is added with `/plugin marketplace add`. Each
   entry's `source` points at a directory under `plugins/`.
-- [plugins/](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins) — the authoritative plugin sources. Edit skills here.
+- [plugins/](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins) — the authoritative plugin sources. Edit skills here.
 
 `plugins/` must stay at the repository root: Claude Code requires
 `.claude-plugin/marketplace.json` at the root with `source: ./plugins/<name>`. The Python
@@ -38,7 +38,7 @@ plugins/<plugin-name>/
   "name": "agile-delivery",
   "version": "0.1.0",
   "description": "Agile Delivery: …",
-  "author": { "name": "Adam Matthew Steinberger", "email": "adam.steinberger@vizius.com" }
+  "author": { "name": "Adam Matthew Steinberger", "email": "adam@matthewsteinberger.com" }
 }
 ```
 
@@ -69,17 +69,19 @@ description: Use when … Triggers on … Also triggers on …
 ## Conventions
 
 - `author` is always `{ "name": "Adam Matthew Steinberger", "email":
-  "adam.steinberger@vizius.com" }`, in both
+  "adam@matthewsteinberger.com" }`, in both
   `plugin.json` and each `marketplace.json` entry, and the same identity is used for
-  `authors`/`maintainers` in `pyproject.toml`. The MIT copyright holder is separate and is
-  **The Vizius Group**, not an individual.
+  `authors`/`maintainers` in `pyproject.toml`. The MIT copyright in `LICENSE` is held
+  jointly by **The Vizius Group** (where the project was originally developed as
+  `vibe-engineering-skills`) and **Adam Matthew Steinberger**; `NOTICE.md` records the
+  republication. Do not remove either line.
 - Skills are general-purpose. Never add content that documents a specific organization's
   internal systems, hostnames, ticket IDs, or personnel; that belongs in a private
   marketplace, not this public one.
 - Versioning is per-plugin semver in `plugin.json`. Most plugins are `0.1.0`; revised ones
   are `0.2.0`.
 - The package version in `pyproject.toml` (single-sourced from
-  `src/vibe_engineering_skills/__init__.py:__version__`) must equal `marketplace.json`'s
+  `src/vibey_skills/__init__.py:__version__`) must equal `marketplace.json`'s
   `metadata.version`. The validator enforces this.
 - Plugin and skill names are kebab-case and must be unique within the marketplace.
 
@@ -90,7 +92,7 @@ description: Use when … Triggers on … Also triggers on …
 3. Mirror `version`, `description`, and `category` into the matching entry in
    `.claude-plugin/marketplace.json`.
 4. Update `plugins/<name>/README.md` and the plugin table in the root
-   [README.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/README.md) if the skill list or summary changed.
+   [README.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/README.md) if the skill list or summary changed.
 5. Run both checkers — each must exit 0:
    ```bash
    python3 tools/validate_manifests.py
@@ -108,8 +110,8 @@ three different base URLs:
 | Surface | Base | Relative links |
 |---|---|---|
 | GitHub repo view | the repo root | work |
-| PyPI project page | `https://pypi.org/project/vibe-engineering-skills/` | **break** |
-| Pages site | `https://theviziusgroup.github.io/vibe-engineering-skills/` | work only inside `docs/` |
+| PyPI project page | `https://pypi.org/project/vibey-skills/` | **break** |
+| Pages site | `https://adammatthewsteinberger.github.io/vibey-skills/` | work only inside `docs/` |
 
 - **Root Markdown** (`README.md`, `CONTRIBUTING.md`, `CLAUDE.md`, `SECURITY.md`,
   `CODE_OF_CONDUCT.md`) must use **absolute** `https://github.com/…/blob/main/…` URLs —
@@ -124,7 +126,7 @@ because a link checker that needs the network gets switched off the first time C
 ## Documentation site
 
 `mkdocs.yml` builds a Material site published to
-<https://theviziusgroup.github.io/vibe-engineering-skills/> by
+<https://adammatthewsteinberger.github.io/vibey-skills/> by
 `.github/workflows/docs.yml`.
 
 The skills reference is **generated**, not written: `docs/gen_reference.py` synthesises a page
@@ -160,5 +162,5 @@ TestPyPI comes first because a PyPI version number is immutable: it can never be
 after a yank, so the only chance to catch a bad artifact is before it is uploaded.
 
 Both publishes use Trusted Publishing (OIDC) — no API token is stored anywhere. Bump the
-version in `src/vibe_engineering_skills/__init__.py` and `marketplace.json`'s
+version in `src/vibey_skills/__init__.py` and `marketplace.json`'s
 `metadata.version` together (CI asserts they match, and that the tag matches both), then tag.

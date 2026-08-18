@@ -1,110 +1,183 @@
-# vibe-engineering-skills
+# vibey-skills
 
-A [Claude Code plugin marketplace](https://docs.claude.com/en/docs/claude-code/plugins) of **18 plugins** and **71 skills** spanning security, compliance, cloud infrastructure, identity automation, DevSecOps, AI/ML, data engineering, frontend, mobile, software architecture, quality engineering, engineering process, and technical writing.
+> **18 Claude Code plugins. 71 Agent Skills.** Long-form, source-cited practitioner
+> references for the parts of software engineering an agent is most likely to get
+> confidently wrong — security, compliance, Azure, identity automation (Okta),
+> DevSecOps, AI/ML, data engineering, frontend, mobile, architecture, quality
+> engineering, process, and technical writing. Install as a marketplace or from PyPI.
 
-Each plugin bundles a set of [Agent Skills](https://docs.claude.com/en/docs/claude-code/skills) — model-invoked instructions that Claude loads automatically when a task matches the skill's trigger description.
+Formerly **vibe-engineering-skills** — see [NOTICE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/NOTICE.md).
 
-## Install as a marketplace
+[![PyPI](https://img.shields.io/pypi/v/vibey-skills.svg)](https://pypi.org/project/vibey-skills/)
+[![Downloads](https://img.shields.io/pypi/dm/vibey-skills.svg)](https://pypi.org/project/vibey-skills/)
+[![CI](https://github.com/adammatthewsteinberger/vibey-skills/actions/workflows/ci.yml/badge.svg)](https://github.com/adammatthewsteinberger/vibey-skills/actions/workflows/ci.yml)
+[![Docs](https://github.com/adammatthewsteinberger/vibey-skills/actions/workflows/docs.yml/badge.svg)](https://adammatthewsteinberger.github.io/vibey-skills/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/LICENSE)
 
-Add this repository as a marketplace, then install the plugins you want:
+## Why
+
+"Vibe engineering" is the disciplined counterpart to vibe coding: keep the agent
+fast *and* correct. These skills are the reference layer for that.
+
+- **Each skill is a document, not a prompt snippet.** A `SKILL.md` is a long-form,
+  source-cited reference (STRIDE → MITRE ATT&CK, NIST 800-171 control families,
+  Okta Workflows record caps, React Native New Architecture) written so a model can
+  act on it. Claude loads it automatically when a task matches the trigger description.
+- **One source of truth.** `plugins/` is the marketplace tree Claude Code reads; the
+  PyPI wheel maps that same tree in at build time. There is exactly one copy of every skill.
+- **Zero runtime dependencies.** `uvx` runs the CLI with no resolution step. Skills
+  install into `~/.claude/skills`, which any harness that reads `SKILL.md` can use.
+- **Nothing overwritten.** `install` skips skill directories that already exist and
+  tells you which; `--force` is explicit.
+
+## Quick start
+
+**In Claude Code** — add the marketplace, then install the plugins you want:
 
 ```bash
-# Add the marketplace (from a local clone)
-/plugin marketplace add /path/to/vibe-engineering-skills
-
-# …or directly from the Git remote
-/plugin marketplace add TheViziusGroup/vibe-engineering-skills
-
-# Browse and install
-/plugin
+/plugin marketplace add adammatthewsteinberger/vibey-skills
+/plugin install security-principles@vibey-skills
+/plugin                                    # browse everything
 ```
 
-Once added, `/plugin install <name>@vibe-engineering-skills` installs any single plugin (for example `/plugin install security-principles@vibe-engineering-skills`).
-
-The marketplace manifest lives at [.claude-plugin/marketplace.json](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/.claude-plugin/marketplace.json); each plugin's source lives under [plugins/](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins).
-
-## Install from PyPI
-
-The same skills ship as a Python package, so you can install them into `~/.claude/skills`
-without cloning:
+**From PyPI** — same skills, any agent that reads `SKILL.md`:
 
 ```bash
-# Try it without installing
-uvx --from vibe-engineering-skills vibe-skills list
-
-# Install every skill into ~/.claude/skills
-uvx --from vibe-engineering-skills vibe-skills install --all
-
-# …or just one plugin's skills
-uvx --from vibe-engineering-skills vibe-skills install security-principles
-
-# Or install the CLI permanently
-pip install vibe-engineering-skills
-vibe-skills list
+uvx vibey-skills list                      # try it without installing
+uvx vibey-skills install --all             # copy all 71 skills into ~/.claude/skills
+uvx vibey-skills install security-principles azure-cloud-infra
 ```
 
-Existing skill directories are never overwritten — `install` skips them and tells you which,
-so re-run with `--force` if you actually want to replace them. `vibe-skills marketplace`
-prints the path to the packaged manifest for `/plugin marketplace add`.
+Or install the CLI permanently with `uv tool install vibey-skills` /
+`pip install vibey-skills` (Python 3.10+); `vibey-skills` is then on your PATH
+(`vibe-skills` still works as a deprecated alias).
+
+```console
+$ vibey-skills list
+agile-delivery  (0.1.0, engineering-process, 3 skills)
+  - delivery-velocity
+  - engineering-metrics
+  - security-first-agile
+
+ai-and-data  (0.2.0, ai, 4 skills)
+  - ai-ml-landscape
+  - data-engineering
+  - llm-cost-optimization
+  - rag-and-agents
+…
+```
+
+`vibey-skills marketplace` prints the packaged manifest path for `/plugin marketplace add`;
+`--dest`, `--link`, `--dry-run`, and `--force` are covered in the
+[Usage docs](https://adammatthewsteinberger.github.io/vibey-skills/usage/).
+
+### Migrating from vibe-engineering-skills
+
+2.0.0 renames the project; the 18 plugins and 71 skills are unchanged.
+
+| | 1.x (`vibe-engineering-skills`) | 2.0.0 (`vibey-skills`) |
+|---|---|---|
+| PyPI package | `pip install vibe-engineering-skills` | `pip install vibey-skills` |
+| Python import | `import vibe_engineering_skills` | `import vibey_skills` |
+| CLI | `vibe-engineering-skills`, `vibe-skills` | `vibey-skills` (`vibe-skills` kept as a deprecated alias; the long form is gone) |
+| Marketplace | `/plugin marketplace add TheViziusGroup/vibe-engineering-skills` | `/plugin marketplace add adammatthewsteinberger/vibey-skills` |
+| Plugin install | `<plugin>@vibe-engineering-skills` | `<plugin>@vibey-skills` |
+| Docs | theviziusgroup.github.io/vibe-engineering-skills | [adammatthewsteinberger.github.io/vibey-skills](https://adammatthewsteinberger.github.io/vibey-skills/) |
+
+Uninstall the old package (`pip uninstall vibe-engineering-skills` / `uv tool uninstall
+vibe-engineering-skills`) and re-add the marketplace under its new name; skills already
+copied into `~/.claude/skills` need no change.
 
 ## Plugins
 
+Generated from `plugins/*/` and `.claude-plugin/marketplace.json`; every plugin has its
+own `README.md` with the full skill list and trigger descriptions.
+
 | Plugin | Version | Category | Skills | Covers |
 |---|---|---|---|---|
-| [agile-delivery](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/agile-delivery) | 0.1.0 | engineering-process | 3 | Security-First Scrum, delivery velocity, engineering metrics |
-| [ai-and-data](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/ai-and-data) | 0.2.0 | ai | 4 | Data engineering, AI/ML landscape, RAG & agents, LLM cost optimization & compression |
-| [ai-chatbot-strategy](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/ai-chatbot-strategy) | 0.1.0 | ai | 4 | Chatbot fundamentals, RAG for business, build/deploy, ROI |
-| [azure-bootstrap](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/azure-bootstrap) | 0.2.0 | cloud-infrastructure | 4 | azure-bootstrap library (v3.0.0): v1 bootstrap, v2 primitives, ten logging transports, subpackages, v3 DB/email/HTTP/AKS/governance/scaffold, TypeScript integration |
-| [azure-cloud-infra](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/azure-cloud-infra) | 0.2.0 | cloud-infrastructure | 3 | Azure RBAC, Kubernetes IaC, Azure service catalog |
-| [compliance-frameworks](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/compliance-frameworks) | 0.1.0 | security | 5 | NIST 800-171, PCI-DSS v4, SOC 2, CMMC/CUI, OWASP SAMM |
-| [devsecops-cicd](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/devsecops-cicd) | 0.2.0 | devops | 4 | DevSecOps pipelines, Bitbucket/Azure, CI/CD field guide, GitHub/Atlassian |
-| [engineering-process](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/engineering-process) | 0.1.0 | engineering-process | 4 | Requirements, SDLC, process engineering, research methodology |
-| [frontend-design](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/frontend-design) | 0.1.0 | frontend | 3 | Graphic/UX/UI design, Next.js patterns, performance optimization |
-| [mobile-development](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/mobile-development) | 0.1.0 | frontend | 5 | React Native New Architecture, native iOS/Android, mobile UI/UX & patterns, Azure hosting/Intune/CI-CD, mobile security & MFA |
-| [network-engineering](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/network-engineering) | 0.1.0 | cloud-infrastructure | 2 | Network fundamentals, modern stack (eBPF, Cilium, AKS) |
-| [okta-api-reference](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/okta-api-reference) | 0.1.0 | cloud-infrastructure | 3 | Okta core Management API & Python SDK, Identity Governance (OIG) API surface, and the MCP server landscape for Okta core and IGA automation |
-| [okta-workflows](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/okta-workflows) | 0.1.0 | cloud-infrastructure | 9 | Okta Workflows field guide for identity source-of-truth → Okta sync: branching, loops, Tables, hooks/streaming, Okta & Entra connectors, execution limits, error handling, flopack deployment — quirks, caps & verified workarounds |
-| [quality-engineering](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/quality-engineering) | 0.2.0 | engineering-process | 3 | Python testing, test strategy, debugging & observability |
-| [security-first-dev](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/security-first-dev) | 0.1.0 | security | 3 | Security-First Scrum, codebase modernization, cybersecurity implementation |
-| [security-principles](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/security-principles) | 0.2.0 | security | 4 | Cybersecurity principles, threat modeling, AI-era security, AI safety |
-| [software-architecture](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/software-architecture) | 0.2.0 | engineering-process | 3 | Production architecture, architecture patterns, software design |
-| [writing-craft](https://github.com/TheViziusGroup/vibe-engineering-skills/tree/main/plugins/writing-craft) | 0.1.0 | content | 5 | White papers, prose mechanics, technical prose, narrative, legal briefs |
+| [agile-delivery](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/agile-delivery) | 0.1.0 | engineering-process | 3 | Security-First Scrum, delivery velocity, engineering metrics |
+| [ai-and-data](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/ai-and-data) | 0.2.0 | ai | 4 | Data engineering, AI/ML landscape, RAG & agents, LLM cost optimization & compression |
+| [ai-chatbot-strategy](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/ai-chatbot-strategy) | 0.1.0 | ai | 4 | Chatbot fundamentals, RAG for business, build/deploy, ROI |
+| [azure-bootstrap](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/azure-bootstrap) | 0.2.0 | cloud-infrastructure | 4 | The [azure-bootstrap](https://github.com/adammatthewsteinberger/vibey-bootstrap) library (v3; now published as `vibey-bootstrap`): 4-phase bootstrap, v2 primitives, ten logging transports, subpackages, v3 DB/email/HTTP/AKS/governance/scaffold, TypeScript integration |
+| [azure-cloud-infra](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/azure-cloud-infra) | 0.2.0 | cloud-infrastructure | 3 | Azure RBAC, Kubernetes IaC, Azure service catalog |
+| [compliance-frameworks](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/compliance-frameworks) | 0.1.0 | security | 5 | NIST 800-171, PCI-DSS v4, SOC 2, CMMC/CUI, OWASP SAMM |
+| [devsecops-cicd](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/devsecops-cicd) | 0.2.0 | devops | 4 | DevSecOps pipelines, Bitbucket/Azure, CI/CD field guide, GitHub/Atlassian |
+| [engineering-process](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/engineering-process) | 0.1.0 | engineering-process | 4 | Requirements, SDLC, process engineering, research methodology |
+| [frontend-design](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/frontend-design) | 0.1.0 | frontend | 3 | Graphic/UX/UI design, Next.js patterns, performance optimization |
+| [mobile-development](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/mobile-development) | 0.1.0 | frontend | 5 | React Native New Architecture, native iOS/Android, mobile UI/UX & patterns, Azure hosting/Intune/CI-CD, mobile security & MFA |
+| [network-engineering](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/network-engineering) | 0.1.0 | cloud-infrastructure | 2 | Network fundamentals, modern stack (eBPF, Cilium, AKS) |
+| [okta-api-reference](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/okta-api-reference) | 0.1.0 | cloud-infrastructure | 3 | Okta core Management API & Python SDK, Identity Governance (OIG) API surface, MCP server landscape for Okta core and IGA automation |
+| [okta-workflows](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/okta-workflows) | 0.1.0 | cloud-infrastructure | 9 | Okta Workflows field guide for identity source-of-truth → Okta sync: branching, loops, Tables, hooks/streaming, Okta & Entra connectors, execution limits, error handling, flopack deployment — quirks, caps & verified workarounds |
+| [quality-engineering](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/quality-engineering) | 0.2.0 | engineering-process | 3 | Python testing, test strategy, debugging & observability |
+| [security-first-dev](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/security-first-dev) | 0.1.0 | security | 3 | Security-First Scrum, codebase modernization, cybersecurity implementation |
+| [security-principles](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/security-principles) | 0.2.0 | security | 4 | Cybersecurity principles, threat modeling, AI-era security, AI safety |
+| [software-architecture](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/software-architecture) | 0.2.0 | engineering-process | 3 | Production architecture, architecture patterns, software design |
+| [writing-craft](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/writing-craft) | 0.1.0 | content | 5 | White papers, prose mechanics, technical prose, narrative, legal briefs |
 
-See each plugin's `README.md` for its full skill list and trigger descriptions.
+Browse every skill's full text on the
+[Skills reference](https://adammatthewsteinberger.github.io/vibey-skills/reference/).
 
-## Repository layout
+## How it works
 
 ```
-.claude-plugin/marketplace.json   Marketplace manifest (the entry point Claude Code reads)
-plugins/                          Authoritative plugin sources, one directory per plugin
-  <plugin>/.claude-plugin/plugin.json   Plugin manifest
-  <plugin>/README.md                    Plugin overview + skill list
-  <plugin>/skills/<skill>/SKILL.md      Individual skill definition
-src/vibe_engineering_skills/       Python package + `vibe-skills` CLI
-tools/validate_manifests.py        Manifest and skill-frontmatter validator
-README.md / CLAUDE.md             This guide + Claude Code conventions
-.cursor/rules/claude.mdc          Cursor rules (aliases CLAUDE.md)
+.claude-plugin/marketplace.json         Marketplace manifest — the entry point Claude Code reads
+plugins/<plugin>/.claude-plugin/plugin.json   Plugin manifest
+plugins/<plugin>/README.md              Plugin overview + skill list
+plugins/<plugin>/skills/<skill>/SKILL.md      One skill: YAML frontmatter (name, trigger) + the reference
+src/vibey_skills/                       Python package + `vibey-skills` CLI (stdlib only)
+tools/validate_manifests.py             Manifest and skill-frontmatter validator
+tools/check_links.py                    Hermetic link checker (README is also the PyPI long description)
 ```
 
-`plugins/` is the source of truth for the marketplace. The Python package maps that same
-tree into the wheel rather than duplicating it, so there is exactly one copy of every skill.
+CI validates every manifest and frontmatter, checks that the built wheel carries every
+`SKILL.md`, smoke-tests `vibey-skills install --all` from the wheel, and builds the docs
+site with `mkdocs build --strict` so a dead link on any of the 71 generated pages fails
+the build.
 
-## Authoring
+## Docs & links
 
-To add or change a plugin:
+- **[Documentation site](https://adammatthewsteinberger.github.io/vibey-skills/)** — [Installation](https://adammatthewsteinberger.github.io/vibey-skills/installation/) · [Usage](https://adammatthewsteinberger.github.io/vibey-skills/usage/) · [Skills reference](https://adammatthewsteinberger.github.io/vibey-skills/reference/) (one page per plugin and per skill)
+- **[PyPI](https://pypi.org/project/vibey-skills/)** · **[Releases](https://github.com/adammatthewsteinberger/vibey-skills/releases)** · **[Issues](https://github.com/adammatthewsteinberger/vibey-skills/issues)**
+- **[CONTRIBUTING.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CONTRIBUTING.md)** · **[SECURITY.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/SECURITY.md)** · **[CODE_OF_CONDUCT.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CODE_OF_CONDUCT.md)** · **[CLAUDE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CLAUDE.md)** (conventions and the `SKILL.md` format)
+- Claude Code docs: [Plugins](https://code.claude.com/docs/en/plugins) · [Plugin marketplaces](https://code.claude.com/docs/en/plugin-marketplaces) · [Agent Skills](https://code.claude.com/docs/en/skills)
 
-1. Edit the plugin under `plugins/<name>/` — update `skills/<skill>/SKILL.md`, the plugin
-   `README.md`, and bump `version` in `.claude-plugin/plugin.json`.
-2. Mirror the `version`, `description`, and `category` into the matching entry in
-   [.claude-plugin/marketplace.json](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/.claude-plugin/marketplace.json).
-3. Update the table in this README if the plugin's skill count or summary changes.
-4. Run `python3 tools/validate_manifests.py`.
+## Related projects
 
-See [CONTRIBUTING.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/CONTRIBUTING.md) for the full workflow and [CLAUDE.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/CLAUDE.md) for
-conventions and the SKILL.md format.
+Part of the same open-source family — MIT, on PyPI:
 
-## License
+- **[engineering-influence-skills](https://github.com/adammatthewsteinberger/engineering-influence-skills)** — companion plugin: a 14-phase content-engineering pipeline for long-form writing
+- **[claudeloop](https://github.com/adammatthewsteinberger/claudeloop)** · **[codexloop](https://github.com/adammatthewsteinberger/codexloop)** · **[cursorloop](https://github.com/adammatthewsteinberger/cursorloop)** · **[agyloop](https://github.com/adammatthewsteinberger/agyloop)** — autonomous coding-session runners with the same contract, different vendor
+- **[vibey](https://github.com/adammatthewsteinberger/vibey)** — six-phase queue conductor over the loop runners
+- **[vibey-bootstrap](https://github.com/adammatthewsteinberger/vibey-bootstrap)** — the Azure Functions cross-cutting layer the `azure-bootstrap` plugin documents (formerly `azure-bootstrap`)
+- **[homebrew-tap](https://github.com/adammatthewsteinberger/homebrew-tap)** — `brew tap adammatthewsteinberger/tap`
+- **[clippy-pet](https://github.com/adammatthewsteinberger/clippy-pet)** — the fun one
 
-[MIT](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/LICENSE) © 2026 The Vizius Group.
+## Contributing
 
-Contributions are accepted under the same license — see [CONTRIBUTING.md](https://github.com/TheViziusGroup/vibe-engineering-skills/blob/main/CONTRIBUTING.md).
+Nearly every contribution is Markdown (skill content) or JSON (manifests). To add or
+change a plugin: edit under `plugins/<name>/`, bump `version` in its `plugin.json`,
+mirror `version` / `description` / `category` into `marketplace.json`, update the table
+above if the skill count or summary changed, then:
+
+```bash
+python3 tools/validate_manifests.py
+python3 tools/check_links.py
+pip install -e ".[docs]" && mkdocs build --strict
+```
+
+Branch from `develop`; PRs need green CI. Full workflow and the `SKILL.md` format:
+[CONTRIBUTING.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CONTRIBUTING.md)
+and [CLAUDE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CLAUDE.md).
+
+## License & attribution
+
+[MIT](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/LICENSE) © 2026 The Vizius Group and Adam Matthew Steinberger.
+Contributions are accepted under the same license.
+
+vibey-skills was originally developed as `TheViziusGroup/vibe-engineering-skills` by Adam
+Matthew Steinberger while at The Vizius Group, and is republished here with the permission of
+The Vizius Group — see [NOTICE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/NOTICE.md).
+
+---
+
+Built by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com) · [more open source](https://hire.adam.matthewsteinberger.com/open-source)

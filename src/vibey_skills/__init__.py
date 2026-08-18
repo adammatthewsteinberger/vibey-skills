@@ -1,4 +1,6 @@
-"""vibe-engineering-skills — Agent Skills packaged as a Claude Code plugin marketplace.
+"""vibey-skills — Agent Skills packaged as a Claude Code plugin marketplace.
+
+Formerly ``vibe-engineering-skills`` (import name ``vibe_engineering_skills``); renamed in 2.0.0.
 
 The ``plugins/`` tree lives at the repository root because Claude Code requires
 ``.claude-plugin/marketplace.json`` there with ``source: ./plugins/<name>``. The wheel
@@ -7,7 +9,7 @@ exactly one copy of every skill file.
 
 That means the data lives in two different places depending on how the code is running:
 
-* installed from a wheel  -> ``<site-packages>/vibe_engineering_skills/plugins``
+* installed from a wheel  -> ``<site-packages>/vibey_skills/plugins``
 * run from a source checkout -> ``<repo-root>/plugins``
 
 :func:`plugins_root` and :func:`marketplace_manifest` resolve both, so the CLI works either
@@ -20,7 +22,7 @@ import json
 from dataclasses import dataclass
 from pathlib import Path
 
-__version__ = "1.0.2"
+__version__ = "2.0.0"
 
 __all__ = [
     "__version__",
@@ -32,7 +34,7 @@ __all__ = [
 ]
 
 _PACKAGE_DIR = Path(__file__).resolve().parent
-# From src/vibe_engineering_skills/__init__.py, the repo root is three levels up.
+# From src/vibey_skills/__init__.py, the repo root is three levels up.
 _REPO_ROOT = _PACKAGE_DIR.parent.parent
 
 
@@ -67,7 +69,7 @@ def plugins_root() -> Path:
         return source
 
     raise FileNotFoundError(
-        "vibe-engineering-skills: could not locate the plugins directory in either "
+        "vibey-skills: could not locate the plugins directory in either "
         f"{packaged} or {source}. The installation looks incomplete."
     )
 
@@ -83,7 +85,7 @@ def marketplace_manifest_path() -> Path:
         return source
 
     raise FileNotFoundError(
-        "vibe-engineering-skills: could not locate marketplace.json in either "
+        "vibey-skills: could not locate marketplace.json in either "
         f"{packaged} or {source}. The installation looks incomplete."
     )
 
