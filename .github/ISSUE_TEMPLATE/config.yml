@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Documentation
+    url: https://theviziusgroup.github.io/vibe-engineering-skills/
+    about: Installation, CLI usage, and the full text of every skill.
+  - name: Security vulnerability
+    url: https://github.com/TheViziusGroup/vibe-engineering-skills/security/advisories/new
+    about: Please report security problems privately — see SECURITY.md. Do not open a public issue.
