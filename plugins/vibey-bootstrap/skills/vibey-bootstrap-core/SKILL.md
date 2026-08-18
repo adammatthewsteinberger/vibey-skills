@@ -1,36 +1,38 @@
 ---
-name: azure-bootstrap-core
-description: "Use when installing or consuming the azure-bootstrap Python library (v3.0.0) and its v1 core. Covers pip install and the optional-extras matrix (fastapi, servicebus, sumologic, logging-all, db, email, http, documentdb, governance, aks, azbootstrap scaffold, all, etc.), the 4-phase bootstrap that breaks the logging↔configuration circular dependency, initialize_application / get_bootstrap_logger, configuration precedence and the local-override rule, EnhancedConfigRepository, SecretsRepository, Key Vault references, DI interfaces, RepositoryError/ConfigurationError/KeyVaultError, and v1 environment variables (APPLICATIONINSIGHTS_CONNECTION_STRING, AZURE_APP_CONFIGURATION_CONNECTION_STRING, AZURE_KEY_VAULT_URL, LOG_LEVEL). Triggers on azure-bootstrap, azure_bootstrap, Azure Functions/container app startup config, App Configuration + Key Vault loading, load_to_environ, or pip install azure-bootstrap extras."
+name: vibey-bootstrap-core
+description: "Use when installing or consuming the vibey-bootstrap Python library (v4.0.0) and its v1 core. Covers pip install and the optional-extras matrix (fastapi, servicebus, sumologic, logging-all, db, email, http, documentdb, governance, aks, vibey-bootstrap scaffold, all, etc.), the 4-phase bootstrap that breaks the logging↔configuration circular dependency, initialize_application / get_bootstrap_logger, configuration precedence and the local-override rule, EnhancedConfigRepository, SecretsRepository, Key Vault references, DI interfaces, RepositoryError/ConfigurationError/KeyVaultError, and v1 environment variables (APPLICATIONINSIGHTS_CONNECTION_STRING, AZURE_APP_CONFIGURATION_CONNECTION_STRING, AZURE_KEY_VAULT_URL, LOG_LEVEL). Triggers on vibey-bootstrap, vibey_bootstrap, Azure Functions/container app startup config, App Configuration + Key Vault loading, load_to_environ, or pip install vibey-bootstrap extras."
 ---
+
+> **vibey-bootstrap** is the library formerly published as `azure-bootstrap` (renamed in 4.0.0: package `vibey-bootstrap`, import `vibey_bootstrap`, CLI `vibey-bootstrap`; `azbootstrap` remains as a deprecated alias). Feature-tier labels below (v2 primitives, v3 modules) are historical and unchanged.
 
 # Azure Bootstrap — Installation & v1 Core (4-phase bootstrap)
 
-`azure-bootstrap` solves the **logging ↔ configuration circular dependency** every
+`vibey-bootstrap` solves the **logging ↔ configuration circular dependency** every
 Azure Functions / container app hits at startup (you need logging to report config
 loading, but App Insights logging needs config to initialize). On top of that v1
 core, v2 adds a large, opt-in, framework-agnostic "cross-cutting layer": structured
 logging, correlation, tracing, counters, tiered alerts, an error vocabulary, ingress
 hardening, Service Bus plumbing, webhook auth, AI usage tracking, health probes, a
-v2.1 logging-transport layer (console / App Insights / Sumo Logic), and v3.0.0 adds
+v2.1 logging-transport layer (console / App Insights / Sumo Logic), and v4.0.0 adds
 seven more logging transports plus DB/outbox, email, hardened HTTP, AKS runtime,
-governance, and an `azbootstrap` scaffold CLI — all opt-in behind pip extras.
+governance, and an `vibey-bootstrap` scaffold CLI — all opt-in behind pip extras.
 
-> **`azure-bootstrap` is a pure Python package.** It is published to PyPI and has
+> **`vibey-bootstrap` is a pure Python package.** It is published to PyPI and has
 > **no JavaScript/TypeScript distribution** — you cannot `npm install` or `import` it
-> from a Next.js app. (For TS, see the `azure-bootstrap-typescript` skill: HTTP client
+> from a Next.js app. (For TS, see the `vibey-bootstrap-typescript` skill: HTTP client
 > integration with a Python backend, and porting the patterns to TypeScript.)
 
-**Compatibility:** Python **≥ 3.11**. Distribution: `pip install azure-bootstrap`
-(PyPI, MIT). v3.0.0 is **additive** — every v1/v2 import path, symbol, signature, and
+**Compatibility:** Python **≥ 3.11**. Distribution: `pip install vibey-bootstrap`
+(PyPI, MIT). v4.0.0 is **additive** — every v1/v2 import path, symbol, signature, and
 default is unchanged; opt into new extras and env flags. See `MIGRATING-TO-V3.md`.
 
 ## 1. Installation & extras
 
 ```bash
-pip install azure-bootstrap                       # core only
-pip install 'azure-bootstrap[fastapi]'            # one extra
-pip install 'azure-bootstrap[fastapi,servicebus,sumologic]'   # several
-pip install 'azure-bootstrap[all]'                # the aggregate extra
+pip install vibey-bootstrap                       # core only
+pip install 'vibey-bootstrap[fastapi]'            # one extra
+pip install 'vibey-bootstrap[fastapi,servicebus,sumologic]'   # several
+pip install 'vibey-bootstrap[all]'                # the aggregate extra
 ```
 
 ### Core dependencies (always installed)
@@ -99,8 +101,8 @@ is genuinely required.
 | `all` | fastapi, servicebus, apscheduler, requests, blob, sqlalchemy, alembic, pymongo, ACS email, kusto, eventhub, httpx | aggregate of all third-party deps |
 | `dev` / `test` | tooling / test deps | development & CI |
 
-The `azbootstrap` console script (`azbootstrap list`, `azbootstrap scaffold`) ships with
-the core install — no extra required. Templates live under `azure_bootstrap.contrib`.
+The `vibey-bootstrap` console script (`vibey-bootstrap list`, `vibey-bootstrap scaffold`) ships with
+the core install — no extra required. Templates live under `vibey_bootstrap.contrib`.
 
 ## 2. Python: the v1 core (4-phase bootstrap)
 
@@ -118,7 +120,7 @@ configuration to initialize. The library breaks the cycle in four phases:
 
 ```python
 import os
-from azure_bootstrap import initialize_application, get_bootstrap_logger
+from vibey_bootstrap import initialize_application, get_bootstrap_logger
 
 logger = get_bootstrap_logger(__name__)     # works before bootstrap completes
 config_repo = initialize_application()       # runs all four phases
@@ -145,7 +147,7 @@ the actual secret, not the URI.
 ### API reference — entry points
 
 ```python
-from azure_bootstrap import (
+from vibey_bootstrap import (
     initialize_application, get_bootstrap_logger,
     ensure_bootstrap_logging, create_enhanced_config_repository,
 )
@@ -161,7 +163,7 @@ from azure_bootstrap import (
 ### API reference — classes
 
 ```python
-from azure_bootstrap import (
+from vibey_bootstrap import (
     ApplicationBootstrap, BootstrapLogger, ExtraFieldsFormatter,
     TelemetryManager, telemetry_manager,
     EnhancedConfigRepository, SecretsRepository,
@@ -175,7 +177,7 @@ from azure_bootstrap import (
   level falls back to `LOG_LEVEL` env, then `INFO`).
 - **`ExtraFieldsFormatter`** — `logging.Formatter` that appends `extra={}` fields to
   each line. (v1 lives in `services.bootstrap_logging`; a v2 variant lives in
-  `azure_bootstrap.logging` — see the `azure-bootstrap-primitives` skill.)
+  `vibey_bootstrap.logging` — see the `vibey-bootstrap-primitives` skill.)
 - **`TelemetryManager` / `telemetry_manager`** (singleton) —
   `.configure(connection_string=None, allow_reconfigure=False) -> bool` and
   `.try_upgrade_from_config(config_repository) -> bool`. Best-effort: always falls
@@ -198,7 +200,7 @@ from azure_bootstrap import (
 ### Interfaces (DI / type hints) and exceptions
 
 ```python
-from azure_bootstrap import (
+from vibey_bootstrap import (
     ApplicationBootstrapInterface, BootstrapLoggerInterface,
     TelemetryManagerInterface, EnhancedConfigRepositoryInterface,
     SecretsRepositoryInterface,
