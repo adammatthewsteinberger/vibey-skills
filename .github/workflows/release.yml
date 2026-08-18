@@ -110,16 +110,17 @@ jobs:
 
           # TestPyPI's index can lag its own upload by a few seconds.
           installed=0
-          for attempt in 1 2 3 4 5 6; do
+          # TestPyPI's index has lagged its own upload by several minutes; allow ~5.
+          for attempt in $(seq 1 15); do
             if pip install --quiet --index-url "$index" "$spec"; then
               installed=1
               break
             fi
-            echo "not indexed yet; retrying in 20s (attempt ${attempt}/6)"
+            echo "not indexed yet; retrying in 20s (attempt ${attempt}/15)"
             sleep 20
           done
           if [ "$installed" -ne 1 ]; then
-            echo "::error::could not install ${spec} from TestPyPI after 6 attempts"
+            echo "::error::could not install ${spec} from TestPyPI after 15 attempts (~5 min)"
             exit 1
           fi
 
