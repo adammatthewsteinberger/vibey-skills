@@ -5,8 +5,8 @@
     "email": "adam@matthewsteinberger.com"
   },
   "metadata": {
-    "description": "Agent Skills for vibe engineering — 18 plugins and 71 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure, identity automation, DevSecOps, AI/ML, data engineering, frontend, mobile, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "2.1.0"
+    "description": "Agent Skills for vibe engineering — 33 plugins and 140 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure, identity automation, DevSecOps, AI/ML, data engineering, frontend, mobile, desktop, smart TV, game development, UI/UX design, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, blockchain, quantum computing, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
+    "version": "2.2.0"
   },
   "plugins": [
     {
@@ -43,14 +43,14 @@
       }
     },
     {
-      "name": "vibey-bootstrap",
-      "source": "./plugins/vibey-bootstrap",
-      "description": "vibey-bootstrap (formerly azure-bootstrap): usage reference for the vibey-bootstrap Python library (v4.0.0) — the 4-phase logging↔config bootstrap, v2 stdlib primitives, ten logging transports, opt-in Tier 2/Tier 3 subpackages, v3 DB/outbox/email/HTTP/AKS/governance/scaffold modules, end-to-end recipes, and TypeScript/Next.js HTTP integration plus pattern ports.",
-      "version": "0.3.0",
-      "category": "cloud-infrastructure",
+      "name": "assembly-programming",
+      "source": "./plugins/assembly-programming",
+      "description": "Assembly Programming: instruction-level reference for x86-64, AArch64, and RISC-V — the machine model, calling conventions and ABIs, assemblers and toolchains, reading disassembly, performance engineering, SIMD/vector (SSE/AVX/AVX-512, NEON/SVE2/SME, RVV), systems and constant-time cryptographic assembly, inline assembly and intrinsics, and debugging/verification.",
+      "version": "0.1.0",
+      "category": "systems-programming",
       "author": {
         "name": "Adam Matthew Steinberger",
-        "email": "adam@matthewsteinberger.com"
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -76,6 +76,28 @@
       }
     },
     {
+      "name": "cryptocurrency-development",
+      "source": "./plugins/cryptocurrency-development",
+      "description": "Cryptocurrency Development: blockchain engineering at both layers — protocol (consensus and finality, execution/consensus clients, the EIP process, EVM internals, L2s and rollups, cross-chain) and application (Solidity/Vyper, contract architecture and upgradeability, ERC standards and account abstraction, DeFi primitives and MEV, Foundry/Hardhat testing, fuzzing and formal verification, the vulnerability canon, deployment and key management).",
+      "version": "0.1.0",
+      "category": "blockchain",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
+      }
+    },
+    {
+      "name": "desktop-apps-macos-linux",
+      "source": "./plugins/desktop-apps-macos-linux",
+      "description": "Desktop Apps (macOS & Linux): platform architecture (Darwin/launchd/bundles vs kernel/compositor/D-Bus/systemd), SwiftUI/AppKit and GTK4/libadwaita/Qt6, cross-platform frameworks (Electron, Tauri, Flutter, Avalonia, Compose Multiplatform, Rust GUIs), Wayland vs X11, native desktop idioms, packaging and distribution (notarization, Mac App Store, Flatpak, Snap, AppImage, distro packages), auto-update, sandboxing and privacy (TCC, entitlements, XDG portals), and testing/CI.",
+      "version": "0.1.0",
+      "category": "frontend",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
+      }
+    },
+    {
       "name": "devsecops-cicd",
       "source": "./plugins/devsecops-cicd",
       "description": "DevSecOps and CI/CD: end-to-end pipeline security, Bitbucket/Azure DevOps integration, CI/CD field guide with OIDC/supply-chain/progressive delivery, and GitHub/Atlassian advanced practitioner survey.",
@@ -84,6 +106,28 @@
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "ecommerce-development",
+      "source": "./plugins/ecommerce-development",
+      "description": "eCommerce Development: commerce and payments systems — architecture, the payment lifecycle (authorization, capture, settlement, refunds), integration engineering (idempotency, webhooks, reconciliation, state machines), PSPs and gateways (Stripe, PayPal, Adyen, Braintree), payment methods and rails (cards, wallets, ACH/SEPA, SWIFT/ISO 20022, BNPL, instant payments), SCA and 3-D Secure, authorization rates and decline handling, fraud and chargebacks, PCI DSS scope and the SAQ A trap, subscriptions and billing, marketplaces and payouts, tax and cross-border, the platform layer (Shopify, headless, custom), catalog/cart/checkout and conversion, and agentic commerce protocols.",
+      "version": "0.1.0",
+      "category": "commerce",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
+      }
+    },
+    {
+      "name": "embedded-iot-controls",
+      "source": "./plugins/embedded-iot-controls",
+      "description": "Embedded Systems & IoT Controls: silicon, memory, and peripherals; bare-metal, RTOS, and embedded Linux firmware models; C/C++/Rust; real-time concurrency and timing; firmware design patterns; industrial control and OT (PLC, fieldbus, OPC UA, unified namespace); control theory in firmware; connectivity (BLE, Thread, Matter, LoRaWAN, cellular, MQTT/CoAP/Sparkplug); cloud, fleet, and OTA lifecycle; device security and regulation (CRA, RED/EN 18031, IEC 62443, PSA); functional safety (IEC 61508, ISO 26262, DO-178C, IEC 62304); testing; and board bring-up.",
+      "version": "0.1.0",
+      "category": "embedded",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -106,6 +150,17 @@
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "machine-learning",
+      "source": "./plugins/machine-learning",
+      "description": "Machine Learning: problem framing and when not to use ML, data work and leakage, the classical toolkit (gradient boosting, linear models, clustering), deep learning fundamentals and architectures (transformers, CNNs, diffusion), the PyTorch/JAX ecosystem and torch.compile, training at scale (DDP, FSDP, tensor/pipeline parallelism, mixed precision), fine-tuning and PEFT/LoRA, honest evaluation, debugging training, inference and serving (vLLM, SGLang, quantization, KV cache), MLOps and reproducibility, hardware and cost, and interpretability, fairness, and safety.",
+      "version": "0.1.0",
+      "category": "ai",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -153,6 +208,50 @@
       }
     },
     {
+      "name": "os-development-kernel-shell",
+      "source": "./plugins/os-development-kernel-shell",
+      "description": "OS Development (Linux Kernel & Shell): kernel architecture and programming in C and Rust, modules and drivers, kernel concurrency, syscalls and the userspace ABI, eBPF and sched_ext, boot and init, systemd/cgroups/containers, the kernel development process, debugging and tracing (ftrace, perf, KASAN, crash dumps), security and hardening, plus the shell layer — POSIX sh/bash/zsh/fish/nushell semantics and their traps, choosing a shell, defensive scripting, and the coreutils/systemd userland.",
+      "version": "0.1.0",
+      "category": "systems-programming",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
+      }
+    },
+    {
+      "name": "package-manager-development",
+      "source": "./plugins/package-manager-development",
+      "description": "Package Manager Development: version schemes and constraints, manifests, dependency resolution (backtracking, SAT, PubGrub, MVS), lockfiles and reproducibility, registry design, cache/layout/linking (flat, nested, content-addressed, PnP), publishing and authentication (trusted publishing, OIDC, provenance, Sigstore, SLSA), supply-chain attacks and defenses, lifecycle scripts, workspaces and monorepos, performance, UX, the cross-ecosystem comparison (npm, pip/uv, Cargo, Go modules, Maven, NuGet, apt/dnf, Nix), and governance.",
+      "version": "0.1.0",
+      "category": "systems-programming",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
+      }
+    },
+    {
+      "name": "penetration-testing",
+      "source": "./plugins/penetration-testing",
+      "description": "Penetration Testing and Offensive Security: authorized offensive work as a profession — the authorization and legal foundation (CFAA, Computer Misuse Act, bug bounty and VDP scope, rules of engagement) that separates it from a crime, engagement types and scoping, the standard methodologies (PTES, OWASP WSTG, NIST SP 800-115, MITRE ATT&CK), reconnaissance and attack surface, testing per domain (web, network, Active Directory and identity, cloud, API/mobile/wireless/OT/hardware), social engineering and physical, red/purple teaming and post-exploitation, testing AI systems, and reporting, remediation, coordinated disclosure, and career and certification. A methodology, process, and professional-practice reference — not an exploit cookbook.",
+      "version": "0.1.0",
+      "category": "security",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
+      }
+    },
+    {
+      "name": "programming-language-development",
+      "source": "./plugins/programming-language-development",
+      "description": "Programming Language Development: language design decisions and their consequences, lexing and parsing, names/scopes/modules, type systems (inference, HM, bidirectional, subtyping, generics, traits, effects, ownership, dependent types), intermediate representations (SSA, CPS, ANF, MLIR-style), optimization, code generation and backends (LLVM, Cranelift, custom, WebAssembly), runtime systems and GC, interpreters and JITs, diagnostics, incremental compilation and IDE support, testing and verification, standard library and ecosystem design, and language evolution and governance.",
+      "version": "0.1.0",
+      "category": "systems-programming",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
+      }
+    },
+    {
       "name": "quality-engineering",
       "source": "./plugins/quality-engineering",
       "description": "Quality Engineering: Python testing and quality practices, test strategy and frameworks, and systematic debugging with observability — structured logging, OpenTelemetry, distributed tracing, and error handling patterns.",
@@ -161,6 +260,17 @@
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "quantum-computing",
+      "source": "./plugins/quantum-computing",
+      "description": "Quantum Computing: the physical and mathematical foundations and the circuit model, what quantum computers can and cannot do, the algorithm canon (Shor, Grover, HHL, VQE/QAOA, quantum simulation) and their honest complexity claims, noise and the NISQ era, error correction and fault tolerance, hardware modalities and where the hardware actually is, the software stack (Qiskit, Cirq, PennyLane, CUDA-Q, OpenQASM), resource estimation, evaluating quantum-advantage claims, applications, quantum networking and sensing, and post-quantum cryptography and migration deadlines.",
+      "version": "0.1.0",
+      "category": "emerging-tech",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
@@ -186,6 +296,17 @@
       }
     },
     {
+      "name": "smart-tv-app-development",
+      "source": "./plugins/smart-tv-app-development",
+      "description": "Smart TV App Development: the platform landscape (Roku, Tizen, webOS, Android TV/Google TV, Fire OS, Vega OS, tvOS, VIDAA, SmartCast) and programming model per platform, the 10-foot UI and focus/spatial navigation, remote-control input, video playback and adaptive streaming (HLS/DASH), DRM (Widevine, PlayReady, FairPlay), performance and memory on constrained hardware, lifecycle and deep linking, monetization and CTV advertising (VAST, SSAI, ad pods), certification and store submission, testing on real devices, analytics/QoE, cross-platform strategy, and accessibility, privacy, and ACR.",
+      "version": "0.1.0",
+      "category": "frontend",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
+      }
+    },
+    {
       "name": "software-architecture",
       "source": "./plugins/software-architecture",
       "description": "Software Architecture: production architecture for Python, Next.js/TypeScript, and Azure at scale; Azure architecture patterns; and the software design process including ADRs, C4 model, fitness functions, and just-enough design.",
@@ -194,6 +315,50 @@
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "ui-ux-design-principles",
+      "source": "./plugins/ui-ux-design-principles",
+      "description": "UI/UX Design Principles: the perceptual and cognitive science underneath interface decisions, usability heuristics and mental models, information architecture and navigation, input and interaction per form factor, layout and responsive/adaptive design, visual design (typography, color, space, motion, iconography), design systems and tokens, platform conventions (Apple HIG, Material 3, GNOME/KDE HIG, Fluent), accessibility law and practice (WCAG 2.2/3.0, EAA, ADA Title II, APCA), UX writing, forms/onboarding/conversion, research and evaluation, ethics and dark-pattern regulation, and AI-era interface patterns.",
+      "version": "0.1.0",
+      "category": "frontend",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
+      }
+    },
+    {
+      "name": "vibey-bootstrap",
+      "source": "./plugins/vibey-bootstrap",
+      "description": "vibey-bootstrap (formerly azure-bootstrap): usage reference for the vibey-bootstrap Python library (v4.0.0) — the 4-phase logging↔config bootstrap, v2 stdlib primitives, ten logging transports, opt-in Tier 2/Tier 3 subpackages, v3 DB/outbox/email/HTTP/AKS/governance/scaffold modules, end-to-end recipes, and TypeScript/Next.js HTTP integration plus pattern ports.",
+      "version": "0.3.0",
+      "category": "cloud-infrastructure",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "video-game-development",
+      "source": "./plugins/video-game-development",
+      "description": "Video Game Development: engine selection and licensing, the game loop and time step, code architecture (ECS vs OOP), rendering pipelines and graphics APIs, physics and collision, animation, audio, gameplay AI and pathfinding, networking and multiplayer (rollback, prediction, lag compensation), tools and content pipelines, performance and frame budgets, game feel, build/test/QA and certification, production and scope management, and the business context (live ops, monetization, platforms, legal).",
+      "version": "0.1.0",
+      "category": "game-development",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
+      }
+    },
+    {
+      "name": "web-browser-development",
+      "source": "./plugins/web-browser-development",
+      "description": "Web Browser Development: the engine landscape, the multi-process model with IPC and sandboxing, networking (HTTP/2/3, TLS, caching, DNS), HTML parsing and the DOM, CSS cascade and style resolution, layout/paint/compositing and the GPU pipeline, JavaScript engine integration and the event loop, the security model (same-origin policy, CORS, CSP, site isolation, Spectre mitigations, memory safety), privacy and anti-tracking, extensions, storage/media/capabilities, accessibility, standards and interop, and testing, telemetry, and shipping.",
+      "version": "0.1.0",
+      "category": "systems-programming",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam.steinberger@vizius.com"
       }
     },
     {
