@@ -1,9 +1,9 @@
 # vibey-skills
 
-> **18 Claude Code plugins. 71 Agent Skills.** Long-form, source-cited practitioner
+> **33 Claude Code plugins. 140 Agent Skills.** Long-form, source-cited practitioner
 > references for the parts of software engineering an agent is most likely to get
 > confidently wrong — security, compliance, Azure, identity automation (Okta),
-> DevSecOps, AI/ML, data engineering, frontend, mobile, architecture, quality
+> DevSecOps, AI/ML, data engineering, frontend, mobile, desktop, smart TV, game development, UI/UX design, systems programming, embedded and IoT, blockchain, quantum computing, penetration testing, architecture, quality
 > engineering, process, and technical writing. Install as a marketplace or from PyPI.
 
 Formerly **vibe-engineering-skills** — see [NOTICE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/NOTICE.md).
@@ -44,7 +44,7 @@ fast *and* correct. These skills are the reference layer for that.
 
 ```bash
 uvx vibey-skills list                      # try it without installing
-uvx vibey-skills install --all             # copy all 71 skills into ~/.claude/skills
+uvx vibey-skills install --all             # copy all 140 skills into ~/.claude/skills
 uvx vibey-skills install security-principles azure-cloud-infra
 ```
 
@@ -98,20 +98,35 @@ own `README.md` with the full skill list and trigger descriptions.
 | [agile-delivery](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/agile-delivery) | 0.1.0 | engineering-process | 3 | Security-First Scrum, delivery velocity, engineering metrics |
 | [ai-and-data](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/ai-and-data) | 0.2.0 | ai | 4 | Data engineering, AI/ML landscape, RAG & agents, LLM cost optimization & compression |
 | [ai-chatbot-strategy](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/ai-chatbot-strategy) | 0.1.0 | ai | 4 | Chatbot fundamentals, RAG for business, build/deploy, ROI |
-| [vibey-bootstrap](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/vibey-bootstrap) | 0.3.0 | cloud-infrastructure | 4 | The [vibey-bootstrap](https://github.com/adammatthewsteinberger/vibey-bootstrap) library (v4.0.0, formerly `azure-bootstrap`): 4-phase bootstrap, v2 primitives, ten logging transports, subpackages, v3 DB/email/HTTP/AKS/governance/scaffold, TypeScript integration |
+| [assembly-programming](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/assembly-programming) | 0.1.0 | systems-programming | 4 | x86-64/AArch64/RISC-V, ABIs, toolchains, disassembly, performance, SIMD, systems & constant-time asm, inline asm |
 | [azure-cloud-infra](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/azure-cloud-infra) | 0.2.0 | cloud-infrastructure | 3 | Azure RBAC, Kubernetes IaC, Azure service catalog |
 | [compliance-frameworks](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/compliance-frameworks) | 0.1.0 | security | 5 | NIST 800-171, PCI-DSS v4, SOC 2, CMMC/CUI, OWASP SAMM |
+| [cryptocurrency-development](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/cryptocurrency-development) | 0.1.0 | blockchain | 4 | Protocol layer, clients, EIPs, EVM, Solidity, contract architecture, ERC standards, DeFi/MEV, testing, security, L2s, cross-chain, deployment |
+| [desktop-apps-macos-linux](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/desktop-apps-macos-linux) | 0.1.0 | frontend | 5 | macOS & Linux architecture, SwiftUI/AppKit, GTK4/Qt6, Electron/Tauri/Flutter, Wayland/X11, native idioms, notarization/Flatpak/Snap, sandboxing |
 | [devsecops-cicd](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/devsecops-cicd) | 0.2.0 | devops | 4 | DevSecOps pipelines, Bitbucket/Azure, CI/CD field guide, GitHub/Atlassian |
+| [ecommerce-development](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/ecommerce-development) | 0.1.0 | commerce | 4 | Payments architecture, auth/capture/settlement, idempotency & webhooks, Stripe/Adyen/PayPal, rails (cards/ACH/SEPA/BNPL/instant), SCA/3DS, fraud & chargebacks, PCI DSS, subscriptions, marketplaces, tax, Shopify/headless, checkout, agentic commerce |
+| [embedded-iot-controls](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/embedded-iot-controls) | 0.1.0 | embedded | 5 | MCU silicon & peripherals, bare-metal/RTOS/embedded Linux, real-time patterns, OT/PLC/OPC UA, control theory, BLE/Thread/Matter/LoRaWAN/MQTT, OTA & fleet, CRA/IEC 62443, functional safety |
 | [engineering-process](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/engineering-process) | 0.1.0 | engineering-process | 4 | Requirements, SDLC, process engineering, research methodology |
 | [frontend-design](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/frontend-design) | 0.1.0 | frontend | 3 | Graphic/UX/UI design, Next.js patterns, performance optimization |
+| [machine-learning](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/machine-learning) | 0.1.0 | ai | 4 | Framing, data & leakage, classical ML, deep learning, architectures, PyTorch/JAX, distributed training, fine-tuning/LoRA, evaluation, serving (vLLM/SGLang), MLOps, hardware |
 | [mobile-development](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/mobile-development) | 0.1.0 | frontend | 5 | React Native New Architecture, native iOS/Android, mobile UI/UX & patterns, Azure hosting/Intune/CI-CD, mobile security & MFA |
 | [network-engineering](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/network-engineering) | 0.1.0 | cloud-infrastructure | 2 | Network fundamentals, modern stack (eBPF, Cilium, AKS) |
 | [okta-api-reference](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/okta-api-reference) | 0.1.0 | cloud-infrastructure | 3 | Okta core Management API & Python SDK, Identity Governance (OIG) API surface, MCP server landscape for Okta core and IGA automation |
 | [okta-workflows](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/okta-workflows) | 0.1.0 | cloud-infrastructure | 9 | Okta Workflows field guide for identity source-of-truth → Okta sync: branching, loops, Tables, hooks/streaming, Okta & Entra connectors, execution limits, error handling, flopack deployment — quirks, caps & verified workarounds |
+| [os-development-kernel-shell](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/os-development-kernel-shell) | 0.1.0 | systems-programming | 5 | Kernel architecture, kernel C/Rust, concurrency, syscalls/ABI, eBPF, boot & init, containers, debugging/tracing, hardening, shell semantics, defensive scripting |
+| [package-manager-development](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/package-manager-development) | 0.1.0 | systems-programming | 5 | Versioning, manifests, resolvers (PubGrub/SAT/MVS), lockfiles, registries, install layouts, publishing/OIDC/Sigstore, supply chain, workspaces, ecosystem comparison |
+| [penetration-testing](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/penetration-testing) | 0.1.0 | security | 4 | Authorization & law (CFAA, RoE, bug bounty), scoping, methodology (PTES/WSTG/NIST 800-115/ATT&CK), recon, web/network/AD/cloud/API/mobile/wireless/OT testing, social engineering, red/purple teaming, AI-system testing, reporting, disclosure & certs |
+| [programming-language-development](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/programming-language-development) | 0.1.0 | systems-programming | 5 | Language design, parsing, type systems, IRs (SSA/CPS/MLIR), optimization, backends (LLVM/Cranelift/Wasm), runtimes & GC, interpreters/JITs, diagnostics, IDE support, evolution |
 | [quality-engineering](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/quality-engineering) | 0.2.0 | engineering-process | 3 | Python testing, test strategy, debugging & observability |
+| [quantum-computing](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/quantum-computing) | 0.1.0 | emerging-tech | 5 | Foundations, capabilities & limits, algorithm canon, NISQ noise, error correction, hardware modalities, Qiskit/Cirq/PennyLane/CUDA-Q, resource estimation, advantage claims, PQC migration |
 | [security-first-dev](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/security-first-dev) | 0.1.0 | security | 3 | Security-First Scrum, codebase modernization, cybersecurity implementation |
 | [security-principles](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/security-principles) | 0.2.0 | security | 4 | Cybersecurity principles, threat modeling, AI-era security, AI safety |
+| [smart-tv-app-development](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/smart-tv-app-development) | 0.1.0 | frontend | 4 | Roku/Tizen/webOS/Android TV/Fire OS/tvOS, 10-foot UI, focus & remote input, HLS/DASH playback, DRM, constrained-device performance, deep linking, CTV ads, certification |
 | [software-architecture](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/software-architecture) | 0.2.0 | engineering-process | 3 | Production architecture, architecture patterns, software design |
+| [ui-ux-design-principles](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/ui-ux-design-principles) | 0.1.0 | frontend | 5 | Perception & cognition, heuristics, IA & navigation, interaction per form factor, layout, visual design, design tokens, HIG/Material/Fluent, WCAG 2.2/EAA/APCA, UX writing, research, dark patterns, AI-era UI |
+| [vibey-bootstrap](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/vibey-bootstrap) | 0.3.0 | cloud-infrastructure | 4 | The [vibey-bootstrap](https://github.com/adammatthewsteinberger/vibey-bootstrap) library (v4.0.0, formerly `azure-bootstrap`): 4-phase bootstrap, v2 primitives, ten logging transports, subpackages, v3 DB/email/HTTP/AKS/governance/scaffold, TypeScript integration |
+| [video-game-development](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/video-game-development) | 0.1.0 | game-development | 5 | Engines, game loop, ECS, rendering, physics, animation, audio, gameplay AI, netcode (rollback/prediction), pipelines, frame budgets, game feel, shipping, production & business |
+| [web-browser-development](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/web-browser-development) | 0.1.0 | systems-programming | 5 | Engine landscape, process model & sandboxing, networking, HTML/DOM, CSS, layout/paint/compositing, JS integration, security model, privacy, extensions, standards & interop |
 | [writing-craft](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/writing-craft) | 0.1.0 | content | 5 | White papers, prose mechanics, technical prose, narrative, legal briefs |
 
 Browse every skill's full text on the
