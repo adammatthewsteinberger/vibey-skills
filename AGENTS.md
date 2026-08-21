@@ -4,7 +4,7 @@ Guidance for Codex when working in this repository.
 
 ## What this repo is
 
-This is a **Codex plugin marketplace**: 84 plugins composed of 398 Agent Skills,
+This is a **Codex plugin marketplace**: 95 plugins composed of 457 Agent Skills,
 published to PyPI as `vibey-skills` under the MIT license. Apart from a small
 packaging CLI there is no application code — the deliverable is the Markdown and JSON that
 define the plugins. "Correctness" means valid manifests and accurate, well-triggered skill
@@ -154,7 +154,7 @@ Pushing a `v*` tag triggers `.github/workflows/release.yml`, which builds, then 
 this order:
 
 1. **TestPyPI** — separate instance, separate trusted publisher.
-2. **Verify** — installs that exact version from TestPyPI and asserts all 398 skills land.
+2. **Verify** — installs that exact version from TestPyPI and asserts all 457 skills land.
 3. **PyPI** — only if the verify step passed.
 4. **GitHub Release** — sdist and wheel attached.
 
