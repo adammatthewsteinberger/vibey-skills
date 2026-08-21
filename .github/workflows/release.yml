@@ -155,19 +155,23 @@ jobs:
           index="https://test.pypi.org/simple/"
           spec="vibey-skills==${version}"
 
-          # TestPyPI's index can lag its own upload by a few seconds.
+          # TestPyPI's index has lagged its own upload by several minutes; allow ~10.
           installed=0
-          # TestPyPI's index has lagged its own upload by several minutes; allow ~5.
-          for attempt in $(seq 1 15); do
-            if pip install --quiet --index-url "$index" "$spec"; then
+          # --no-cache-dir is load-bearing, not hygiene. pip caches the simple-index
+          # response, so without it the first attempt pins an index that predates the
+          # upload and all fifteen retries re-read that same cached page — the loop can
+          # never observe the new version however long it waits. That is exactly how
+          # 2.14.0.dev7 failed after TestPyPI had returned 200 OK for it.
+          for attempt in $(seq 1 20); do
+            if pip install --quiet --no-cache-dir --index-url "$index" "$spec"; then
               installed=1
               break
             fi
-            echo "not indexed yet; retrying in 20s (attempt ${attempt}/15)"
-            sleep 20
+            echo "not indexed yet; retrying in 30s (attempt ${attempt}/20)"
+            sleep 30
           done
           if [ "$installed" -ne 1 ]; then
-            echo "::error::could not install ${spec} from TestPyPI after 15 attempts (~5 min)"
+            echo "::error::could not install ${spec} from TestPyPI after 20 attempts (~10 min)"
             exit 1
           fi
 
