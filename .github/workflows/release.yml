@@ -288,8 +288,16 @@ jobs:
           fetch-depth: 0
 
       - name: Realign develop with main
+        env:
+          # develop's ruleset requires a pull request, so the default GITHUB_TOKEN is
+          # refused here — "Changes must be made through a pull request" — and the job
+          # reported success while develop stayed eight commits divergent. This needs the
+          # same admin-capable token the merge trains use.
+          GIT_TOKEN: ${{ secrets.AUTOMERGE_TOKEN || github.token }}
         run: |
           set -euo pipefail
+          git remote set-url origin \
+            "https://x-access-token:${GIT_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git fetch --quiet origin main develop
 
           if ! git diff --quiet origin/main origin/develop; then
@@ -304,11 +312,17 @@ jobs:
           # --force-with-lease pinned to the SHA just read: if anything lands on develop
           # between the check above and this push, the push is refused rather than
           # silently overwriting it.
+          # A rejected push is a FAILURE, not a warning. Leaving develop divergent blocks
+          # the next promotion under the strict up-to-date policy, and the first time this
+          # happened the job reported success and the drift went unnoticed. The only
+          # benign outcomes are the two handled above: develop has real work, or it is
+          # already aligned.
           before="$(git rev-parse origin/develop)"
           if git push --force-with-lease="refs/heads/develop:${before}" \
                origin "origin/main:refs/heads/develop"; then
             echo "::notice::develop realigned to main — identical trees, histories converged."
           else
-            echo "::warning::could not update develop. Its ruleset blocks non-fast-forward pushes unless GitHub Actions is a bypass actor; realign by hand or add the bypass."
+            echo "::error::could not realign develop, so it is now divergent from main and the next promotion will be blocked. If AUTOMERGE_TOKEN is unset or lacks the admin role the push is refused by develop's ruleset. Realign by hand with: git push --force-with-lease origin main:develop"
+            exit 1
           fi
 

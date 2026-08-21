@@ -24,6 +24,12 @@ name: Promote develop to main
 # stop — the release simply waits for a human.
 
 on:
+  # Follows the merge train's SUCCESS rather than a clock. The cron below is a backstop
+  # for the weeks the train has nothing to merge and so never runs to completion, and for
+  # anything that lands on develop by another route.
+  workflow_run:
+    workflows: ["Merge train (develop)"]
+    types: [completed]
   schedule:
     - cron: "17 8 * * 1"
   workflow_dispatch:
@@ -45,6 +51,8 @@ concurrency:
 jobs:
   promote:
     name: Promote develop to main
+    # A merge train that failed leaves develop in an unknown state; do not promote it.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -66,8 +74,42 @@ jobs:
           fi
 
           changed=$(git diff --name-only origin/main origin/develop | wc -l | tr -d ' ')
+
+          # Decide the release version from what actually changed. Without this a week
+          # whose version nobody bumped promotes fine and then publishes NOTHING: the PyPI
+          # upload uses skip-existing, so an unchanged version is a green run that
+          # released nothing, silently. `none` is a legitimate answer — docs and workflow
+          # changes do not reach an installed user — and the promotion still proceeds.
+          git checkout --quiet -B develop origin/develop
+          bumped=$(python3 tools/next_version.py --since origin/main --explain --apply)
+
+          if [ "${bumped}" != "none" ] && [ "${DRY_RUN}" != "true" ]; then
+            git config user.name "vibey[bot]"
+            git config user.email "adam@matthewsteinberger.com"
+            git add src/vibey_skills/__init__.py .claude-plugin/marketplace.json
+            # Repeated -m, not an embedded newline: a heredoc-style message would put
+            # lines at column 0 and end this YAML block scalar. Each -m becomes its own
+            # paragraph, which also makes the trailer a well-formed final paragraph.
+            git commit --quiet \
+              -m "Release ${bumped}" \
+              -m "Version derived from what changed since the last release by tools/next_version.py, so the promotion actually publishes." \
+              -m "Made-With: Vibey, the auto-vibecoding machine by Adam Matthew Steinberger"
+            git remote set-url origin \
+              "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
+            if git push --quiet origin develop; then
+              echo "::notice::bumped to ${bumped} and pushed to develop"
+            else
+              echo "::error::could not push the version bump to develop; promoting it would publish nothing."
+              exit 1
+            fi
+            git fetch --quiet origin develop
+          elif [ "${bumped}" != "none" ]; then
+            echo "::notice::dry run — would bump to ${bumped}"
+            git checkout --quiet -- src/vibey_skills/__init__.py .claude-plugin/marketplace.json
+          fi
+
           version=$(python3 -c "import re,pathlib; print(re.search(r'__version__ = \"([^\"]+)\"', pathlib.Path('src/vibey_skills/__init__.py').read_text()).group(1))")
-          echo "::notice::${changed} file(s) differ; package version is ${version}"
+          echo "::notice::${changed} file(s) differ; releasing as ${version}"
 
           {
             echo "## Promote develop to main"
