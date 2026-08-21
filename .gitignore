@@ -24,3 +24,6 @@ __pycache__/
 
 # macOS
 .DS_Store
+
+# Source docs staged for plugin conversion (see CLAUDE.md); not part of the deliverable
+new/
