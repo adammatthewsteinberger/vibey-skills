@@ -5,8 +5,8 @@
     "email": "adam@matthewsteinberger.com"
   },
   "metadata": {
-    "description": "Agent Skills for vibe engineering — 61 plugins and 280 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure and cloud computing, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering and web scraping, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, power engineering, automotive and robotics, CAD and additive manufacturing, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, scientific computing and signal processing, fundamental physics and classical mechanics, rocketry, flight software and space exploration, the life sciences (chemistry and biology, genetics and neuroscience, biomedical engineering), design patterns, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "2.5.0"
+    "description": "Agent Skills for vibe engineering — 67 plugins and 311 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure and cloud computing, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering and web scraping, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, power engineering, automotive and robotics, CAD and additive manufacturing, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, mathematics (linear algebra and calculus, chaos theory, game theory), scientific computing and signal processing, physics (fundamental, classical mechanics, nuclear), earth science (geoscience and weather), rocketry, flight software and space exploration, the life sciences (chemistry and biology, genetics and neuroscience, biomedical engineering), design patterns, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
+    "version": "2.6.0"
   },
   "plugins": [
     {
@@ -114,6 +114,28 @@
       "description": "CAD and 3D Printing: geometry representations and kernels, file formats and what each one loses, code-CAD and scripting including the OpenSCAD versus OCCT trade, mesh processing and repair, the slicing pipeline and G-code, the additive processes and the physics that determines part quality, design for additive manufacturing, tolerances and fits, materials, generative design and lattices, automation pipelines, and scanning and reverse engineering.",
       "version": "0.1.0",
       "category": "manufacturing",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "calculus-geometry-algebra",
+      "source": "./plugins/calculus-geometry-algebra",
+      "description": "Calculus, Geometry and Algebra: vector spaces and linear maps, matrices and the four fundamental subspaces, determinants, eigenvalues and diagonalization, inner products and orthogonality, the spectral theorem and SVD, matrix factorizations, conditioning and numerical reality, the derivative and integration, series and Taylor approximation, multivariable and vector calculus, differential forms, constrained optimization, differential equations, geometry, manifolds, tensors done properly, Riemannian geometry, and Lie groups and algebras.",
+      "version": "0.1.0",
+      "category": "mathematics",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "chaos-theory",
+      "source": "./plugins/chaos-theory",
+      "description": "Chaos Theory: what chaos actually is and is not, the stretch-and-fold mechanism, dynamical systems, stability and linearization, bifurcations, the logistic map and Feigenbaum universality, Lyapunov exponents, strange attractors, the routes to chaos, fractals and dimension, Poincare sections and symbolic dynamics, Hamiltonian chaos and KAM, detecting chaos in real data, control and synchronization, where chaos actually appears, and computing chaotic systems numerically.",
+      "version": "0.1.0",
+      "category": "mathematics",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -274,11 +296,33 @@
       }
     },
     {
+      "name": "game-theory",
+      "source": "./plugins/game-theory",
+      "description": "Game Theory: the framework and what rationality actually assumes, normal and extensive form representations, dominance, Nash equilibrium and what it is not, the classic games, zero-sum and minimax, sequential games and subgame perfection, repeated games and the folk theorem, incomplete information and Bayesian games, bargaining, cooperative game theory, mechanism design and auctions, matching markets, evolutionary game theory, where the theory fails empirically, and computational game theory.",
+      "version": "0.1.0",
+      "category": "mathematics",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "genetics-neuroscience-technical",
       "source": "./plugins/genetics-neuroscience-technical",
       "description": "Genetics and Neuroscience: molecular genetics and the central dogma stated accurately, gene regulation and epigenetics, mutation, variation and inheritance, population and quantitative genetics including heritability and polygenic scores, genome engineering and the CRISPR toolbox, delivery, screens and synthetic biology, neuron biophysics and synapses, plasticity, neural coding, circuit architectures, neuromodulation, development and glia, neural engineering methods, and stimulation and intervention.",
       "version": "0.1.0",
       "category": "life-sciences",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "geoscience",
+      "source": "./plugins/geoscience",
+      "description": "Geoscience: Earth structure and plate tectonics, minerals and rocks, deep time and stratigraphy, deformation and structure, earthquakes and seismology including the magnitude-versus-intensity distinction and prediction versus forecasting, volcanism, surface processes, soils, surface hydrology, groundwater, oceanography, the cryosphere, biogeochemical cycles, resources, natural hazards, and observation and geophysics.",
+      "version": "0.1.0",
+      "category": "earth-science",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -387,6 +431,17 @@
       "name": "newtonian-mechanics",
       "source": "./plugins/newtonian-mechanics",
       "description": "Newtonian Mechanics: kinematics, Newton's laws stated precisely and the misconceptions they generate, free-body diagrams, the forces (gravity, normal, friction, drag, spring and tension), work, energy and power and why conservation laws run deeper than Newton's laws, momentum and collisions, rotation, rigid bodies and gyroscopes, oscillations and resonance, central forces and orbits, non-inertial frames, Lagrangian and Hamiltonian mechanics, fluids, chaos and the limits of prediction, and numerical integration including why symplectic integrators matter.",
+      "version": "0.1.0",
+      "category": "physics",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "nuclear-physics",
+      "source": "./plugins/nuclear-physics",
+      "description": "Nuclear Physics: nuclear structure and the binding energy curve, radioactive decay, reactions and cross sections, radiation and dose, fission physics, reactor physics including criticality, moderation, delayed neutrons and reactivity feedback, reactor types, the fuel cycle and waste, reactor safety, fusion physics, magnetic and inertial confinement, why fusion is hard to engineer, and detection and measurement.",
       "version": "0.1.0",
       "category": "physics",
       "author": {
@@ -642,6 +697,17 @@
       "description": "VR and AR Development: the perceptual constraints (motion-to-photon latency, cybersickness, the vergence-accommodation conflict, presence), displays and optics, tracking, the XR rendering pipeline including reprojection and foveated rendering, input and interaction with locomotion as the highest-risk design decision, AR spatial understanding, platforms and APIs, spatial audio, comfort, safety and accessibility, UX design for 3D, and performance budgeting.",
       "version": "0.1.0",
       "category": "xr",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "weather-science",
+      "source": "./plugins/weather-science",
+      "description": "Weather Science: the structure of the atmosphere, radiation and the energy budget, thermodynamics and stability, moisture and clouds, the dynamical balances (geostrophic, thermal wind, vorticity), the general circulation, synoptic meteorology and baroclinic instability, thunderstorms and severe weather, tropical cyclones, the boundary layer, observation, numerical weather prediction including data assimilation and ensembles, forecast verification, predictability and chaos, machine-learning weather prediction, and the weather-versus-climate distinction.",
+      "version": "0.1.0",
+      "category": "earth-science",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
