@@ -16,7 +16,7 @@ description: "Use before trusting any nutrition finding: why nutrition science i
 > more than memorizing any particular finding.**
 >
 > **Complements a cooking/cleaning reference (food safety and the chemistry of cooking),
-> an exercise physiology reference (§12 → `nutrition-digestion-energy-balance-appetite-and-food-processing`'s energy expenditure), and a psychology reference
+> an exercise physiology reference (§12's energy expenditure), and a psychology reference
 > (§1's replication context).**
 >
 > **⚠️ GOTCHA** boxes mark the claims that outrun their evidence.

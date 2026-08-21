@@ -14,7 +14,7 @@ description: "Use when selecting a radio technology: Thread, Zigbee and Matter a
 > problem, an antenna problem, or a coexistence problem.**
 >
 > **Builds on an electromagnetism reference (fields, propagation, transmission lines) and
-> complements a peripherals reference (§5 → `wireless-propagation-link-budget-modulation-antennas-and-spectrum`'s wireless HID), a computer-hardware reference
+> complements a peripherals reference (§5's wireless HID), a computer-hardware reference
 > (§9 → `wireless-wifi-bluetooth-ble-nfc-and-rfid` networking), and a cryptography reference (WPA3, pairing, key exchange).**
 >
 > **⚠️ GOTCHA** boxes mark where spec-sheet numbers and field reality diverge — which in RF

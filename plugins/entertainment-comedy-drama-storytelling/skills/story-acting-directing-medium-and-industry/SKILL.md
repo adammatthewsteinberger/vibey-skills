@@ -14,7 +14,7 @@ description: "Use when the work is performed or produced rather than written: ac
 > decent hit rate, presented as laws.**
 >
 > **Complements a prose/writing-craft reference (sentence-level mechanics), an art theory
-> reference (§1 → `story-rules-character-structure-and-scene`'s register distinction), and a business reference (§24's economics).**
+> reference (§1's register distinction), and a business reference (§24's economics).**
 >
 > **⚠️ GOTCHA** boxes mark rules that are actually conventions, and claims the evidence
 > or the practice contradicts.

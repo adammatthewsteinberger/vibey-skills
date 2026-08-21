@@ -14,7 +14,7 @@ description: "Use for the short-range standards: Wi-Fi and its generations, Wi-F
 > problem, an antenna problem, or a coexistence problem.**
 >
 > **Builds on an electromagnetism reference (fields, propagation, transmission lines) and
-> complements a peripherals reference (§5 → `wireless-propagation-link-budget-modulation-antennas-and-spectrum`'s wireless HID), a computer-hardware reference
+> complements a peripherals reference (§5's wireless HID), a computer-hardware reference
 > (§9 networking), and a cryptography reference (WPA3, pairing, key exchange).**
 >
 > **⚠️ GOTCHA** boxes mark where spec-sheet numbers and field reality diverge — which in RF

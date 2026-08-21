@@ -9,7 +9,7 @@ description: "Use when the public markets are in scope: why companies go public 
 >
 > **Currency:** Instruments, dilution mathematics and securities structure are stable. Two areas moved. See §26 → `fundraising-reference` for the concentration of the private venture market and the US charitable deduction rewrite effective January 2026.
 
-> **⚠️ Scope.** Complements a business reference (§4 → `fundraising-what-it-is-narrative-and-process` financing overview, §12 → `fundraising-diligence-valuation-and-exits` negotiation)
+> **⚠️ Scope.** Complements a business reference (§4 financing overview, §12 negotiation)
 > and an economics/accounting/tax reference (statements, entity structure, tax).
 > **This is the deep version**, and it covers three worlds most treatments handle
 > separately.

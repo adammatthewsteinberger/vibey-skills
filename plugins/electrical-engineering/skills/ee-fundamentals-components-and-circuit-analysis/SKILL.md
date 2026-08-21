@@ -10,7 +10,7 @@ description: "Use when analyzing a circuit or choosing a part: the fundamentals 
 > **Currency:** Settled physics and mature practice — Ohm 1827, Kirchhoff 1845, Heaviside's transmission-line theory in the 1880s. Component part numbers change; the physics does not.
 
 > **Scope.** Complements an embedded-IoT reference (MCUs, buses, firmware at the systems
-> level), a signal-processing reference (DSP), and a nanotechnology reference (§5 → `ee-semiconductors-op-amps-logic-and-power`,
+> level), a signal-processing reference (DSP), and a nanotechnology reference (§5,
 > semiconductor process). **This is the circuit layer underneath all three** — the physics
 > you need when the board does something your code can't explain.
 >

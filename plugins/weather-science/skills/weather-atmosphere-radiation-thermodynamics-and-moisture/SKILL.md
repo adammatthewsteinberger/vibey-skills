@@ -9,7 +9,7 @@ description: "Use when reasoning about the physical state of the atmosphere: its
 >
 > **Currency:** Atmospheric physics is settled — hydrostatic balance, geostrophy, Lorenz's 1963 chaos work. One area moved dramatically. See §15 → `weather-observation-nwp-verification-and-machine-learning` for machine-learning weather prediction and the live scientific dispute around it.
 
-> **Scope.** Complements a Newtonian-mechanics reference (§10 → `weather-severe-storms-cyclones-and-boundary-layer` there covers Coriolis and
+> **Scope.** Complements a Newtonian-mechanics reference (§10 there covers Coriolis and
 > rotating frames properly) and a fundamental-physics reference (radiation, thermodynamics).
 > ⚠️ **This is the atmosphere specifically.**
 >
