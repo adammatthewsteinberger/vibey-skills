@@ -58,6 +58,9 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # Same reason as release.yml: checkout's extraheader beats a remote URL, so the
+          # push of the version bump needs the token here or it authenticates as the bot.
+          token: ${{ secrets.AUTOMERGE_TOKEN || github.token }}
 
       - name: Promote
         env:
@@ -94,8 +97,6 @@ jobs:
               -m "Release ${bumped}" \
               -m "Version derived from what changed since the last release by tools/next_version.py, so the promotion actually publishes." \
               -m "Made-With: Vibey, the auto-vibecoding machine by Adam Matthew Steinberger"
-            git remote set-url origin \
-              "https://x-access-token:${GH_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
             if git push --quiet origin develop; then
               echo "::notice::bumped to ${bumped} and pushed to develop"
             else
