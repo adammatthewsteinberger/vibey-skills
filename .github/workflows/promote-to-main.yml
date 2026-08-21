@@ -1,3 +1,4 @@
+# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
 name: Promote develop to main
 
 # Weekly: if `develop` has anything `main` does not, open the promotion pull request and

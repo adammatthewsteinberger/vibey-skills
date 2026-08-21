@@ -1,3 +1,4 @@
+# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
 """Generate the skills reference from `plugins/**` at docs-build time.
 
 `plugins/` is the marketplace's single source of truth: Claude Code reads
