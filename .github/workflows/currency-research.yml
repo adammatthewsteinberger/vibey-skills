@@ -54,6 +54,10 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  # The action exchanges a GitHub OIDC token for a short-lived GitHub App token rather
+  # than acting as the default GITHUB_TOKEN. Without this it fails before it starts, with
+  # "Could not fetch an OIDC token".
+  id-token: write
 
 # Never run two audits at once: they would race on the same branch name and could open
 # duplicate pull requests. Never cancel one midway either — a half-finished audit that has
