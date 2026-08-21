@@ -104,6 +104,9 @@ An unattended job has no judgement in the loop, so it operates inside hard limit
 - renumber sections, or reflow text that did not need to change;
 - touch the release machinery, workflows, `pyproject.toml`, or the package version;
 - merge the pull request, or push to `main` or `develop` directly;
+- use a repository CLI or API for anything beyond creating and describing the pull
+  request — no merging, closing, approving, releasing or changing settings, even when
+  the credentials would allow it;
 - edit a plugin the slice did not name, however tempting.
 
 ⚠️ **The three things that must never happen**, in order of severity:
