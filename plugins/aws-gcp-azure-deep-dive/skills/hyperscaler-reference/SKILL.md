@@ -199,7 +199,7 @@ want may not be available in the region you want it in.**
 **⚠️ A second-order consequence worth naming**: **hyperscaler capex is now large enough to
 make electricity access a strategic constraint on cloud growth**, **tying region
 availability and expansion timelines to grid capacity** (see a power engineering reference
-§12 → `hyperscaler-storage-databases-analytics-and-observability`).
+§12).
 
 ---
 

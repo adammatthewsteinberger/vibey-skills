@@ -4,7 +4,7 @@ Guidance for Codex when working in this repository.
 
 ## What this repo is
 
-This is a **Codex plugin marketplace**: 102 plugins composed of 497 Agent Skills,
+This is a **Codex plugin marketplace**: 127 plugins composed of 644 Agent Skills,
 published to PyPI as `vibey-skills` under the MIT license. Apart from a small
 packaging CLI there is no application code — the deliverable is the Markdown and JSON that
 define the plugins. "Correctness" means valid manifests and accurate, well-triggered skill
@@ -144,6 +144,34 @@ mkdocs build --strict   # what CI runs; warnings are errors
 `docs.yml` also triggers on `plugins/**`, since a skill edit changes the site even when
 nothing under `docs/` was touched.
 
+## Scheduled currency research
+
+`.github/workflows/currency-research.yml` runs weekly (Mondays, 06:17 UTC) and on
+`workflow_dispatch`. It audits a rotating slice of the marketplace for stale dated claims —
+versioned specifics, regulatory thresholds, market figures — researches them against the live
+web, and opens a pull request against `develop` only when something actually changed. A run
+that finds nothing writes its record to the job summary and opens nothing.
+
+`tools/select_currency_batch.py` picks the slice. It is deterministic on the ISO week, so a
+run reproduces locally:
+
+```bash
+python3 tools/select_currency_batch.py --week 34        # that week's briefing
+python3 tools/select_currency_batch.py --plugins a,b    # an explicit set
+```
+
+**The method is not in the YAML.** It lives in the `currency-research` plugin in this
+marketplace, which the workflow installs via the action's `plugin_marketplaces` / `plugins`
+inputs — the repo's own deliverable tells the agent how to do the job, so improving the method
+is an ordinary skill edit rather than a workflow change.
+
+Two things must be configured for it to run, and neither is in the repository:
+
+- the `ANTHROPIC_API_KEY` repository secret — the job exits with a notice if it is absent
+  rather than failing every week;
+- Settings → Actions → General → **Allow GitHub Actions to create and approve pull requests**,
+  without which the default `GITHUB_TOKEN` cannot open the PR.
+
 ## Releasing
 
 `.github/workflows/ci.yml` runs both checkers, `uv build`, `uvx twine check dist/*`, a
@@ -154,7 +182,7 @@ Pushing a `v*` tag triggers `.github/workflows/release.yml`, which builds, then 
 this order:
 
 1. **TestPyPI** — separate instance, separate trusted publisher.
-2. **Verify** — installs that exact version from TestPyPI and asserts all 497 skills land.
+2. **Verify** — installs that exact version from TestPyPI and asserts all 644 skills land.
 3. **PyPI** — only if the verify step passed.
 4. **GitHub Release** — sdist and wheel attached.
 

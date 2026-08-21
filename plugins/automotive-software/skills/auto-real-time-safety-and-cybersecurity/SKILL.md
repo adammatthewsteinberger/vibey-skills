@@ -11,7 +11,7 @@ description: "Use when safety or security requirements drive the design: real-ti
 
 > **Scope.** Complements an embedded-IoT reference (MCUs, RTOS, buses at the generic
 > level), a flight-software reference (the closest sibling discipline — much of §6's
-> reasoning is shared), and a robotics-software reference (§14 → `auto-process-testing-domains-and-supply-chain` there, and the autonomy
+> reasoning is shared), and a robotics-software reference (§14 there, and the autonomy
 > stack). **This is the vehicle-specific layer.**
 >
 > **⚠️ GOTCHA** boxes mark what kills people, fails an audit, or bricks a fleet.

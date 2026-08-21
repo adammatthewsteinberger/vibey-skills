@@ -15,7 +15,7 @@ description: "Use at the start of planning, before anything is booked: matching 
 > single failure with no slack behind it.**
 >
 > **Complements a rail reference (ground transport), a refrigeration/food reference (food
-> and water safety), and a family/community reference (§23 → `travel-groups-long-term-travel-and-handling-disruption`'s group dynamics).**
+> and water safety), and a family/community reference (§23's group dynamics).**
 >
 > **⚠️ GOTCHA** boxes mark the expensive assumptions and the advice that's confidently
 > wrong.

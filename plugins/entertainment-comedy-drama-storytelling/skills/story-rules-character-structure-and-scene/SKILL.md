@@ -14,7 +14,7 @@ description: "Use when starting on story craft or assessing story advice: which 
 > decent hit rate, presented as laws.**
 >
 > **Complements a prose/writing-craft reference (sentence-level mechanics), an art theory
-> reference (§1's register distinction), and a business reference (§24 → `story-acting-directing-medium-and-industry`'s economics).**
+> reference (§1's register distinction), and a business reference (§24's economics).**
 >
 > **⚠️ GOTCHA** boxes mark rules that are actually conventions, and claims the evidence
 > or the practice contradicts.

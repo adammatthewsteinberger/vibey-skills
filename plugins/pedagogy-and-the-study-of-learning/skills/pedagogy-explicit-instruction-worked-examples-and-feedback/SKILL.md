@@ -14,7 +14,7 @@ description: "Use when designing or evaluating instruction: the explicit instruc
 > all of psychology; others in the same textbooks failed replication entirely; and a third
 > group were never research findings at all — they were marketed.**
 >
-> **Complements a psychology reference (§1 → `pedagogy-reliability-memory-cognitive-load-and-robust-effects`'s replication context) and a family/community
+> **Complements a psychology reference (§1's replication context) and a family/community
 > reference (behaviour genetics, which constrains how much any intervention can do).**
 >
 > **⚠️ GOTCHA** boxes mark widely-taught ideas that the evidence contradicts.

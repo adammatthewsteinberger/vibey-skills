@@ -9,8 +9,8 @@ description: "Use when quantifying or classifying chaotic behaviour: the logisti
 >
 > **Currency:** Settled mathematics — Poincare 1890, Lorenz 1963, Smale 1967, Ruelle-Takens 1971, Feigenbaum 1978, Takens 1981. Nothing here has changed.
 
-> **Scope.** Complements a Newtonian-mechanics reference (§13 → `chaos-detection-control-applications-and-computation` there introduces chaos from
-> the physics side) and a weather-science reference (§14 → `chaos-detection-control-applications-and-computation` there, predictability limits).
+> **Scope.** Complements a Newtonian-mechanics reference (§13 there introduces chaos from
+> the physics side) and a weather-science reference (§14 there, predictability limits).
 > ⚠️ **This is the mathematics itself.**
 >
 > **⚠️ GOTCHA** boxes mark the misconceptions — and chaos theory is **the most

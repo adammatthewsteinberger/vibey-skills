@@ -13,7 +13,7 @@ description: "Use when working on pointing, orbit maintenance, or getting to a s
 > you're there. **Launch, staging, orbital mechanics and reentry heating physics are
 > covered in a rocket-science reference** — this document assumes them and points there
 > rather than duplicating. **Flight software practice** sits in a robotics-software
-> reference (§14 → `space-human-factors-life-support-and-reliability` there).
+> reference (§14 there).
 >
 > Two markers:
 > - **[DURABLE]** — physics, subsystem engineering, and design constraints. Most of this.
