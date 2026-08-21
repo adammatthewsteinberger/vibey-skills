@@ -172,6 +172,41 @@ Two things must be configured for it to run, and neither is in the repository:
 - Settings → Actions → General → **Allow GitHub Actions to create and approve pull requests**,
   without which the default `GITHUB_TOKEN` cannot open the PR.
 
+## Branching and publishing
+
+```
+feature/*  --PR-->  develop  --PR-->  main
+                      |                 |
+                   TestPyPI           PyPI
+```
+
+- **Work happens on `feature/*` branches**, never directly on `develop`. Open a pull
+  request into `develop`.
+- **Every push to `develop` publishes to TestPyPI** as `<release>.dev<run_number>` — see
+  `tools/dev_version.py`. An index version is immutable, so a develop build cannot reuse
+  the release version; the dev suffix makes each push distinct and sorts it before the
+  release it anticipates. The patch is applied in the runner only and never committed.
+- **Every push to `main` publishes to PyPI** as the exact version in
+  `src/vibey_skills/__init__.py`, after the same TestPyPI-then-verify gate. Most pushes to
+  main carry no version bump, so the publish skips a version PyPI already holds rather
+  than failing.
+- **A `v*` tag** additionally attaches the artifacts to a GitHub Release.
+
+### Why `develop` used to fall behind
+
+A `develop -> main` pull request leaves exactly one commit on `main` that `develop` does
+not have: the merge commit itself. GitHub's merge button has no fast-forward option, so
+`develop` ended up permanently one commit behind after every release, every following
+pull request reported *"head branch is not up to date"*, and the fix each time was a
+manual back-merge.
+
+The `sync-develop` job in `.github/workflows/release.yml` removes that step: after a
+successful publish from `main` it fast-forwards `develop` onto `main`. `develop`'s tip is
+always an ancestor of the merge commit, so this is a fast-forward — no merge, no new
+commit, nothing to resolve. **Do not back-merge `main` into `develop` by hand**; if the
+job reports it could not fast-forward, that means `develop` has genuinely new commits and
+they belong in a pull request.
+
 ## Releasing
 
 `.github/workflows/ci.yml` runs both checkers, `uv build`, `uvx twine check dist/*`, a

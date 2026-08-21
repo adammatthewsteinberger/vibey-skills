@@ -19,6 +19,13 @@ by our [Code of Conduct](https://github.com/adammatthewsteinberger/vibey-skills/
 
 ---
 
+## Branching
+
+`feature/*` -> `develop` -> `main`. Work on a `feature/*` branch and open a pull
+request into `develop`; never commit to `develop` directly. Pushes to `develop`
+publish to TestPyPI, pushes to `main` publish to PyPI, and `develop` is
+fast-forwarded to `main` automatically after a release — do not back-merge by hand.
+
 ## Table of contents
 
 1. [Repository layout](#1-repository-layout)

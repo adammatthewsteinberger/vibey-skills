@@ -37,14 +37,17 @@ description: "Use when correcting a DNS or domain misconception, looking up a re
 
 ## §26. What's Live — checked August 2026
 
-### 26.1 ⚠️ ICANN's first new gTLD round since 2012 is open now
-**⚠️ §14 → `dns-icann-tlds-registries-and-registration`'s namespace expanding for the second time — and the window is open as this is
-written.**
+### 26.1 ⚠️ ICANN's first new gTLD round since 2012 has closed — 1,600+ applications
+**⚠️ §14 → `dns-icann-tlds-registries-and-registration`'s namespace expanding for the second time — and the application window has now
+closed.**
 
-- **⚠️ THE DATES.** ⚠️ **ICANN announced the New gTLD Program: 2026 Round application window
-  opened on 30 April 2026 and closes 12 August 2026.** ⚠️ **ICANN's framing is that for the
-  first time in over a decade, organizations can apply to operate their own top-level
-  domain.**
+- **⚠️ THE DATES.** ⚠️ **ICANN's New gTLD Program: 2026 Round application window opened on
+  30 April 2026 and closed on 12 August 2026, with ICANN's own announcement reporting more
+  than 1,600 primary applications received, over 1,100 of which also requested a replacement
+  string.** ⚠️ **ICANN expects to publish the list of applications that passed the
+  Administrative Check ("Reveal Day") roughly nine weeks after close, with the specific
+  timeline due in mid-September 2026.** ⚠️ **ICANN's framing is that for the first time in
+  over a decade, organizations can apply to operate their own top-level domain.**
 - **⚠️ THE PRECEDENT.** ⚠️ **The 2012 round drew nearly 2,000 applications and resulted in
   more than 1,200 new gTLDs — brands like .microsoft and .sky, places like .africa and
   .berlin, and generic terms like .bank and .eco.**
@@ -107,7 +110,7 @@ striking.**
 > if a blockchain service issues `.wallet` and ICANN later delegates `.wallet`, two
 > authorities claim the same string — and in a browser, DNS resolves according to the ICANN
 > root.**
-> ⚠️ **With hundreds of applications possible in the 2026 round, that is not hypothetical —
+> ⚠️ **With more than 1,600 applications now filed in the 2026 round, that is not hypothetical —
 > and it is why ENS's DNSSEC-import path (§22 → `dns-blockchain-naming-alternatives-assessed`), which uses a name you already own rather
 > than inventing an extension, is the architecturally sound answer.**
 
@@ -169,7 +172,8 @@ authority it was built to bypass.**
    pending delete 5d
 ⚠️ Transfer lock  ⚠️ 60 days after registration or transfer
 ⚠️ 2012 gTLD round  ⚠️ ~2,000 applications → 1,200+ delegated
-⚠️ ⚠️ 2026 ROUND  ⚠️ opened 30 April 2026 · closes 12 August 2026
+⚠️ ⚠️ 2026 ROUND  ⚠️ opened 30 April 2026 · closed 12 August 2026 ·
+   1,600+ applications received
 ⚠️ 2026 evaluation fee  ⚠️ US$227,000 per application (reported)
 ⚠️ First new TLDs expected  ⚠️ ~Q2 2028; programme through 2030
 ⚠️ Closed generics  ⚠️ not permitted in the 2026 round
@@ -214,7 +218,7 @@ authority it was built to bypass.**
 | I let a domain expire | ⚠️ **Check where it is in the lifecycle. Act fast** (§16 → `dns-icann-tlds-registries-and-registration`) |
 | Is .io safe for my brand? | ⚠️ **It's a ccTLD. Sovereign risk is real** (§14 → `dns-icann-tlds-registries-and-registration`) |
 | Should I buy a .eth domain? | ⚠️ **For crypto identity yes; as a web address no** (§24 → `dns-blockchain-naming-alternatives-assessed`) |
-| Should I apply for a gTLD? | ⚠️ **$227k, an RSP, and years. Window closes 12 Aug 2026** (§26.1) |
+| Should I apply for a gTLD? | ⚠️ **$227k, an RSP, and years. 2026 window closed 12 Aug (1,600+ applied)** (§26.1) |
 | Do I need to defend my trademark? | ⚠️ **Get marks into the Clearinghouse before launches** (§18 → `dns-whois-disputes-domain-security-and-aftermarket`, §26.1) |
 
 ### 30.2 Domain hygiene checklist
@@ -242,7 +246,7 @@ verification; RFC 1034 is from 1987 and the delegation model has not changed.**
 
 **Two searches were run in August 2026**, on **ICANN's new gTLD round** and **blockchain
 naming** — ⚠️ **the first because §14 → `dns-icann-tlds-registries-and-registration`'s namespace is expanding for only the second time and
-the application window is open right now, the second because §24 → `dns-blockchain-naming-alternatives-assessed`'s assessment reached a
+the application window has just closed, the second because §24 → `dns-blockchain-naming-alternatives-assessed`'s assessment reached a
 resolution during 2026 that is clearer than anything I could have argued.**
 
 **Confidence.** **High** in §6 → `dns-attacks-dnssec-encrypted-dns-and-operations` and §19 → `dns-whois-disputes-domain-security-and-aftermarket`, which are the sections I'd most want read.
@@ -256,8 +260,9 @@ available control and most people have never heard of it.**
 **⚠️ §5 → `dns-namespace-resolution-records-and-zones`'s glue explanation is the one that resolves the most confusing debugging sessions.**
 
 **High** on §26.1, which comes from ICANN's own announcement and Applicant Guidebook:
-⚠️ **the window opened 30 April 2026 and closes 12 August 2026, the 2012 round produced over
-1,200 gTLDs from nearly 2,000 applications, and closed generics are excluded this round.**
+⚠️ **the window opened 30 April 2026 and closed 12 August 2026 with more than 1,600
+applications received, the 2012 round produced over 1,200 gTLDs from nearly 2,000
+applications, and closed generics are excluded this round.**
 ⚠️ **The fee and timeline figures are from law-firm and registrar analyses and I have marked
 them reported.** **⚠️ ICANN's own "yellow" status assessment is worth noting precisely
 because organizations rarely publish that about their own flagship programme.**
