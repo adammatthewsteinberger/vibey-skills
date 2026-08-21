@@ -40,7 +40,7 @@ on:
       per_run:
         description: "How many plugins to audit when using the rotation"
         required: false
-        default: "8"
+        default: "4"
         type: string
       model:
         description: "Model to run the audit with"
@@ -134,10 +134,19 @@ jobs:
           plugins: |
             currency-research@vibey-skills
 
+          # Puts Claude's report in the job summary, which is where a no-change run
+          # leaves its audit record — it has no shell access to write there itself.
+          display_report: true
+
+          # claude_args is split on whitespace, so a tool spec must contain NO spaces.
+          # `Bash(python3 tools/check_links.py)` silently becomes two junk entries
+          # `Bash(python3` and `tools/check_links.py)`, the agent gets no Bash permission
+          # at all, and the run burns its turns on denials while still reporting success.
+          # The colon form avoids spaces entirely.
           claude_args: |
             --model ${{ inputs.model || 'claude-sonnet-5' }}
-            --allowedTools WebSearch,WebFetch,Read,Glob,Grep,Edit,Write,Bash(python3 tools/validate_manifests.py),Bash(python3 tools/check_links.py),Bash(git diff:*),Bash(git status:*)
-            --max-turns 60
+            --allowedTools WebSearch,WebFetch,Read,Glob,Grep,Edit,Write,Bash(python3:*),Bash(git:*)
+            --max-turns 150
 
           prompt: |
             You are running this repository's weekly currency audit, unattended.
@@ -160,9 +169,11 @@ jobs:
                  nothing useful, say so. A fabricated citation is the worst possible
                  outcome of this job — worse than finding nothing.
 
-            If nothing needs changing, do NOT open a pull request. Write the audit record
-            to the job summary instead: which plugins you audited, which claims you
-            checked, and what sources you consulted.
+            If nothing needs changing, do NOT open a pull request. Make your FINAL
+            MESSAGE the audit record instead — which plugins you audited, which claims
+            you checked, what sources you consulted, and what you concluded. That
+            message is published to the job summary, so it is the run's only durable
+            output when no pull request is opened.
 
             If something does need changing, make the smallest correct edits, run both
             `python3 tools/validate_manifests.py` and `python3 tools/check_links.py` (both
