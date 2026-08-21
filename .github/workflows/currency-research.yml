@@ -139,6 +139,13 @@ jobs:
           # leaves its audit record — it has no shell access to write there itself.
           display_report: true
 
+          # Full turn-by-turn JSON in the step log. Verbose, and worth it: without it the
+          # log carries only the final result counters, so there is no way to see which
+          # searches ran or which sources were consulted — and the job summary above is
+          # rendered client-side, so it cannot be read back through the API either. This
+          # is the input to reach for when a run needs debugging.
+          show_full_output: true
+
           # claude_args is split on whitespace, so a tool spec must contain NO spaces.
           # `Bash(python3 tools/check_links.py)` silently becomes two junk entries
           # `Bash(python3` and `tools/check_links.py)`, the agent gets no Bash permission
