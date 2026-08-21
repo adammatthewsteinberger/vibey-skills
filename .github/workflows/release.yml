@@ -286,18 +286,16 @@ jobs:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
+          # The token has to be given to checkout, not applied afterwards. checkout writes
+          # an `http.https://github.com/.extraheader` auth header into the local git
+          # config, and that header WINS over credentials in the remote URL — so setting
+          # the remote to a PAT later has no effect and the push still authenticates as
+          # the Actions bot, which develop's ruleset refuses.
+          token: ${{ secrets.AUTOMERGE_TOKEN || github.token }}
 
       - name: Realign develop with main
-        env:
-          # develop's ruleset requires a pull request, so the default GITHUB_TOKEN is
-          # refused here — "Changes must be made through a pull request" — and the job
-          # reported success while develop stayed eight commits divergent. This needs the
-          # same admin-capable token the merge trains use.
-          GIT_TOKEN: ${{ secrets.AUTOMERGE_TOKEN || github.token }}
         run: |
           set -euo pipefail
-          git remote set-url origin \
-            "https://x-access-token:${GIT_TOKEN}@github.com/${GITHUB_REPOSITORY}.git"
           git fetch --quiet origin main develop
 
           if ! git diff --quiet origin/main origin/develop; then
