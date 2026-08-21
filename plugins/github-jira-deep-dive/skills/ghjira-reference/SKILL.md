@@ -110,6 +110,9 @@ smaller denominator than your licence count, and it makes cost modelling non-obv
 > Student plans in a reported 58-day freeze beginning 20 April 2026**, ⚠️ **with GitHub's
 > VP of Product attributing it to long-running parallelized agentic sessions consuming far
 > more resources than flat-rate plans could support.**
+> **⚠️ Sign-ups reopened gradually from 17 June 2026, per GitHub's own changelog, and a
+> new $100/month Max plan was added** alongside Free, Pro and Pro+ — **$200 in monthly AI
+> credits and roughly 2.9× Pro+'s usage headroom.**
 > **⚠️ The generalizable lesson: flat-rate pricing does not survive agentic usage
 > patterns, and anyone budgeting for AI coding tools on a per-seat assumption should
 > expect that assumption to break.**
