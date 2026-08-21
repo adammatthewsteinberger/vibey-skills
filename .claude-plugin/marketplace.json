@@ -5,8 +5,8 @@
     "email": "adam@matthewsteinberger.com"
   },
   "metadata": {
-    "description": "Agent Skills for vibe engineering — 55 plugins and 250 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure and cloud computing, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering and web scraping, frontend, mobile, desktop, smart TV, game development, UI/UX design, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, robotics, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, scientific computing and signal processing, fundamental physics, rocketry, flight software and space exploration, the life sciences (chemistry and biology, genetics and neuroscience, biomedical engineering), design patterns, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "2.4.0"
+    "description": "Agent Skills for vibe engineering — 61 plugins and 280 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure and cloud computing, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering and web scraping, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, power engineering, automotive and robotics, CAD and additive manufacturing, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, scientific computing and signal processing, fundamental physics and classical mechanics, rocketry, flight software and space exploration, the life sciences (chemistry and biology, genetics and neuroscience, biomedical engineering), design patterns, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
+    "version": "2.5.0"
   },
   "plugins": [
     {
@@ -65,6 +65,17 @@
       }
     },
     {
+      "name": "automotive-software",
+      "source": "./plugins/automotive-software",
+      "description": "Automotive Software: what makes vehicle software different, E/E architecture and the shift to zonal and central compute, buses and networking (CAN and its details, Automotive Ethernet and service-oriented communication), AUTOSAR Classic and Adaptive, real-time scheduling, functional safety under ISO 26262 including ASIL determination and decomposition and SOTIF, cybersecurity under ISO/SAE 21434 and the UN R155 and R156 regulations, diagnostics, flashing and OTA, ADAS and autonomy, process and toolchain, testing, the vehicle domains, and supply chain reality.",
+      "version": "0.1.0",
+      "category": "automotive",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "azure-cloud-infra",
       "source": "./plugins/azure-cloud-infra",
       "description": "Azure Cloud Infrastructure: Azure RBAC administration, Kubernetes IaC with GitOps/Helm/Terraform, and Azure service catalog with production decision guide for compute, messaging, networking, and AI.",
@@ -92,6 +103,17 @@
       "description": "Biomedical Engineering: physiological signal processing, medical imaging modality physics and DICOM internals, clinical data structures, the technicals of clinical machine learning (prevalence, calibration, shortcut learning, the validation ladder), bioinformatics, structural and systems biology, PK/PD, physiological modelling, biomechanics, biomaterials, tissue engineering, neural interfaces and prosthetics, lab automation and instrumentation, and the biostatistics that determine whether any of it holds up.",
       "version": "0.1.0",
       "category": "life-sciences",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "cad-3d-printing",
+      "source": "./plugins/cad-3d-printing",
+      "description": "CAD and 3D Printing: geometry representations and kernels, file formats and what each one loses, code-CAD and scripting including the OpenSCAD versus OCCT trade, mesh processing and repair, the slicing pipeline and G-code, the additive processes and the physics that determines part quality, design for additive manufacturing, tolerances and fits, materials, generative design and lattices, automation pipelines, and scanning and reverse engineering.",
+      "version": "0.1.0",
+      "category": "manufacturing",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -263,6 +285,17 @@
       }
     },
     {
+      "name": "graphics-and-vision",
+      "source": "./plugins/graphics-and-vision",
+      "description": "Graphics and Vision: transforms and projective geometry, rasterization, shading and physically based rendering, ray tracing and the rendering equation, GPU architecture and APIs, real-time techniques, colour and tone mapping, image formation and camera calibration, classical computer vision, multiple view geometry, deep learning for vision, neural rendering where the two fields meet, and performance.",
+      "version": "0.1.0",
+      "category": "graphics",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "linux-server-admin",
       "source": "./plugins/linux-server-admin",
       "description": "Linux Server Administration: the filesystem and file semantics that surprise people, users, permissions and capabilities, processes and resource control, systemd (units, ordering, hardening directives, journald, timers), storage and LVM and filesystems, networking and its diagnosis order, packages and distributions, boot, security hardening including SELinux and AppArmor and SSH, observability and performance with eBPF, a troubleshooting methodology, containers and namespaces, configuration management, and backup and recovery.",
@@ -351,6 +384,17 @@
       }
     },
     {
+      "name": "newtonian-mechanics",
+      "source": "./plugins/newtonian-mechanics",
+      "description": "Newtonian Mechanics: kinematics, Newton's laws stated precisely and the misconceptions they generate, free-body diagrams, the forces (gravity, normal, friction, drag, spring and tension), work, energy and power and why conservation laws run deeper than Newton's laws, momentum and collisions, rotation, rigid bodies and gyroscopes, oscillations and resonance, central forces and orbits, non-inertial frames, Lagrangian and Hamiltonian mechanics, fluids, chaos and the limits of prediction, and numerical integration including why symplectic integrators matter.",
+      "version": "0.1.0",
+      "category": "physics",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "okta-api-reference",
       "source": "./plugins/okta-api-reference",
       "description": "Okta API Reference: the core Management REST API and official Python SDK, the Identity Governance (OIG) API surface and its lack of a Python SDK, and the current landscape of MCP servers for Okta core and IGA automation.",
@@ -400,6 +444,17 @@
       "description": "Penetration Testing and Offensive Security: authorized offensive work as a profession — the authorization and legal foundation (CFAA, Computer Misuse Act, bug bounty and VDP scope, rules of engagement) that separates it from a crime, engagement types and scoping, the standard methodologies (PTES, OWASP WSTG, NIST SP 800-115, MITRE ATT&CK), reconnaissance and attack surface, testing per domain (web, network, Active Directory and identity, cloud, API/mobile/wireless/OT/hardware), social engineering and physical, red/purple teaming and post-exploitation, testing AI systems, and reporting, remediation, coordinated disclosure, and career and certification. A methodology, process, and professional-practice reference — not an exploit cookbook.",
       "version": "0.1.0",
       "category": "security",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "power-engineering",
+      "source": "./plugins/power-engineering",
+      "description": "Power Engineering: AC power fundamentals including real, reactive and apparent power and frequency as the balance signal, generation, transmission and distribution, power system analysis (power flow, state estimation, fault analysis, stability), protection and relaying, SCADA, EMS and DMS, the protocols, inverters, renewables and the inertia problem including grid-following versus grid-forming, storage, markets and dispatch, writing grid software and why OT is not IT, and datacenter power.",
+      "version": "0.1.0",
+      "category": "energy",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -576,6 +631,17 @@
       "description": "Video Game Development: engine selection and licensing, the game loop and time step, code architecture (ECS vs OOP), rendering pipelines and graphics APIs, physics and collision, animation, audio, gameplay AI and pathfinding, networking and multiplayer (rollback, prediction, lag compensation), tools and content pipelines, performance and frame budgets, game feel, build/test/QA and certification, production and scope management, and the business context (live ops, monetization, platforms, legal).",
       "version": "0.1.0",
       "category": "game-development",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "vr-ar-development",
+      "source": "./plugins/vr-ar-development",
+      "description": "VR and AR Development: the perceptual constraints (motion-to-photon latency, cybersickness, the vergence-accommodation conflict, presence), displays and optics, tracking, the XR rendering pipeline including reprojection and foveated rendering, input and interaction with locomotion as the highest-risk design decision, AR spatial understanding, platforms and APIs, spatial audio, comfort, safety and accessibility, UX design for 3D, and performance budgeting.",
+      "version": "0.1.0",
+      "category": "xr",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
