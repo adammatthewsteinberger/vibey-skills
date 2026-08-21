@@ -1,3 +1,4 @@
+# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
 """vibey-skills — Agent Skills packaged as a Claude Code plugin marketplace.
 
 Formerly ``vibe-engineering-skills`` (import name ``vibe_engineering_skills``); renamed in 2.0.0.

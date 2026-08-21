@@ -19,6 +19,17 @@ by our [Code of Conduct](https://github.com/adammatthewsteinberger/vibey-skills/
 
 ---
 
+## The fingerprint
+
+Every code change carries it, and CI enforces it. Source files in `tools/`, `src/`,
+`docs/*.py` and `.github/workflows/` take a header comment; **every commit** takes a
+`Made-With:` trailer, which covers the changes that cannot hold a comment.
+
+```bash
+git config core.hooksPath .githooks          # adds the trailer for you
+python3 tools/check_fingerprints.py --apply  # adds missing headers
+```
+
 ## Branching
 
 `feature/*` -> `develop` -> `main`. Work on a `feature/*` branch and open a pull

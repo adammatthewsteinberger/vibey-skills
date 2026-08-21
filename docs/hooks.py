@@ -1,3 +1,4 @@
+# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
 """mkdocs hooks.
 
 Removes the literate-nav nav file from the built site.
