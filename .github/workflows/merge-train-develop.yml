@@ -104,8 +104,16 @@ jobs:
             fi
 
             # Outside contributions need a human's approval as well as a green build.
+            # Normalise both sides before comparing. `gh` reports a bot author as
+            # `app/claude`, while the same account is written `claude[bot]` almost
+            # everywhere else — so a literal list matches whichever spelling it happens to
+            # contain and silently distrusts the other. The audit's own pull request was
+            # authored by `app/claude` and would have been held for review as an outside
+            # contribution.
+            norm() { s="${1#app/}"; printf '%s' "${s%\[bot\]}"; }
+            want=$(norm "${author}")
             trusted=no
-            for t in ${TRUSTED_AUTHORS}; do [ "${t}" = "${author}" ] && trusted=yes; done
+            for t in ${TRUSTED_AUTHORS}; do [ "$(norm "${t}")" = "${want}" ] && trusted=yes; done
             if [ -z "${reason}" ] && [ "${trusted}" = "no" ] && [ "${review}" != "APPROVED" ]; then
               reason="from @${author} and not approved — needs ${OWNER}'s review"
               if [ "${DRY_RUN}" != "true" ]; then
