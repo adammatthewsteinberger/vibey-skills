@@ -1,17 +1,39 @@
 name: Release
 
+# Every push to `develop` publishes to TestPyPI; every push to `main` publishes to PyPI.
+#
+# An index version is immutable, so "every push publishes" cannot mean re-uploading the
+# same version:
+#
+#   develop — builds `<release>.dev<run_number>` (see tools/dev_version.py). Distinct per
+#             push, PEP 440 valid, and sorts before the release it anticipates.
+#   main    — publishes the exact version in src/vibey_skills/__init__.py. Most pushes to
+#             main carry no version bump, so the publish steps skip an existing version
+#             instead of failing the run.
+#
+# A `v*` tag still works and additionally attaches the artifacts to a GitHub Release.
 on:
   push:
+    branches: [develop, main]
     tags:
       - "v*"
 
 permissions:
   contents: read
 
+concurrency:
+  # Serialise publishes per ref. Never cancel one midway: a cancelled run can leave a
+  # version uploaded to one index and not the other.
+  group: release-${{ github.ref }}
+  cancel-in-progress: false
+
 jobs:
   build:
     name: Build distributions
     runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.version.outputs.version }}
+      publish_pypi: ${{ steps.version.outputs.publish_pypi }}
     steps:
       - uses: actions/checkout@v4
 
@@ -23,7 +45,28 @@ jobs:
       - name: Install uv
         uses: astral-sh/setup-uv@v5
 
+      # Runs on the clean tree, before any version patching below.
       - name: Validate marketplace manifests and skill frontmatter
+        run: python3 tools/validate_manifests.py
+
+      - name: Resolve the version to publish
+        id: version
+        run: |
+          set -euo pipefail
+          if [ "${GITHUB_REF}" = "refs/heads/develop" ]; then
+            version=$(python3 tools/dev_version.py --build "${GITHUB_RUN_NUMBER}" --apply)
+            publish_pypi=false
+            echo "develop build — TestPyPI only, as ${version}"
+          else
+            version=$(python3 -c "import re,pathlib; print(re.search(r'__version__ = \"([^\"]+)\"', pathlib.Path('src/vibey_skills/__init__.py').read_text()).group(1))")
+            publish_pypi=true
+            echo "release build — TestPyPI then PyPI, as ${version}"
+          fi
+          echo "version=${version}" >> "$GITHUB_OUTPUT"
+          echo "publish_pypi=${publish_pypi}" >> "$GITHUB_OUTPUT"
+
+      # dev_version.py patches both version sites, so the tree still validates.
+      - name: Re-validate after version patching
         run: python3 tools/validate_manifests.py
 
       - name: Build sdist and wheel
@@ -33,6 +76,7 @@ jobs:
         run: uvx twine check dist/*
 
       - name: Verify the tag matches the package version
+        if: startsWith(github.ref, 'refs/tags/v')
         run: |
           set -euo pipefail
           tag="${GITHUB_REF_NAME#v}"
@@ -91,7 +135,7 @@ jobs:
   # back to PyPI by default and quietly losing the guarantee.
   verify-testpypi:
     name: Verify the TestPyPI artifact
-    needs: testpypi
+    needs: [build, testpypi]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -102,9 +146,11 @@ jobs:
           python-version: "3.12"
 
       - name: Install from TestPyPI and smoke-test
+        env:
+          VERSION: ${{ needs.build.outputs.version }}
         run: |
           set -euo pipefail
-          version="${GITHUB_REF_NAME#v}"
+          version="${VERSION}"
           index="https://test.pypi.org/simple/"
           spec="vibey-skills==${version}"
 
@@ -151,9 +197,13 @@ jobs:
           echo "skills expected ${expected} / installed ${actual}"
           test "$expected" = "$actual"
 
+  # Only main and tags reach production. `skip-existing` because most pushes to main
+  # carry no version bump — a workflow or docs change re-runs this job with a version
+  # PyPI already holds, and that must be a no-op rather than a red build.
   pypi:
     name: Publish to PyPI
-    needs: verify-testpypi
+    needs: [build, verify-testpypi]
+    if: needs.build.outputs.publish_pypi == 'true'
     runs-on: ubuntu-latest
     environment:
       name: pypi
@@ -171,10 +221,13 @@ jobs:
 
       - name: Publish
         uses: pypa/gh-action-pypi-publish@release/v1
+        with:
+          skip-existing: true
 
   github-release:
     name: Attach artifacts to the GitHub Release
     needs: pypi
+    if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -192,3 +245,46 @@ jobs:
             dist/*.tar.gz
             dist/*.whl
           generate_release_notes: true
+
+  # The gitflow fix.
+  #
+  # A `develop -> main` pull request leaves exactly one commit on main that develop does
+  # not have: the merge commit itself. GitHub's merge button has no fast-forward option,
+  # so a long-lived develop is permanently one commit behind after every release — which
+  # is why each following PR reported "head branch is not up to date" and needed a manual
+  # back-merge. develop's tip is always an ancestor of that merge commit, so develop can
+  # be fast-forwarded onto main instead: no merge, no new commit, nothing to resolve.
+  #
+  # Runs after the PyPI publish so a failed release does not move develop. If someone
+  # pushed to develop in between, the fast-forward is not possible and the job says so
+  # rather than forcing anything.
+  sync-develop:
+    name: Fast-forward develop to main
+    needs: pypi
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fast-forward develop to main
+        run: |
+          set -euo pipefail
+          git fetch --quiet origin main develop
+          if ! git merge-base --is-ancestor origin/develop origin/main; then
+            echo "::warning::develop has commits main does not, so it cannot be fast-forwarded. Open a develop -> main pull request for them."
+            exit 0
+          fi
+          if [ "$(git rev-parse origin/develop)" = "$(git rev-parse origin/main)" ]; then
+            echo "::notice::develop already matches main; nothing to do."
+            exit 0
+          fi
+          if git push origin origin/main:refs/heads/develop; then
+            echo "::notice::develop fast-forwarded to main."
+          else
+            echo "::warning::could not push to develop — a ruleset may be blocking it. Fast-forward it manually: git push origin main:develop"
+          fi
+
