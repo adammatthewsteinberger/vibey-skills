@@ -15,6 +15,14 @@ name: Merge train (develop)
 # Squash-merge, because `develop`'s ruleset sets allowed_merge_methods: ["squash"] — a
 # feature branch arrives on develop as one commit.
 #
+# WHO MAY MERGE UNATTENDED. A pull request from the repository owner or one of his own
+# bots merges on a green build. A pull request from anyone else additionally needs an
+# approving review, because "CI passed" is not a review and an outside change must not
+# reach develop on a robot's say-so. Unapproved outside work is labelled and the owner is
+# mentioned once, so it lands in his notifications instead of sitting silently.
+#
+# TRUSTED_AUTHORS is the whole allow-list. Keep it to accounts the owner controls.
+#
 # NOTE ON PERMISSIONS. develop's ruleset requires an approving review and GitHub Actions
 # is not among its bypass actors, so the default GITHUB_TOKEN cannot merge. Supply a
 # repository secret `AUTOMERGE_TOKEN` (a token belonging to someone with the admin role),
@@ -52,6 +60,8 @@ jobs:
           GH_TOKEN: ${{ secrets.AUTOMERGE_TOKEN || github.token }}
           DRY_RUN: ${{ inputs.dry_run }}
           REPO: ${{ github.repository }}
+          OWNER: adammatthewsteinberger
+          TRUSTED_AUTHORS: "adammatthewsteinberger claude[bot] github-actions[bot] vibey[bot]"
         run: |
           set -euo pipefail
 
@@ -74,7 +84,8 @@ jobs:
           skipped=0
           for pr in ${prs}; do
             # Re-read each time: merging one pull request can invalidate the next.
-            data=$(gh pr view "${pr}" --json number,title,isDraft,mergeable,reviewDecision,statusCheckRollup)
+            data=$(gh pr view "${pr}" --json number,title,isDraft,mergeable,reviewDecision,statusCheckRollup,author)
+            author=$(jq -r '.author.login // ""' <<<"${data}")
             title=$(jq -r '.title' <<<"${data}" | tr '|' '/')
             draft=$(jq -r '.isDraft' <<<"${data}")
             mergeable=$(jq -r '.mergeable' <<<"${data}")
@@ -90,6 +101,25 @@ jobs:
             elif [ "${review}" = "CHANGES_REQUESTED" ]; then reason="changes requested"
             elif [ "${pending}" != "0" ]; then reason="${pending} check(s) still running"
             elif [ "${failing}" != "0" ]; then reason="${failing} check(s) failing"
+            fi
+
+            # Outside contributions need a human's approval as well as a green build.
+            trusted=no
+            for t in ${TRUSTED_AUTHORS}; do [ "${t}" = "${author}" ] && trusted=yes; done
+            if [ -z "${reason}" ] && [ "${trusted}" = "no" ] && [ "${review}" != "APPROVED" ]; then
+              reason="from @${author} and not approved — needs ${OWNER}'s review"
+              if [ "${DRY_RUN}" != "true" ]; then
+                gh pr edit "${pr}" --add-label "needs-human-review" >/dev/null 2>&1 \
+                  || gh label create "needs-human-review" --color D93F0B \
+                       --description "Outside contribution awaiting the code owner" >/dev/null 2>&1 \
+                  && gh pr edit "${pr}" --add-label "needs-human-review" >/dev/null 2>&1 || true
+                # Mention the owner once. Repeating it every week would train him to
+                # ignore the notification, which is the opposite of the point.
+                if ! gh pr view "${pr}" --json comments \
+                     -q '.comments[].body' | grep -q 'awaiting your review'; then
+                  gh pr comment "${pr}" --body "@${OWNER} this pull request is green but comes from @${author}, who is not on the merge train's trusted list, so it is **awaiting your review** rather than merging automatically. Approve it and the next train will take it." >/dev/null 2>&1 || true
+                fi
+              fi
             fi
 
             if [ -n "${reason}" ]; then
