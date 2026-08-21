@@ -1,6 +1,6 @@
 # vibey-skills
 
-> **126 Claude Code plugins. 640 Agent Skills.** Long-form, source-cited practitioner
+> **127 Claude Code plugins. 644 Agent Skills.** Long-form, source-cited practitioner
 > references for the parts of software engineering an agent is most likely to get
 > confidently wrong — security, compliance, Azure, identity automation (Okta),
 > DevSecOps, AI/ML, data engineering, frontend, mobile, desktop, smart TV, game development, UI/UX design, systems programming, embedded and IoT, blockchain, quantum computing, penetration testing, architecture, quality
@@ -44,7 +44,7 @@ fast *and* correct. These skills are the reference layer for that.
 
 ```bash
 uvx vibey-skills list                      # try it without installing
-uvx vibey-skills install --all             # copy all 640 skills into ~/.claude/skills
+uvx vibey-skills install --all             # copy all 644 skills into ~/.claude/skills
 uvx vibey-skills install security-principles azure-cloud-infra
 ```
 
@@ -122,6 +122,7 @@ own `README.md` with the full skill list and trigger descriptions.
 | [cooking-cleaning-waste-sciences](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/cooking-cleaning-waste-sciences) | 0.1.0 | food-and-environment | 5 | Heat transfer, protein denaturation & collagen, Maillard browning, starch/gluten/gels, emulsions, brining, pH, fermentation, leavening, pathogens & temperature control, HACCP, allergens, kitchen organization, restaurant economics, surfactants & soil types, water hardness, cleaning vs sanitizing vs disinfecting & the mixing dangers, wastewater treatment, landfills, recycling honestly, composting |
 | [cryptocurrency-development](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/cryptocurrency-development) | 0.1.0 | blockchain | 4 | Protocol layer, clients, EIPs, EVM, Solidity, contract architecture, ERC standards, DeFi/MEV, testing, security, L2s, cross-chain, deployment |
 | [cryptography-and-encryption](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/cryptography-and-encryption) | 0.1.0 | security | 6 | What cryptography doesn't solve, threat models, CSPRNGs & seeding, hash functions, MACs, symmetric modes & nonce rules, AEAD, RSA & elliptic curves, key exchange & forward secrecy, signatures, Argon2/scrypt/bcrypt, TLS handshake & config, PKI & chain validation, E2EE messaging & ratchets, disk encryption, timing & side channels, nonce reuse, padding oracles, key management & HSMs, crypto agility, zero-knowledge proofs, MPC & homomorphic encryption, blockchain cryptography, export control & lawful access |
+| [currency-research](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/currency-research) | 0.1.0 | research | 4 | The durability tiers, why the default answer is no change, what counts as a finding, add/modify/delete/leave, scoping a run, constructing searches, source tiers, primary vs secondary, dating a claim, recording provenance, the fabrication failure mode, thin evidence, SKILL.md anatomy, shared section numbering, the §N → skill annotation rule, cross-document citations that must stay bare, byte discipline, the manifests that mirror an edit, branch and commit conventions, the PR body, the no-change outcome, scope limits for an unattended run |
 | [design-patterns](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/design-patterns) | 0.1.0 | engineering-process | 5 | What a pattern is, the GoF audit, functional & data-oriented alternatives, DI, hexagonal/DDD/microservices, saga/outbox/CQRS/event sourcing, resilience & concurrency, LLM & agentic patterns, over-application anti-patterns |
 | [designing-and-building-buildings](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/designing-and-building-buildings) | 0.1.0 | construction | 6 | Disciplines & lifecycle, site & ground investigation, brief & programming, planning & entitlement, architectural design, structural systems & load paths, foundations, envelope, air tightness & condensation risk, building services, fire compartmentation & escape, accessibility, thermal comfort & energy modelling, drawings, specs & BIM, codes & permitting, procurement & risk allocation, cost estimating, sequencing & temporary works, materials, quality & inspection, site safety, commissioning & handover, retrofit, why projects fail |
 | [desktop-apps-macos-linux](https://github.com/adammatthewsteinberger/vibey-skills/tree/main/plugins/desktop-apps-macos-linux) | 0.1.0 | frontend | 5 | macOS & Linux architecture, SwiftUI/AppKit, GTK4/Qt6, Electron/Tauri/Flutter, Wayland/X11, native idioms, notarization/Flatpak/Snap, sandboxing |
