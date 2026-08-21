@@ -249,6 +249,21 @@ feature/*  --PR-->  develop  --PR-->  main
   it; the job realigns only when the two trees are **identical**, so it can never discard
   work. Do not realign by hand.
 
+### Version bumps are derived, not remembered
+
+`tools/next_version.py` decides the release version from what actually changed since
+`main`, and the promotion applies it:
+
+| what changed | bump |
+|---|---|
+| `plugins/` or the marketplace manifest | **minor** — new or revised skills are the product |
+| only `src/` | **patch** — a CLI fix |
+| only docs, workflows, tooling | **none** — nothing reaches an installed user |
+| version already differs from `main` | **none** — a deliberate bump is in place; never double-bump |
+
+This has to be automatic. The PyPI upload uses `skip-existing`, so a promotion whose
+version nobody bumped is a green run that publishes nothing, silently, with no warning.
+
 ### Why `develop` used to fall behind
 
 A `develop -> main` pull request leaves exactly one commit on `main` that `develop` does
