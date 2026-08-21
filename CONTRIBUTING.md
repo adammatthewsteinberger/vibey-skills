@@ -22,9 +22,16 @@ by our [Code of Conduct](https://github.com/adammatthewsteinberger/vibey-skills/
 ## Branching
 
 `feature/*` -> `develop` -> `main`. Work on a `feature/*` branch and open a pull
-request into `develop`; never commit to `develop` directly. Pushes to `develop`
-publish to TestPyPI, pushes to `main` publish to PyPI, and `develop` is
-fast-forwarded to `main` automatically after a release — do not back-merge by hand.
+request into `develop`; never commit to `develop` directly.
+
+`feature/* -> develop` is **squash**-merged and `develop -> main` is **rebase**-merged,
+always and only — both enforced by the branch rulesets. Pushes to `develop` publish to
+TestPyPI, pushes to `main` publish to PyPI, and `develop` is realigned to `main`
+automatically after a release. Do not realign or back-merge by hand.
+
+Two weekly trains move work along on Mondays: `merge-train-develop.yml` squash-merges
+ready pull requests into `develop`, and `promote-to-main.yml` rebase-merges `develop`
+into `main` when their contents differ.
 
 ## Table of contents
 

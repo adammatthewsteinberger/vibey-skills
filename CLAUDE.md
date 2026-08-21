@@ -192,6 +192,27 @@ feature/*  --PR-->  develop  --PR-->  main
   than failing.
 - **A `v*` tag** additionally attaches the artifacts to a GitHub Release.
 
+- **`feature/* -> develop` is squash-merged**, always and only. develop's ruleset sets
+  `allowed_merge_methods: ["squash"]`, so a feature branch arrives on develop as one
+  commit.
+- **`develop -> main` is rebase-merged**, always and only. Every commit from develop is
+  preserved and replayed onto the front of main's history with new SHAs and new
+  timestamps. This is the only method consistent with the `required_linear_history` rule
+  both rulesets enforce — a merge commit violates it, which is why merges to main used to
+  need an admin bypass.
+- **Two weekly trains** carry the work through, both on Monday, after the currency audit
+  at 06:17:
+  - `merge-train-develop.yml` (07:17) reviews every open pull request into develop and
+    squash-merges the ready ones. "Ready" is mechanical — not a draft, no conflicts,
+    checks green, no changes requested; anything else is skipped with the reason recorded.
+  - `promote-to-main.yml` (08:17) compares develop and main **by content** and, if they
+    differ, opens the promotion pull request, waits for its checks and rebase-merges it.
+    That push publishes to PyPI.
+- **`develop` is realigned to `main`** by `release.yml`'s `sync-develop` job after each
+  publish. Rebase gives main rewritten SHAs, so develop can never be fast-forwarded onto
+  it; the job realigns only when the two trees are **identical**, so it can never discard
+  work. Do not realign by hand.
+
 ### Why `develop` used to fall behind
 
 A `develop -> main` pull request leaves exactly one commit on `main` that `develop` does
