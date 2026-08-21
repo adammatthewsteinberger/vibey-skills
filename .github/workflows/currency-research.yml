@@ -121,6 +121,7 @@ jobs:
           } >> "$GITHUB_OUTPUT"
 
       - name: Research and propose updates
+        id: audit
         if: steps.preflight.outputs.ready == 'true'
         uses: anthropics/claude-code-action@v1
         with:
@@ -184,3 +185,18 @@ jobs:
             This run's briefing follows.
 
             ${{ steps.select.outputs.briefing }}
+
+      # Without this a run leaves no auditable trace. The step log carries only the final
+      # result counters, and the job summary is rendered client-side so it cannot be
+      # retrieved through the API — which makes an honest "nothing changed" run
+      # indistinguishable from one that searched nothing and said so. The execution file
+      # holds the actual turns, searches and sources, so archive it every time, including
+      # on failure.
+      - name: Archive the audit record
+        if: always() && steps.audit.outputs.execution_file != ''
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-record-${{ github.run_id }}
+          path: ${{ steps.audit.outputs.execution_file }}
+          if-no-files-found: warn
+          retention-days: 90
