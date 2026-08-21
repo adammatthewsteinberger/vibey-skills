@@ -5,8 +5,8 @@
     "email": "adam@matthewsteinberger.com"
   },
   "metadata": {
-    "description": "Agent Skills for vibe engineering — 95 plugins and 457 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure (including a comparative AWS/GCP/Azure deep dive), IT infrastructure and governance, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering, web scraping, reporting and dashboards, geospatial software, logistics and optimization, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, radio and wireless, power engineering, automotive and robotics, rail engineering, civil and industrial engineering, thermodynamics and fluid mechanics, refrigeration and the cold chain, CAD and additive manufacturing, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, mathematics, scientific computing and signal processing, physics, earth science, aerospace, rocketry, flight software and space exploration, the life sciences, agriculture and livestock, food and sanitation science, the social sciences, art and music theory, storytelling and comedy craft, textile and furniture crafts, pedagogy and learning science, exercise science, business and commercial law, economics, accounting and tax, fundraising, trading mechanics, design patterns, developer tooling for editors, IDEs and the GitHub and Jira workflow layer, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "2.10.0"
+    "description": "Agent Skills for vibe engineering — 102 plugins and 497 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure (including a comparative AWS/GCP/Azure deep dive), IT infrastructure and governance, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering, web scraping, reporting and dashboards, geospatial software, logistics and optimization, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, radio and wireless, power engineering, automotive and robotics, rail engineering, civil and industrial engineering, thermodynamics and fluid mechanics, refrigeration and the cold chain, CAD and additive manufacturing, mechanical engineering and manufacturing, wood and metal shop craft, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, mathematics, scientific computing and signal processing, physics, electromagnetism, earth science, aerospace, rocketry, flight software and space exploration, the life sciences, drug discovery software, agriculture and livestock, food and sanitation science, the social sciences, art and music theory, storytelling and comedy craft, textile and furniture crafts, pedagogy and learning science, exercise science, nutrition science, survival skills, travel planning, business and commercial law, economics, accounting and tax, fundraising, trading mechanics, design patterns, developer tooling for editors, IDEs and the GitHub and Jira workflow layer, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
+    "version": "2.11.0"
   },
   "plugins": [
     {
@@ -329,6 +329,17 @@
       }
     },
     {
+      "name": "electromagnetism-and-electricity",
+      "source": "./plugins/electromagnetism-and-electricity",
+      "description": "Electromagnetism and the Physics of Electricity: the abstraction ladder, charge and Coulomb's law, fields and Gauss's law, potential and capacitance, dielectrics, what current actually is, resistance and Ohm's law, where the energy actually flows, circuit theory and its validity limits, AC and impedance, power, RMS and power factor, magnetic fields, induction, inductance and transformers, magnetic materials, Maxwell's equations, electromagnetic waves, transmission lines, magnetism as relativistic electrostatics, conduction and band theory, semiconductors, superconductivity, plasma, grounding, shielding and EMC, and the physics of electrical safety.",
+      "version": "0.1.0",
+      "category": "physics",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "embedded-iot-controls",
       "source": "./plugins/embedded-iot-controls",
       "description": "Embedded Systems & IoT Controls: silicon, memory, and peripherals; bare-metal, RTOS, and embedded Linux firmware models; C/C++/Rust; real-time concurrency and timing; firmware design patterns; industrial control and OT (PLC, fieldbus, OPC UA, unified namespace); control theory in firmware; connectivity (BLE, Thread, Matter, LoRaWAN, cellular, MQTT/CoAP/Sparkplug); cloud, fleet, and OTA lifecycle; device security and regulation (CRA, RED/EN 18031, IEC 62443, PSA); functional safety (IEC 61508, ISO 26262, DO-178C, IEC 62304); testing; and board bring-up.",
@@ -389,6 +400,17 @@
       "description": "Flight Software: what makes spacecraft software different, flight software architecture and the frameworks worth knowing (cFS, F Prime), languages and coding standards including Rust's actual status, flight processors, radiation effects expressed in software terms, real-time discipline and RTOS choice, FDIR, time and clocks, command and telemetry, data handling and in-flight update, GNC software, verification and validation, the ground segment, onboard autonomy and AI, and the failure case studies that produced the rules.",
       "version": "0.1.0",
       "category": "aerospace",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "food-and-nutrition-science",
+      "source": "./plugins/food-and-nutrition-science",
+      "description": "Food and Nutrition Science: why nutrition science is hard, confounding and study design, the measurement problem, protein and amino acids, carbohydrates and fibre, fats and lipids, alcohol, vitamins, minerals, supplements, digestion and absorption, energy balance, appetite regulation, the microbiome, food composition and processing, cooking and nutrients, public health nutrition, food allergy and intolerance, dietary patterns, popular diets assessed, weight regulation, disordered eating, life stages, and how to read a nutrition claim. A technical reference, not medical or dietary advice.",
+      "version": "0.1.0",
+      "category": "health",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -593,6 +615,17 @@
       }
     },
     {
+      "name": "manufacturing-mechanical-engineering-for-software-devs",
+      "source": "./plugins/manufacturing-mechanical-engineering-for-software-devs",
+      "description": "Manufacturing and Mechanical Engineering for Software Devs: what mechanical engineers actually do, stress, strain and deflection, failure theories and safety factors, fatigue, materials selection, machine elements, mechanisms and kinematics, tolerances and GD&T, the process families, casting and forming, machining, joining, additive manufacturing, injection moulding, sheet metal, surface treatment, design for manufacture and assembly, metrology and quality, scale economics, CAD, CAE and simulation, PLM as version control for atoms, the physical supply chain, new product introduction, and what transfers to software and what doesn't.",
+      "version": "0.1.0",
+      "category": "manufacturing",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "math-science-programming",
       "source": "./plugins/math-science-programming",
       "description": "Math and Science Programming: numerical and scientific computing for software engineers — floating-point arithmetic and the errors it causes, conditioning and stability, the BLAS/LAPACK substrate everything stands on, the tool landscape (MATLAB, Python's scientific stack, Julia, R, Fortran, Mathematica) and how to choose, symbolic versus numeric computation, linear systems, ODEs and PDEs, optimization, statistics and uncertainty, high-performance and GPU computing, and the verification, validation and reproducibility practices that separate trustworthy scientific software from plausible-looking output.",
@@ -609,6 +642,17 @@
       "description": "Media Engineering: music, audio, video, TV, film and podcast engineering for software engineers — the fundamentals of digital media, containers and codecs as engineering choices, audio production and plugin formats, video production, colour and timecode, loudness standards and why your mix is quiet on streaming, transcoding pipelines and ABR packaging, streaming delivery (HLS, DASH, CMAF, WebRTC and Media over QUIC), DRM, captions and accessibility, podcast infrastructure and dynamic ad insertion, metadata and rights identifiers, and the AI generation layer with its live licensing fight.",
       "version": "0.1.0",
       "category": "media",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "medicine-design-software-development",
+      "source": "./plugins/medicine-design-software-development",
+      "description": "Medicine Design Software Development: the drug discovery pipeline and where computation actually helps, targets and modalities, what makes a molecule a drug, molecular representation, cheminformatics toolkits, data sources and their quality problems, splitting and leakage, protein structure and structure prediction, docking, molecular dynamics, free energy methods, QSAR and property prediction, ADMET prediction, generative models, active learning and the DMTA loop, benchmarks, validation that means something, pipeline engineering, compute, reproducibility, GxP and computer system validation, and software as a medical device.",
+      "version": "0.1.0",
+      "category": "life-sciences",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -934,6 +978,17 @@
       }
     },
     {
+      "name": "survival-skills",
+      "source": "./plugins/survival-skills",
+      "description": "Survival Skills: what actually kills people, survival psychology, priority ordering, thermoregulation and shelter, water, fire, why food comes last, navigation and being lost, signalling and rescue, field medical priorities, heat illness, animals in proportion, cold, desert, tropical, water and maritime and urban disaster environments, preventive planning, kit that earns its weight, vehicle and home preparedness, practising, and the survival myths that get people killed. Orientation grounded in the evidence, not a substitute for training, a guide, or emergency services.",
+      "version": "0.1.0",
+      "category": "survival",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "theory-of-computation",
       "source": "./plugins/theory-of-computation",
       "description": "Theory of Computation: what is computable and what isn't (halting, Rice's theorem, and why your linter has false positives), automata and the Chomsky hierarchy as a practical design tool, regular languages and the ReDoS failure mode, parsing and grammar classes, Turing machines and reductions, complexity classes and NP-completeness recognition, what to actually do when your problem is NP-hard, SAT/SMT solvers, fine-grained complexity and conditional lower bounds, space complexity and streaming, distributed computing impossibility results (FLP, CAP, consensus), type systems and Curry–Howard, and randomness and approximation.",
@@ -961,6 +1016,17 @@
       "description": "Trading Mechanics: what the outcome evidence actually shows about retail trading, market microstructure, orders and execution, the asset classes, derivatives, technical analysis assessed honestly, quantitative and factor approaches, swing and day trading, real versus apparent arbitrage, forex, DeFi mechanics, risk and position sizing, costs and frictions, backtesting pitfalls, psychology and harm, and regulation and tax. A mechanics reference, not investment advice or a strategy.",
       "version": "0.1.0",
       "category": "finance",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "trip-planning-and-travel-strategies",
+      "source": "./plugins/trip-planning-and-travel-strategies",
+      "description": "Trip Planning and Travel Strategies: matching trip type to purpose, choosing a destination, constraints-first planning, timing and seasonality, budgeting, how airfare pricing actually works, flight strategy, points and miles honestly, accommodation, ground transport, booking order and optionality, documents and entry, travel insurance, health, safety in proportion, money abroad, itinerary pacing, packing, jet lag, connectivity and navigation, language and culture, food and water, travelling with others, long-term travel, and handling disruption.",
+      "version": "0.1.0",
+      "category": "travel",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -1038,6 +1104,17 @@
       "description": "Web Scraping: the legal and regulatory landscape (CFAA and the hiQ/Bright Data line, contract and ToS exposure, the DMCA §1201 shift, copyright and TDM, GDPR and the EDPB's 2026 scraping guidelines, the EU AI Act), when not to scrape and what to do instead, robots.txt and the emerging crawl-permission layer, how the modern web actually serves data, the tool ladder (requests, curl_cffi, Scrapy, Playwright, managed services), parsing and extraction, bot detection, scale and reliability engineering, data quality, storage and pipelines, operational ethics, scraping for AI and RAG, and building a site that handles crawlers well.",
       "version": "0.1.0",
       "category": "data-engineering",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "working-with-wood-and-metal",
+      "source": "./plugins/working-with-wood-and-metal",
+      "description": "Working with Wood and Metal: the two materials compared, shop safety, reading wood, stock selection and preparation, layout and marking, hand tools, sharpening, machines, the table saw, joinery technique, glue-ups, wood finishing, metal in the shop, what changes when you work metal, marking out, cutting metal, drilling and tapping, manual machining, the welding processes, brazing and soldering, forming and forging, heat treatment, metal finishing, fasteners and fits, measurement, and shop setup with dust and fume control.",
+      "version": "0.1.0",
+      "category": "crafts",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"

@@ -88,8 +88,8 @@ jobs:
       - name: Install docs dependencies
         run: pip install -e ".[docs]"
 
-      # --strict turns warnings into errors. That is what makes the 457 generated skill
-      # pages trustworthy: nobody is going to eyeball 457 pages for a dead link.
+      # --strict turns warnings into errors. That is what makes the 497 generated skill
+      # pages trustworthy: nobody is going to eyeball 497 pages for a dead link.
       - name: Build the documentation site
         run: mkdocs build --strict
 
