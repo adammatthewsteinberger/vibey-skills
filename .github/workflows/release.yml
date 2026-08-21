@@ -23,9 +23,20 @@ permissions:
   contents: read
 
 concurrency:
-  # Serialise publishes per ref. Never cancel one midway: a cancelled run can leave a
-  # version uploaded to one index and not the other.
-  group: release-${{ github.ref }}
+  # Per-COMMIT on develop, per-ref on main and tags.
+  #
+  # `cancel-in-progress: false` does not mean "never cancel". When several runs pile up in
+  # one group, GitHub keeps the newest pending run and cancels the earlier pending ones —
+  # so a burst of pushes to develop published only the first and last. Three merges in one
+  # minute produced 2.15.0.dev8 and 2.15.0.dev10; dev9 was cancelled before it ever built,
+  # and that commit has no artifact on TestPyPI. Every push to develop is supposed to
+  # publish, and each already builds a distinct `.devN`, so there is nothing to serialise:
+  # giving each commit its own group lets them run in parallel and all reach the index.
+  #
+  # main and tags keep a shared group. There the version is NOT unique per run — reruns
+  # and retags publish the same version — so two of them racing could half-upload across
+  # the two indexes, which is exactly what serialising prevents.
+  group: release-${{ github.ref }}-${{ github.ref == 'refs/heads/develop' && github.sha || 'shared' }}
   cancel-in-progress: false
 
 jobs:
