@@ -4,6 +4,6 @@
   "description": "Web Browser Development: the engine landscape, the multi-process model with IPC and sandboxing, networking (HTTP/2/3, TLS, caching, DNS), HTML parsing and the DOM, CSS cascade and style resolution, layout/paint/compositing and the GPU pipeline, JavaScript engine integration and the event loop, the security model (same-origin policy, CORS, CSP, site isolation, Spectre mitigations, memory safety), privacy and anti-tracking, extensions, storage/media/capabilities, accessibility, standards and interop, and testing, telemetry, and shipping.",
   "author": {
     "name": "Adam Matthew Steinberger",
-    "email": "adam.steinberger@vizius.com"
+    "email": "adam@matthewsteinberger.com"
   }
 }

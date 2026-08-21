@@ -141,7 +141,7 @@ be retried** — retrying hard declines is a compliance problem, not just futile
 | **Card testing** | Merchant (fees, reputation) | Bots probing stolen numbers with tiny charges. **Rate-limit and CAPTCHA your payment endpoint** |
 | **Refund/return abuse** | Merchant | Policy problem more than a technical one |
 | **Triangulation, promo abuse, reseller fraud** | Merchant | Business-logic attacks |
-| **APP fraud** | The customer (and increasingly the PSP) | §17 → `ecommerce-reference` (PSD3/PSR liability shift); growing with instant rails |
+| **APP fraud** | The customer (and increasingly the PSP) | Growing with instant rails; ⚠️ **PSD3/PSR shifts liability toward PSPs** — §17 → `ecommerce-reference` |
 
 **[DURABLE] Fraud prevention is an optimization problem with two costs, and teams
 systematically optimize only one.** False negatives cost you chargebacks; **false positives

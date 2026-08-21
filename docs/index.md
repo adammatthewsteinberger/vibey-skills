@@ -2,7 +2,7 @@
 
 Formerly **vibe-engineering-skills** — see [NOTICE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/NOTICE.md).
 
-**33 plugins. 140 Agent Skills.** Evidence-grounded practitioner references for the parts of
+**47 plugins. 210 Agent Skills.** Evidence-grounded practitioner references for the parts of
 software engineering an agent is most likely to get confidently wrong: security, compliance,
 cloud infrastructure, identity automation, DevSecOps, AI/ML, data engineering, frontend,
 mobile, architecture, quality engineering, process, and technical writing.
@@ -30,7 +30,7 @@ source-cited document rather than a prompt snippet, written so a model can act o
     that reads `SKILL.md`.
 
 See [Installation](installation.md) for both routes in full, [Usage](usage.md) for the CLI,
-and the [Skills reference](reference/index.md) for all 140 skills.
+and the [Skills reference](reference/index.md) for all 210 skills.
 
 ## What makes a skill here different
 
