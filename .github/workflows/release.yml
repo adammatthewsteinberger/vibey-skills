@@ -246,20 +246,21 @@ jobs:
             dist/*.whl
           generate_release_notes: true
 
-  # The gitflow fix.
+  # Keeps develop aligned with main.
   #
-  # A `develop -> main` pull request leaves exactly one commit on main that develop does
-  # not have: the merge commit itself. GitHub's merge button has no fast-forward option,
-  # so a long-lived develop is permanently one commit behind after every release — which
-  # is why each following PR reported "head branch is not up to date" and needed a manual
-  # back-merge. develop's tip is always an ancestor of that merge commit, so develop can
-  # be fast-forwarded onto main instead: no merge, no new commit, nothing to resolve.
+  # develop -> main is rebase-merged, which replays develop's commits onto main as new
+  # commits with new SHAs. develop's tip is therefore never an ancestor of main's, so a
+  # fast-forward is impossible — but the two trees are identical the moment the rebase
+  # lands, and both rulesets set strict_required_status_checks_policy, so a develop that
+  # reads as "behind" blocks the next pull request. develop has to be realigned.
   #
-  # Runs after the PyPI publish so a failed release does not move develop. If someone
-  # pushed to develop in between, the fast-forward is not possible and the job says so
-  # rather than forcing anything.
+  # The guard is TREE EQUALITY, not ancestry: this runs only when `git diff` between the
+  # branches is empty, so it realigns two identical contents onto one history and cannot
+  # discard work. If develop has anything main does not, it is left alone and said so.
+  #
+  # Runs after the PyPI publish, so a failed release never moves develop.
   sync-develop:
-    name: Fast-forward develop to main
+    name: Realign develop with main
     needs: pypi
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
@@ -270,21 +271,28 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Fast-forward develop to main
+      - name: Realign develop with main
         run: |
           set -euo pipefail
           git fetch --quiet origin main develop
-          if ! git merge-base --is-ancestor origin/develop origin/main; then
-            echo "::warning::develop has commits main does not, so it cannot be fast-forwarded. Open a develop -> main pull request for them."
+
+          if ! git diff --quiet origin/main origin/develop; then
+            echo "::warning::develop has content main does not, so it was left untouched. Promote it with a pull request."
             exit 0
           fi
           if [ "$(git rev-parse origin/develop)" = "$(git rev-parse origin/main)" ]; then
             echo "::notice::develop already matches main; nothing to do."
             exit 0
           fi
-          if git push origin origin/main:refs/heads/develop; then
-            echo "::notice::develop fast-forwarded to main."
+
+          # --force-with-lease pinned to the SHA just read: if anything lands on develop
+          # between the check above and this push, the push is refused rather than
+          # silently overwriting it.
+          before="$(git rev-parse origin/develop)"
+          if git push --force-with-lease="refs/heads/develop:${before}" \
+               origin "origin/main:refs/heads/develop"; then
+            echo "::notice::develop realigned to main — identical trees, histories converged."
           else
-            echo "::warning::could not push to develop — a ruleset may be blocking it. Fast-forward it manually: git push origin main:develop"
+            echo "::warning::could not update develop. Its ruleset blocks non-fast-forward pushes unless GitHub Actions is a bypass actor; realign by hand or add the bypass."
           fi
 
