@@ -5,8 +5,8 @@
     "email": "adam@matthewsteinberger.com"
   },
   "metadata": {
-    "description": "Agent Skills for vibe engineering — 79 plugins and 372 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure (including a comparative AWS/GCP/Azure deep dive), IT infrastructure and governance, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering, web scraping, reporting and dashboards, geospatial software, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, power engineering, automotive and robotics, CAD and additive manufacturing, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, mathematics, scientific computing and signal processing, physics, earth science, aerospace, rocketry, flight software and space exploration, the life sciences, the social sciences, art and music theory, business and commercial law, economics, accounting and tax, fundraising, trading mechanics, design patterns, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "2.8.0"
+    "description": "Agent Skills for vibe engineering — 84 plugins and 398 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure (including a comparative AWS/GCP/Azure deep dive), IT infrastructure and governance, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering, web scraping, reporting and dashboards, geospatial software, logistics and optimization, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, radio and wireless, power engineering, automotive and robotics, CAD and additive manufacturing, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, mathematics, scientific computing and signal processing, physics, earth science, aerospace, rocketry, flight software and space exploration, the life sciences, agriculture and livestock, food and sanitation science, the social sciences, art and music theory, business and commercial law, economics, accounting and tax, fundraising, trading mechanics, design patterns, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
+    "version": "2.9.0"
   },
   "plugins": [
     {
@@ -208,6 +208,17 @@
       }
     },
     {
+      "name": "cooking-cleaning-waste-sciences",
+      "source": "./plugins/cooking-cleaning-waste-sciences",
+      "description": "Cooking, Cleaning and Waste Sciences: the food science (heat transfer, proteins and meat, browning, starch, gluten and gels, fats and emulsions, salt and brining, acid and pH, flavour, fermentation, baking and leavening), food safety (pathogens and temperature, HACCP, cross-contamination and allergens), food service (kitchen organization, restaurant economics, menu engineering, regulation and inspection), cleaning chemistry (surfactants and soil types, water hardness, the cleaning-sanitizing-disinfecting distinction and the mixing dangers, laundry), and waste (wastewater treatment, the waste hierarchy, landfills, recycling assessed honestly, composting).",
+      "version": "0.1.0",
+      "category": "food-and-environment",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "cryptocurrency-development",
       "source": "./plugins/cryptocurrency-development",
       "description": "Cryptocurrency Development: blockchain engineering at both layers — protocol (consensus and finality, execution/consensus clients, the EIP process, EVM internals, L2s and rollups, cross-chain) and application (Solidity/Vyper, contract architecture and upgradeability, ERC standards and account abstraction, DeFi primitives and MEV, Foundry/Hardhat testing, fuzzing and formal verification, the vulnerability canon, deployment and key management).",
@@ -318,6 +329,17 @@
       }
     },
     {
+      "name": "family-and-community-building",
+      "source": "./plugins/family-and-community-building",
+      "description": "Family and Community Building: how to read claims in this field, attachment, what predicts couple stability, conflict and repair, transitions and dissolution, family systems, family roles and life stages, child development, parenting, behaviour genetics, discipline, siblings and birth order, family structure as contested territory, adversity and resilience, caregiving and aging, social capital, networks and belonging, loneliness and social isolation, third places, congregations and voluntary associations, community organizing, collective efficacy, and how to tell whether a program actually works.",
+      "version": "0.1.0",
+      "category": "social-sciences",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "flight-software",
       "source": "./plugins/flight-software",
       "description": "Flight Software: what makes spacecraft software different, flight software architecture and the frameworks worth knowing (cFS, F Prime), languages and coding standards including Rust's actual status, flight processors, radiation effects expressed in software terms, real-time discipline and RTOS choice, FDIR, time and clocks, command and telemetry, data handling and in-flight update, GNC software, verification and validation, the ground segment, onboard autonomy and AI, and the failure case studies that produced the rules.",
@@ -417,6 +439,17 @@
       }
     },
     {
+      "name": "hunting-botany-livestock-agriculture",
+      "source": "./plugins/hunting-botany-livestock-agriculture",
+      "description": "Botany, Agriculture, Livestock and Hunting: plant structure, photosynthesis and the three pathways, water relations, plant nutrition, reproduction and pollination, ecology and succession, plant identification and its hard limits, plant pathology, weeds, soil, fertility management, crop production, integrated pest management, water and irrigation, breeding and genetics, farming systems assessed honestly, ruminant digestion, livestock nutrition, reproduction, herd health and biosecurity, livestock genetics, grazing management, welfare, wildlife management, and hunting law, ethics, safety, shot placement and game meat safety.",
+      "version": "0.1.0",
+      "category": "agriculture",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "it-infrastructure-governance",
       "source": "./plugins/it-infrastructure-governance",
       "description": "IT Infrastructure and Governance: the infrastructure layers, compute and virtualization, storage, networking, directory services and hybrid identity, authentication, authorization and RBAC, privileged access, the identity lifecycle (joiner-mover-leaver), access review and certification, segregation of duties, endpoint management and patching, backup, DR and continuity, monitoring and logging, ITSM and change management, asset and configuration management, governance frameworks, capacity and lifecycle, and vendor and third-party risk.",
@@ -433,6 +466,17 @@
       "description": "Linux Server Administration: the filesystem and file semantics that surprise people, users, permissions and capabilities, processes and resource control, systemd (units, ordering, hardening directives, journald, timers), storage and LVM and filesystems, networking and its diagnosis order, packages and distributions, boot, security hardening including SELinux and AppArmor and SSH, observability and performance with eBPF, a troubleshooting methodology, containers and namespaces, configuration management, and backup and recovery.",
       "version": "0.1.0",
       "category": "systems-administration",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "logistics-software-optimization",
+      "source": "./plugins/logistics-software-optimization",
+      "description": "Logistics and Optimization Software: why optimization projects fail, complexity assessed honestly, linear programming, MIP and branch-and-bound, modeling well, constraint programming, metaheuristics, local search and large neighbourhood search, bounds and solution quality, shortest path and network flow, the TSP, vehicle routing as the core problem, packing and loading, assignment and matching, scheduling, facility location and network design, inventory, forecasting, warehouse operations, last mile, the data layer, dynamic and stochastic problems, and solvers and tooling.",
+      "version": "0.1.0",
+      "category": "operations-research",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -653,6 +697,17 @@
       "description": "Quantum Computing: the physical and mathematical foundations and the circuit model, what quantum computers can and cannot do, the algorithm canon (Shor, Grover, HHL, VQE/QAOA, quantum simulation) and their honest complexity claims, noise and the NISQ era, error correction and fault tolerance, hardware modalities and where the hardware actually is, the software stack (Qiskit, Cirq, PennyLane, CUDA-Q, OpenQASM), resource estimation, evaluating quantum-advantage claims, applications, quantum networking and sensing, and post-quantum cryptography and migration deadlines.",
       "version": "0.1.0",
       "category": "emerging-tech",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "radio-technology-for-software-devs",
+      "source": "./plugins/radio-technology-for-software-devs",
+      "description": "Radio Technology for Software Developers: why wireless breaks software intuitions, spectrum and bands, the link budget, the range/rate/power triangle, antennas, propagation and fading, noise and interference, modulation, Shannon's limit, spread spectrum, OFDM, coding and retransmission, multiple access, SDR and IQ sampling, sampling and DSP essentials, the SDR toolchain, the protocol stack, Wi-Fi, Bluetooth and BLE, LPWAN and cellular IoT, 802.15.4, Zigbee, Thread and Matter, GNSS, the regulatory layer, wireless security, and debugging RF problems from software.",
+      "version": "0.1.0",
+      "category": "wireless",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
