@@ -3,7 +3,7 @@
 > Read [CLAUDE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CLAUDE.md) before making changes. It is the governing convention for this
 > repository and takes precedence over this document wherever they overlap.
 
-This repository is a **Claude Code plugin marketplace**: 67 plugins composed of 311 Agent
+This repository is a **Claude Code plugin marketplace**: 73 plugins composed of 341 Agent
 Skills. There is no application code beyond a small packaging CLI — nearly every contribution
 is Markdown (skill content) and JSON (manifests). "Correct" means valid manifests and
 accurate, well-triggered skill content.

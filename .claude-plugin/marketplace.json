@@ -5,10 +5,21 @@
     "email": "adam@matthewsteinberger.com"
   },
   "metadata": {
-    "description": "Agent Skills for vibe engineering — 67 plugins and 311 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure and cloud computing, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering and web scraping, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, power engineering, automotive and robotics, CAD and additive manufacturing, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, mathematics (linear algebra and calculus, chaos theory, game theory), scientific computing and signal processing, physics (fundamental, classical mechanics, nuclear), earth science (geoscience and weather), rocketry, flight software and space exploration, the life sciences (chemistry and biology, genetics and neuroscience, biomedical engineering), design patterns, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "2.6.0"
+    "description": "Agent Skills for vibe engineering — 73 plugins and 341 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure and cloud computing, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering, web scraping, reporting and dashboards, geospatial software, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, power engineering, automotive and robotics, CAD and additive manufacturing, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, mathematics (linear algebra and calculus, chaos theory, game theory), scientific computing and signal processing, physics (fundamental, classical mechanics, nuclear), earth science (geoscience and weather), aerospace, rocketry, flight software and space exploration, the life sciences (chemistry and biology, genetics and neuroscience, biomedical engineering), business and commercial law, economics, accounting and tax, trading mechanics, design patterns, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
+    "version": "2.7.0"
   },
   "plugins": [
+    {
+      "name": "aerospace-engineering",
+      "source": "./plugins/aerospace-engineering",
+      "description": "Aerospace Engineering: aerodynamics fundamentals and how lift actually works, airfoils and wings, the drag breakdown, compressible and supersonic flow, aircraft performance, stability and control, air-breathing propulsion, structures and materials, aeroelasticity, flight controls and avionics, drones and UAS including multirotor dynamics and the regulatory picture, launch vehicles, flight test and certification, and the design process.",
+      "version": "0.1.0",
+      "category": "aerospace",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
     {
       "name": "agile-delivery",
       "source": "./plugins/agile-delivery",
@@ -103,6 +114,17 @@
       "description": "Biomedical Engineering: physiological signal processing, medical imaging modality physics and DICOM internals, clinical data structures, the technicals of clinical machine learning (prevalence, calibration, shortcut learning, the validation ladder), bioinformatics, structural and systems biology, PK/PD, physiological modelling, biomechanics, biomaterials, tissue engineering, neural interfaces and prosthetics, lab automation and instrumentation, and the biostatistics that determine whether any of it holds up.",
       "version": "0.1.0",
       "category": "life-sciences",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "business-marketing-sales-law",
+      "source": "./plugins/business-marketing-sales-law",
+      "description": "Business, Marketing, Sales and Law: business models and unit economics, strategy, operations and organization, financing, marketing fundamentals and what the evidence actually shows, brand and advertising, measurement and attribution, channels, the sales process, qualification, negotiation, sales management, and a deliberately scoped commercial-law layer covering how legal risk materializes, contracts, intellectual property, employment, privacy and data, consumer protection and marketing law, and disputes.",
+      "version": "0.1.0",
+      "category": "business",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -230,6 +252,17 @@
       }
     },
     {
+      "name": "economics-accounting-tax",
+      "source": "./plugins/economics-accounting-tax",
+      "description": "Economics, Accounting and Tax: how economics knows what it claims, microeconomics, firms and market structure, market failure, macroeconomics, money and monetary policy, fiscal policy and debt, trade and growth, behavioural findings, double-entry bookkeeping, the three statements, accrual accounting and revenue recognition, the judgement-heavy areas, ratio analysis, GAAP versus IFRS, audit and controls, deliberately general tax fundamentals, book-tax differences and deferred tax, and entity choice.",
+      "version": "0.1.0",
+      "category": "finance",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "electrical-engineering",
       "source": "./plugins/electrical-engineering",
       "description": "Electrical Engineering: circuit fundamentals, real component behaviour and parasitics, DC analysis, AC impedance and filters, semiconductors (diodes, BJTs, MOSFETs, thermal), op-amps, digital logic and interfacing, power and regulators, signal integrity and grounding, EMC and EMI, PCB design, test equipment and how not to lie to yourself with a scope, datasheets and part selection, electrical safety, and hardware debugging.",
@@ -323,6 +356,17 @@
       "description": "Geoscience: Earth structure and plate tectonics, minerals and rocks, deep time and stratigraphy, deformation and structure, earthquakes and seismology including the magnitude-versus-intensity distinction and prediction versus forecasting, volcanism, surface processes, soils, surface hydrology, groundwater, oceanography, the cryosphere, biogeochemical cycles, resources, natural hazards, and observation and geophysics.",
       "version": "0.1.0",
       "category": "earth-science",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "geospatial-software",
+      "source": "./plugins/geospatial-software",
+      "description": "Geospatial Software: coordinate systems and the axis-order problem, projections, vector and raster data models, file formats, spatial indexing, spatial databases, tiling, rendering, routing and route-finding, geocoding, GNSS and positioning including real accuracy and the altitude trap, spatial analysis, remote sensing, data sources, and location privacy.",
+      "version": "0.1.0",
+      "category": "geospatial",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -549,6 +593,17 @@
       }
     },
     {
+      "name": "reporting-and-dashboards",
+      "source": "./plugins/reporting-and-dashboards",
+      "description": "Reporting and Dashboards: the analytics architecture, dimensional modelling, the aggregation traps (fan-out, the chasm trap, additivity, and why distinct counts do not decompose), metric definition pitfalls, the semantic layer, time handling, query performance, caching and freshness, dashboard design, chart selection, alerting, access control, embedded analytics, and testing analytics.",
+      "version": "0.1.0",
+      "category": "data-engineering",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "robotics-software",
       "source": "./plugins/robotics-software",
       "description": "Robotics Software: professional robotics software engineering — the architecture of a real robot stack, ROS 2 and the middleware layer, perception and sensor fusion, state estimation and SLAM, motion planning, control theory from PID through MPC and whole-body control, the learning layer (reinforcement learning, imitation learning, and the vision-language-action foundation models now reshaping the field), simulation and sim-to-real, real-time and safety-critical engineering, testing and field deployment, functional safety and the ISO 10218:2025 regime, and aerospace flight-software practice.",
@@ -653,6 +708,17 @@
       "description": "Theory of Computation: what is computable and what isn't (halting, Rice's theorem, and why your linter has false positives), automata and the Chomsky hierarchy as a practical design tool, regular languages and the ReDoS failure mode, parsing and grammar classes, Turing machines and reductions, complexity classes and NP-completeness recognition, what to actually do when your problem is NP-hard, SAT/SMT solvers, fine-grained complexity and conditional lower bounds, space complexity and streaming, distributed computing impossibility results (FLP, CAP, consensus), type systems and Curry–Howard, and randomness and approximation.",
       "version": "0.1.0",
       "category": "computer-science",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "trading-mechanics",
+      "source": "./plugins/trading-mechanics",
+      "description": "Trading Mechanics: what the outcome evidence actually shows about retail trading, market microstructure, orders and execution, the asset classes, derivatives, technical analysis assessed honestly, quantitative and factor approaches, swing and day trading, real versus apparent arbitrage, forex, DeFi mechanics, risk and position sizing, costs and frictions, backtesting pitfalls, psychology and harm, and regulation and tax. A mechanics reference, not investment advice or a strategy.",
+      "version": "0.1.0",
+      "category": "finance",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
