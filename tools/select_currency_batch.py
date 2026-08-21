@@ -71,7 +71,7 @@ def select(names: list[str], per_run: int, week: int) -> list[str]:
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    parser.add_argument("--per-run", type=int, default=8,
+    parser.add_argument("--per-run", type=int, default=4,
                         help="how many plugins to audit in one run (default: 8)")
     parser.add_argument("--week", type=int, default=None,
                         help="ISO week number to select for (default: this week)")
