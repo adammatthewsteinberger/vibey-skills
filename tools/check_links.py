@@ -55,13 +55,12 @@ ROOT_DOCS = [
 ]
 
 LINK = re.compile(r"\[[^\]]*\]\(([^)\s]+)(?:\s+\"[^\"]*\")?\)")
-# `main` is the convention (see CLAUDE.md). `develop` is accepted too, because the plugin
-# table is temporarily pinned there while a batch of new plugins waits on the develop -> main
-# PR: without this branch alternative the pattern simply stops matching those rows and the
-# checker goes silently blind on them rather than turning red. Path existence and the
-# blob-vs-tree distinction are still enforced either way.
+# Only `main` is matched, per CLAUDE.md. Note the failure mode if that ever changes: this
+# pattern *selects* which links get checked, so a self-link naming any other branch is not
+# reported as wrong — it is silently skipped. Repointing the plugin table at `develop` once
+# left 79 links unvalidated while this checker still printed "ok".
 SELF_PATH = re.compile(
-    rf"https://github\.com/{re.escape(SLUG)}/(blob|tree)/(?:main|develop)/([^)#\s]+)"
+    rf"https://github\.com/{re.escape(SLUG)}/(blob|tree)/main/([^)#\s]+)"
 )
 
 # Capture the repo name, then compare it exactly. A negative lookahead was tried first and
