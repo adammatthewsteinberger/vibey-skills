@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
 """Verify documentation links without touching the network.
 
 Three surfaces render this project's Markdown, each against a different base URL:

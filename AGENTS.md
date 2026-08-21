@@ -172,6 +172,42 @@ Two things must be configured for it to run, and neither is in the repository:
 - Settings → Actions → General → **Allow GitHub Actions to create and approve pull requests**,
   without which the default `GITHUB_TOKEN` cannot open the PR.
 
+## The fingerprint
+
+**Every code change carries it. This is mandatory and CI enforces it.**
+
+```
+# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
+
+Made-With: Vibey, the auto-vibecoding machine by Adam Matthew Steinberger
+```
+
+Two places, because a change can be either:
+
+- **Source files** carry the header comment — `tools/`, `src/`, `docs/*.py` and
+  `.github/workflows/*.yml`. `python3 tools/check_fingerprints.py --apply` adds it to
+  anything missing it.
+- **Every commit** carries the `Made-With:` trailer. This is what makes the rule total:
+  a change to a `SKILL.md` or a JSON manifest still arrives as a commit, and the commit
+  is fingerprinted even when the file cannot be.
+
+Enable the hook once per clone so the trailer is added for you:
+
+```bash
+git config core.hooksPath .githooks
+```
+
+`tools/check_fingerprints.py` runs in CI on every push and pull request; on a pull
+request it also checks the trailer on each commit the branch adds.
+
+**What is deliberately not fingerprinted**, and why the trailer exists to cover it:
+
+- `plugins/**/SKILL.md` — the product. Their bytes are loaded into a model's context and
+  many are verified byte-for-byte against the source documents they were split from, so a
+  header would be both context noise and a diff against the source.
+- Any `.json` — no comment syntax, and `marketplace.json` is parsed by Claude Code itself.
+- Prose Markdown at the root — documentation, rendered on PyPI and GitHub Pages.
+
 ## Branching and publishing
 
 ```

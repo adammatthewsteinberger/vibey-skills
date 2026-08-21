@@ -1,0 +1,23 @@
+#!/bin/sh
+# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
+#
+# Appends the Vibey trailer to any commit message that lacks it, so the rule holds
+# locally without anyone having to remember it. CI enforces the same trailer, so a commit
+# made without this hook fails the pull request rather than slipping through.
+#
+# Enable once per clone:  git config core.hooksPath .githooks
+
+msg_file="$1"
+trailer="Made-With: Vibey, the auto-vibecoding machine by Adam Matthew Steinberger"
+
+# Already present (any case) — nothing to do.
+if grep -qiE '^Made-With:[[:space:]]*[^[:space:]]' "$msg_file"; then
+  exit 0
+fi
+
+# A comment-only or empty message means an aborted commit; leave it alone.
+if ! grep -qvE '^\s*(#.*)?$' "$msg_file"; then
+  exit 0
+fi
+
+printf '\n%s\n' "$trailer" >> "$msg_file"

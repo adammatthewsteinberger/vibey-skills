@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
 """Derive (and optionally apply) the PEP 440 dev version used for TestPyPI builds.
 
 Stdlib only, like the other tools.

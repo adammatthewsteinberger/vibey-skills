@@ -1,3 +1,4 @@
+# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
 name: Release
 
 # Every push to `develop` publishes to TestPyPI; every push to `main` publishes to PyPI.
