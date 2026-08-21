@@ -5,8 +5,8 @@
     "email": "adam@matthewsteinberger.com"
   },
   "metadata": {
-    "description": "Agent Skills for vibe engineering — 102 plugins and 497 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure (including a comparative AWS/GCP/Azure deep dive), IT infrastructure and governance, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering, web scraping, reporting and dashboards, geospatial software, logistics and optimization, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, radio and wireless, power engineering, automotive and robotics, rail engineering, civil and industrial engineering, thermodynamics and fluid mechanics, refrigeration and the cold chain, CAD and additive manufacturing, mechanical engineering and manufacturing, wood and metal shop craft, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, mathematics, scientific computing and signal processing, physics, electromagnetism, earth science, aerospace, rocketry, flight software and space exploration, the life sciences, drug discovery software, agriculture and livestock, food and sanitation science, the social sciences, art and music theory, storytelling and comedy craft, textile and furniture crafts, pedagogy and learning science, exercise science, nutrition science, survival skills, travel planning, business and commercial law, economics, accounting and tax, fundraising, trading mechanics, design patterns, developer tooling for editors, IDEs and the GitHub and Jira workflow layer, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "2.11.0"
+    "description": "Agent Skills for vibe engineering — 117 plugins and 586 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure (including a comparative AWS/GCP/Azure deep dive), IT infrastructure and governance, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering, web scraping, reporting and dashboards, geospatial software, logistics and optimization, frontend, mobile, desktop, smart TV, game development, UI/UX design, VR and AR, graphics and computer vision, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), computer hardware, data centres, peripherals, microarchitecture and memory systems, semiconductors and chip manufacturing, digital logic and firmware, embedded and IoT, maker hardware, electronics, radio and wireless, power engineering, automotive and robotics, rail engineering, civil and industrial engineering, thermodynamics and fluid mechanics, refrigeration and the cold chain, CAD and additive manufacturing, mechanical engineering and manufacturing, construction and civil structures, maritime engineering, mining, oil and gas, wood and metal shop craft, blockchain, quantum computing, quantum cryptography and nanotechnology, algorithms and theory of computation, mathematics, scientific computing and signal processing, physics, electromagnetism, chemistry and plastics, earth science, aerospace, rocketry, flight software and space exploration, the life sciences, drug discovery software, agriculture and livestock, food and sanitation science, the social sciences, political science and governance, public speaking and community organising, art and music theory, storytelling and comedy craft, textile and furniture crafts, pedagogy and learning science, exercise science, nutrition science, survival skills, travel planning, business and commercial law, economics, accounting and tax, fundraising, trading mechanics, investment strategy, design patterns, developer tooling for editors, IDEs and the GitHub and Jira workflow layer, low-code platforms, penetration testing, cryptography, software architecture, quality engineering, engineering process, and technical writing.",
+    "version": "2.12.0"
   },
   "plugins": [
     {
@@ -219,6 +219,28 @@
       }
     },
     {
+      "name": "computer-hardware-and-data-centers",
+      "source": "./plugins/computer-hardware-and-data-centers",
+      "description": "Computer Hardware Engineering, Custom Rigs and Data Centres: where the bottleneck actually lives, CPU architecture, the memory hierarchy, GPUs and accelerators, storage, interconnect, power supplies, thermals, networking, specifying and assembling a build, firmware and boot, tuning and overclocking honestly, troubleshooting, benchmarking, facility basics, power distribution, cooling at scale, efficiency metrics, racks and physical infrastructure, network and storage architecture, failure at scale, operations, and AI infrastructure specifics.",
+      "version": "0.1.0",
+      "category": "hardware",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "computer-peripherals-design-and-standards",
+      "source": "./plugins/computer-peripherals-design-and-standards",
+      "description": "Computer Peripherals — Design, Building, Standards and Programming: the peripheral stack, USB architecture, USB-C and Power Delivery, Thunderbolt and alternate modes, wireless peripherals, embedded buses, PCIe peripherals, HID, keyboards, mice and pointing devices, displays, audio interfaces, printers and scanners, storage and capture, controllers and haptics, designing a custom peripheral, firmware, PCB and mechanical design, enumeration and debugging, drivers and OS integration, measuring latency, compliance and certification, accessibility, and peripheral security.",
+      "version": "0.1.0",
+      "category": "hardware",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "cooking-cleaning-waste-sciences",
       "source": "./plugins/cooking-cleaning-waste-sciences",
       "description": "Cooking, Cleaning and Waste Sciences: the food science (heat transfer, proteins and meat, browning, starch, gluten and gels, fats and emulsions, salt and brining, acid and pH, flavour, fermentation, baking and leavening), food safety (pathogens and temperature, HACCP, cross-contamination and allergens), food service (kitchen organization, restaurant economics, menu engineering, regulation and inspection), cleaning chemistry (surfactants and soil types, water hardness, the cleaning-sanitizing-disinfecting distinction and the mixing dangers, laundry), and waste (wastewater treatment, the waste hierarchy, landfills, recycling assessed honestly, composting).",
@@ -241,11 +263,33 @@
       }
     },
     {
+      "name": "cryptography-and-encryption",
+      "source": "./plugins/cryptography-and-encryption",
+      "description": "Cryptography and Encryption: what cryptography does and doesn't solve, threat models, randomness, hash functions, MACs, symmetric encryption, AEAD, public key cryptography, key exchange and forward secrecy, digital signatures, password storage and KDFs, TLS, PKI and certificates, end-to-end encrypted messaging, disk and file encryption, other protocols, implementation failure modes, key management, crypto agility, advanced constructions, blockchain cryptography, and law and policy.",
+      "version": "0.1.0",
+      "category": "security",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "design-patterns",
       "source": "./plugins/design-patterns",
       "description": "Design Patterns: what a pattern actually is (a vocabulary, not a construction kit), the honest critique of the Gang of Four and which of the 23 survive in modern languages, patterns that are language deficiencies versus patterns that are timeless, the functional and data-oriented alternatives, architectural patterns (layered, hexagonal, DDD, modular monolith, microservices), distributed and resilience patterns (saga, outbox, circuit breaker, CQRS, event sourcing), concurrency patterns, the emerging LLM and agentic pattern language, and the anti-patterns of over-application.",
       "version": "0.1.0",
       "category": "engineering-process",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "designing-and-building-buildings",
+      "source": "./plugins/designing-and-building-buildings",
+      "description": "Designing and Building Buildings and Other Civil Structures: the disciplines and the lifecycle, site and ground, brief and programming, planning, zoning and entitlement, architectural design, structural systems, foundations, envelope and building physics, building services, fire safety, accessibility, energy and comfort, drawings, specifications and BIM, codes and permitting, procurement and delivery, cost, sequencing and temporary works, materials in construction, quality and inspection, site safety, commissioning and handover, existing buildings and retrofit, and why projects fail.",
+      "version": "0.1.0",
+      "category": "construction",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -268,6 +312,17 @@
       "description": "DevSecOps and CI/CD: end-to-end pipeline security, Bitbucket/Azure DevOps integration, CI/CD field guide with OIDC/supply-chain/progressive delivery, and GitHub/Atlassian advanced practitioner survey.",
       "version": "0.2.0",
       "category": "devops",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "digital-logic-and-firmware-engineering",
+      "source": "./plugins/digital-logic-and-firmware-engineering",
+      "description": "CMOS, Logic Gates and Firmware Engineering: the two layers, diodes, transistors as switches, MOSFET switching behaviour, static CMOS gates, sizing and drive strength, other logic families, power in CMOS, standard cells, Boolean algebra, minimization, combinational building blocks, arithmetic circuits, latches and flip-flops, timing and metastability, state machines, clock domain crossing, HDL and synthesis, test and DFT, the firmware landscape, the boot sequence, root of trust and verified boot, ACPI and platform interfaces, embedded firmware practice, and firmware security.",
+      "version": "0.1.0",
+      "category": "electronics",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -538,6 +593,17 @@
       }
     },
     {
+      "name": "investment-strategy-personal-and-business",
+      "source": "./plugins/investment-strategy-personal-and-business",
+      "description": "Gold Standards for Investment Strategy: what comes before investing, risk and return, compounding, diversification, market efficiency honestly, asset classes, factors, costs, tax concepts, asset allocation, rebalancing, vehicle selection, accumulation and decumulation, behavioural failure, how business investment differs, capital budgeting, cost of capital, capital structure, business cash and treasury, valuation, raising capital, fraud and red flags, alternatives honestly, and advisors and conflicts. A mechanics reference, not investment advice.",
+      "version": "0.1.0",
+      "category": "finance",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "it-infrastructure-governance",
       "source": "./plugins/it-infrastructure-governance",
       "description": "IT Infrastructure and Governance: the infrastructure layers, compute and virtualization, storage, networking, directory services and hybrid identity, authentication, authorization and RBAC, privileged access, the identity lifecycle (joiner-mover-leaver), access review and certification, segregation of duties, endpoint management and patching, backup, DR and continuity, monitoring and logging, ITSM and change management, asset and configuration management, governance frameworks, capacity and lifecycle, and vendor and third-party risk.",
@@ -626,6 +692,17 @@
       }
     },
     {
+      "name": "maritime-engineering-and-building-ships",
+      "source": "./plugins/maritime-engineering-and-building-ships",
+      "description": "Maritime Engineering and Building Ships: the design spiral, buoyancy and hydrostatics, stability, hull form, resistance and powering, propulsion, seakeeping, manoeuvring, structure and longitudinal strength, materials and corrosion, machinery, ship systems, ship types, the shipyard, planning and the build, welding and fabrication, launch, outfitting and trials, naval and specialist vessels, class, flag and IMO, safety regulation, small craft and boatbuilding, operation, drydock and end of life, and why ships are lost.",
+      "version": "0.1.0",
+      "category": "maritime",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "math-science-programming",
       "source": "./plugins/math-science-programming",
       "description": "Math and Science Programming: numerical and scientific computing for software engineers — floating-point arithmetic and the errors it causes, conditioning and stability, the BLAS/LAPACK substrate everything stands on, the tool landscape (MATLAB, Python's scientific stack, Julia, R, Fortran, Mathematica) and how to choose, symbolic versus numeric computation, linear systems, ODEs and PDEs, optimization, statistics and uncertainty, high-performance and GPU computing, and the verification, validation and reproducibility practices that separate trustworthy scientific software from plausible-looking output.",
@@ -653,6 +730,17 @@
       "description": "Medicine Design Software Development: the drug discovery pipeline and where computation actually helps, targets and modalities, what makes a molecule a drug, molecular representation, cheminformatics toolkits, data sources and their quality problems, splitting and leakage, protein structure and structure prediction, docking, molecular dynamics, free energy methods, QSAR and property prediction, ADMET prediction, generative models, active learning and the DMTA loop, benchmarks, validation that means something, pipeline engineering, compute, reproducibility, GxP and computer system validation, and software as a medical device.",
       "version": "0.1.0",
       "category": "life-sciences",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "microarchitecture-and-memory-systems",
+      "source": "./plugins/microarchitecture-and-memory-systems",
+      "description": "CPU, GPU, NPU and Memory Microarchitecture: architecture versus microarchitecture, pipelining, out-of-order execution, branch prediction, execution units and SIMD, cache organization, cache coherence, memory consistency models, virtual memory and translation, prefetching, GPU microarchitecture and memory systems, NPUs and dataflow architectures, numeric formats, DRAM internals, memory controllers, emerging memory interfaces, power and clocking, microarchitectural security, ISA design, simulation and modelling, measurement, roofline and fundamental limits, and specialization.",
+      "version": "0.1.0",
+      "category": "hardware",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -747,6 +835,17 @@
       }
     },
     {
+      "name": "organic-chemistry-and-plastics-engineering",
+      "source": "./plugins/organic-chemistry-and-plastics-engineering",
+      "description": "Organic Chemistry and Plastics Engineering: why carbon, bonding and structure, functional groups, stereochemistry, acidity and basicity, reaction mechanisms, reaction classes, aromaticity, kinetic versus thermodynamic control, characterization, synthesis strategy, green chemistry, what makes a polymer, polymerization, molecular weight, Tg, melting and morphology, mechanical behaviour, the commodity plastics, engineering and high-performance polymers, additives, elastomers, thermosets and composites, processing, degradation and failure, recycling honestly, bioplastics honestly, and health, migration and regulation.",
+      "version": "0.1.0",
+      "category": "chemistry",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "os-development-kernel-shell",
       "source": "./plugins/os-development-kernel-shell",
       "description": "OS Development (Linux Kernel & Shell): kernel architecture and programming in C and Rust, modules and drivers, kernel concurrency, syscalls and the userspace ABI, eBPF and sched_ext, boot and init, systemd/cgroups/containers, the kernel development process, debugging and tracing (ftrace, perf, KASAN, crash dumps), security and hardening, plus the shell layer — POSIX sh/bash/zsh/fish/nushell semantics and their traps, choosing a shell, defensive scripting, and the coreutils/systemd userland.",
@@ -785,6 +884,17 @@
       "description": "Penetration Testing and Offensive Security: authorized offensive work as a profession — the authorization and legal foundation (CFAA, Computer Misuse Act, bug bounty and VDP scope, rules of engagement) that separates it from a crime, engagement types and scoping, the standard methodologies (PTES, OWASP WSTG, NIST SP 800-115, MITRE ATT&CK), reconnaissance and attack surface, testing per domain (web, network, Active Directory and identity, cloud, API/mobile/wireless/OT/hardware), social engineering and physical, red/purple teaming and post-exploitation, testing AI systems, and reporting, remediation, coordinated disclosure, and career and certification. A methodology, process, and professional-practice reference — not an exploit cookbook.",
       "version": "0.1.0",
       "category": "security",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "political-science-human-systems-governance",
+      "source": "./plugins/political-science-human-systems-governance",
+      "description": "Political Science, Human Systems and Governance: what political science can and cannot establish, power, authority and legitimacy, the state, theory traditions, collective action problems, the commons and Ostrom's correction, social choice, voting systems, constitutional design, electoral systems in practice, executives and legislatures, federalism, courts and judicial review, bureaucracy and public administration, parties and party systems, voter behaviour, public opinion and measurement, polarization, regimes and transitions, state capacity, corruption, IR theory, conflict and cooperation, the policy process, and the field's own problems.",
+      "version": "0.1.0",
+      "category": "social-sciences",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -846,6 +956,17 @@
       }
     },
     {
+      "name": "quantum-cryptography-and-quantum-internet",
+      "source": "./plugins/quantum-cryptography-and-quantum-internet",
+      "description": "Quantum Cryptography, Quantum Encryption and the Quantum Internet: why QKD and post-quantum cryptography are two completely different things, qubits and measurement, the no-cloning theorem, entanglement and Bell inequalities, quantum channels and loss, BB84, entanglement-based and continuous-variable QKD, key distillation, what unconditional security actually claims, attacks on real QKD systems, device-independent approaches, trusted nodes, quantum repeaters, quantum memory, entanglement distribution, satellite QKD, the quantum internet roadmap, quantum random number generation, the quantum computing threat, and how to choose.",
+      "version": "0.1.0",
+      "category": "emerging-tech",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "radio-technology-for-software-devs",
       "source": "./plugins/radio-technology-for-software-devs",
       "description": "Radio Technology for Software Developers: why wireless breaks software intuitions, spectrum and bands, the link budget, the range/rate/power triangle, antennas, propagation and fading, noise and interference, modulation, Shannon's limit, spread spectrum, OFDM, coding and retransmission, multiple access, SDR and IQ sampling, sampling and DSP essentials, the SDR toolchain, the protocol stack, Wi-Fi, Bluetooth and BLE, LPWAN and cellular IoT, 802.15.4, Zigbee, Thread and Matter, GNSS, the regulatory layer, wireless security, and debugging RF problems from software.",
@@ -873,6 +994,17 @@
       "description": "Reporting and Dashboards: the analytics architecture, dimensional modelling, the aggregation traps (fan-out, the chasm trap, additivity, and why distinct counts do not decompose), metric definition pitfalls, the semantic layer, time handling, query performance, caching and freshness, dashboard design, chart selection, alerting, access control, embedded analytics, and testing analytics.",
       "version": "0.1.0",
       "category": "data-engineering",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "resource-extraction-mining-and-oil",
+      "source": "./plugins/resource-extraction-mining-and-oil",
+      "description": "Resource Extraction — Mining, Oil and Gas: grade, tonnage and the nature of ore, how deposits form, exploration, resources versus reserves, surface and underground mining, drilling and blasting, comminution, mineral processing, extractive metallurgy, gold, tailings, water and drainage, petroleum geology, seismic exploration, drilling, well control, completion and hydraulic fracturing, production and decline, offshore, refining and processing, coal, economics, safety, closure and legacy, and social licence and artisanal mining.",
+      "version": "0.1.0",
+      "category": "resources",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -917,6 +1049,17 @@
       "description": "Security Principles: cybersecurity first principles, threat modeling playbook, AI-era security field guide, and AI safety and secure development practices for Python and TypeScript/Next.js.",
       "version": "0.2.0",
       "category": "security",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "semiconductors-and-chip-manufacturing",
+      "source": "./plugins/semiconductors-and-chip-manufacturing",
+      "description": "Semiconductors and Chip Manufacturing: the abstraction stack, carriers, doping and silicon, junctions and contacts, the MOSFET, scaling and what ended, transistor architectures, interconnect, memory, from sand to wafer, the cleanroom, lithography, deposition, etch, implant and anneal, CMP, process integration, yield, metrology and inspection, test, advanced packaging, PCB fabrication, assembly and soldering, reliability, design flow, economics, and supply chain concentration.",
+      "version": "0.1.0",
+      "category": "electronics",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -972,6 +1115,17 @@
       "description": "Space Exploration: mission architecture and the design cascade where everything is mass, trajectory and mission design, power, thermal control, communications and the link budget, navigation and autonomy, attitude control and in-space propulsion, entry, descent and landing and surface operations, human physiology and its hard limits, life support and ISRU, radiation environments and shielding, instrumentation, planetary protection, and reliability and margins.",
       "version": "0.1.0",
       "category": "aerospace",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "speaking-influence-and-community",
+      "source": "./plugins/speaking-influence-and-community",
+      "description": "Public Speaking, Influence and Community: what this field actually knows, speech anxiety, audience and purpose, structure, openings and closings, language for the ear, delivery, visual aids, Q&A and hostility, formats, practice, listening, rapport and trust, difficult conversations, negotiation, feedback, conflict, what actually persuades, the ethics of influence, how groups actually work, building a community, facilitation, organizing and mobilizing, volunteers and burnout, community conflict, and communication difference.",
+      "version": "0.1.0",
+      "category": "communication",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -1104,6 +1258,17 @@
       "description": "Web Scraping: the legal and regulatory landscape (CFAA and the hiQ/Bright Data line, contract and ToS exposure, the DMCA §1201 shift, copyright and TDM, GDPR and the EDPB's 2026 scraping guidelines, the EU AI Act), when not to scrape and what to do instead, robots.txt and the emerging crawl-permission layer, how the modern web actually serves data, the tool ladder (requests, curl_cffi, Scrapy, Playwright, managed services), parsing and extraction, bot detection, scale and reliability engineering, data quality, storage and pipelines, operational ethics, scraping for AI and RAG, and building a site that handles crawlers well.",
       "version": "0.1.0",
       "category": "data-engineering",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "wireless-technologies-and-rf-engineering",
+      "source": "./plugins/wireless-technologies-and-rf-engineering",
+      "description": "Wireless Technologies — RF, Standards, Building and Programming: why wireless is hard, propagation and the link budget, modulation and multiple access, antennas, spectrum and regulation, Wi-Fi and Wi-Fi in practice, Bluetooth and BLE programming, NFC and RFID, Thread, Zigbee and Matter, LoRa and LPWAN, cellular and cellular IoT, UWB, choosing a radio, antenna integration, certification, low-power design, provisioning and onboarding, RF debugging, wireless security, coexistence, and positioning and sensing.",
+      "version": "0.1.0",
+      "category": "wireless",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
