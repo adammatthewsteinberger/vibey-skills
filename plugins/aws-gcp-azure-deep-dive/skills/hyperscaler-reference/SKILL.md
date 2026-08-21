@@ -122,11 +122,13 @@ it's under-appreciated because it happened through regulation rather than produc
   general availability in April with Google Cloud as its first partner, followed in May
   by a free 500 Mbps interconnect tier per region with no per-gigabyte charges on the
   connection.**
-- **⚠️ Regulatory pressure is escalating**: **the European Commission is reported to be
-  moving toward provisionally designating AWS and Azure as "gatekeepers" under the Digital
-  Markets Act**, with **a final decision anticipated before the end of 2026** —
-  ⚠️ **though the Commission has not confirmed that timeline, so treat it as reported
-  expectation rather than fact.**
+- **⚠️ Regulatory pressure moved from anticipated to actual**: **the European
+  Commission's own Digital Markets Act page confirms a preliminary determination,
+  published 25 June 2026, that AWS and Azure should be designated "gatekeepers"** — the
+  first time the DMA has reached cloud infrastructure rather than consumer platforms.
+  ⚠️ **Secondary reporting, not confirmed on the Commission's own page, puts the
+  companies' deadline to submit written representations at September 2026 and a final
+  decision around October 2026.**
 
 > **⚠️ GOTCHA — read the fine print, because the headlines overstate this considerably.**
 > ⚠️ **The exit waivers are narrow: they generally require a FULL exit, notification of
