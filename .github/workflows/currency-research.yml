@@ -153,7 +153,7 @@ jobs:
           # The colon form avoids spaces entirely.
           claude_args: |
             --model ${{ inputs.model || 'claude-sonnet-5' }}
-            --allowedTools WebSearch,WebFetch,Read,Glob,Grep,Edit,Write,Bash(python3:*),Bash(git:*)
+            --allowedTools WebSearch,WebFetch,Read,Glob,Grep,Edit,Write,Bash(python3:*),Bash(git:*),Bash(gh:*)
             --max-turns 150
 
           prompt: |
@@ -185,13 +185,62 @@ jobs:
 
             If something does need changing, make the smallest correct edits, run both
             `python3 tools/validate_manifests.py` and `python3 tools/check_links.py` (both
-            must exit 0), and open a pull request against `develop` using the body format
-            in research-weekly-pull-request. Keep it to a handful of edits; raise anything
+            must exit 0), commit to a branch, and open the pull request YOURSELF with
+            `gh pr create --base develop`, using the body format in
+            research-weekly-pull-request. Attaching your own report is the point — a
+            fallback step will open a bare pull request if you do not, and that one
+            cannot carry your sources. Keep it to a handful of edits; raise anything
             uncertain under "Unresolved" rather than guessing.
+
+            `gh` is available for that. Use it to create and describe the pull request
+            and nothing else: never `gh pr merge`, never merge or close anything, never
+            change repository settings, and never push to `develop` or `main` directly.
 
             This run's briefing follows.
 
             ${{ steps.select.outputs.briefing }}
+
+      # Redundancy. The agent is told to open its own pull request, because only it can
+      # attach the sources it found. It does not always manage to: the first run that
+      # proposed edits pushed its branch and stopped, leaving the work orphaned. This
+      # step notices a branch with commits and no pull request, and opens a bare one
+      # pointing at the audit-record artifact. Belt and braces — never a replacement for
+      # the agent's own description.
+      #
+      # Uses the action's app token rather than the default GITHUB_TOKEN: a pull request
+      # opened with GITHUB_TOKEN does not trigger `pull_request` workflows, so it would
+      # arrive with no status checks and be unmergeable under develop's ruleset.
+      - name: Open the pull request if the audit did not
+        if: steps.audit.outputs.branch_name != ''
+        env:
+          GH_TOKEN: ${{ steps.audit.outputs.github_token || github.token }}
+          BRANCH: ${{ steps.audit.outputs.branch_name }}
+          RUN_ID: ${{ github.run_id }}
+          REPO: ${{ github.repository }}
+        run: |
+          set -euo pipefail
+          git fetch --quiet origin "+refs/heads/develop:refs/remotes/origin/develop" \
+            "+refs/heads/${BRANCH}:refs/remotes/origin/${BRANCH}" 2>/dev/null || {
+              echo "::notice::branch ${BRANCH} was not pushed; nothing to open."; exit 0; }
+
+          if [ -z "$(git log --oneline "origin/develop..origin/${BRANCH}")" ]; then
+            echo "::notice::${BRANCH} has no commits beyond develop; nothing to open."
+            exit 0
+          fi
+          if [ -n "$(gh pr list --head "${BRANCH}" --state open --json number -q '.[0].number')" ]; then
+            echo "::notice::a pull request for ${BRANCH} already exists — the agent opened it."
+            exit 0
+          fi
+
+          echo "::warning::the audit pushed ${BRANCH} but opened no pull request; opening a bare one."
+          gh pr create --base develop --head "${BRANCH}" \
+            --title "Currency audit: proposed updates from run ${RUN_ID}" \
+            --body "$(printf '%s\n' \
+              "The weekly currency audit pushed this branch but did not open a pull request, so this one was opened automatically and **does not carry the agent's report or its sources**." \
+              "" \
+              "Read the audit record before reviewing: the \`audit-record-${RUN_ID}\` artifact on [run ${RUN_ID}](https://github.com/${REPO}/actions/runs/${RUN_ID}), which holds the searches, sources and reasoning behind every edit here." \
+              "" \
+              "Treat the diff as unexplained until you have." )"
 
       # Without this a run leaves no auditable trace. The step log carries only the final
       # result counters, and the job summary is rendered client-side so it cannot be
