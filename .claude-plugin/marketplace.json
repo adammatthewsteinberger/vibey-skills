@@ -5,8 +5,8 @@
     "email": "adam@matthewsteinberger.com"
   },
   "metadata": {
-    "description": "Agent Skills for vibe engineering — 47 plugins and 210 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure and cloud computing, identity automation, DevSecOps, AI/ML, data engineering and web scraping, frontend, mobile, desktop, smart TV, game development, UI/UX design, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, robotics, blockchain, quantum computing, algorithms and theory of computation, scientific computing and signal processing, fundamental physics and rocketry, design patterns, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
-    "version": "2.3.0"
+    "description": "Agent Skills for vibe engineering — 55 plugins and 250 evidence-grounded practitioner skills spanning security, compliance, cloud infrastructure and cloud computing, identity automation, DevSecOps, Linux server administration, AI/ML, data engineering and web scraping, frontend, mobile, desktop, smart TV, game development, UI/UX design, media engineering, social platforms, systems programming (assembly, OS and kernel, languages, browsers, package managers), embedded and IoT, maker hardware, electronics, robotics, blockchain, quantum computing and nanotechnology, algorithms and theory of computation, scientific computing and signal processing, fundamental physics, rocketry, flight software and space exploration, the life sciences (chemistry and biology, genetics and neuroscience, biomedical engineering), design patterns, low-code platforms, penetration testing, software architecture, quality engineering, engineering process, and technical writing.",
+    "version": "2.4.0"
   },
   "plugins": [
     {
@@ -70,6 +70,28 @@
       "description": "Azure Cloud Infrastructure: Azure RBAC administration, Kubernetes IaC with GitOps/Helm/Terraform, and Azure service catalog with production decision guide for compute, messaging, networking, and AI.",
       "version": "0.2.0",
       "category": "cloud-infrastructure",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "biology-chemistry-foundations",
+      "source": "./plugins/biology-chemistry-foundations",
+      "description": "Biology and Chemistry Foundations: atoms and periodicity, bonding and molecular geometry, intermolecular forces, phases and solutions, thermodynamics, kinetics, equilibrium and acid-base chemistry, redox and electrochemistry, organic chemistry and reaction mechanism, analytical methods and spectroscopy, biomolecules, enzymes, bioenergetics and metabolism, membranes and transport, cell architecture, the cell cycle and signalling, and evolution — the chemistry and biology a technical reader actually needs, with the reasoning that transfers.",
+      "version": "0.1.0",
+      "category": "life-sciences",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "biomedical-engineering-technical",
+      "source": "./plugins/biomedical-engineering-technical",
+      "description": "Biomedical Engineering: physiological signal processing, medical imaging modality physics and DICOM internals, clinical data structures, the technicals of clinical machine learning (prevalence, calibration, shortcut learning, the validation ladder), bioinformatics, structural and systems biology, PK/PD, physiological modelling, biomechanics, biomaterials, tissue engineering, neural interfaces and prosthetics, lab automation and instrumentation, and the biostatistics that determine whether any of it holds up.",
+      "version": "0.1.0",
+      "category": "life-sciences",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -164,6 +186,17 @@
       }
     },
     {
+      "name": "electrical-engineering",
+      "source": "./plugins/electrical-engineering",
+      "description": "Electrical Engineering: circuit fundamentals, real component behaviour and parasitics, DC analysis, AC impedance and filters, semiconductors (diodes, BJTs, MOSFETs, thermal), op-amps, digital logic and interfacing, power and regulators, signal integrity and grounding, EMC and EMI, PCB design, test equipment and how not to lie to yourself with a scope, datasheets and part selection, electrical safety, and hardware debugging.",
+      "version": "0.1.0",
+      "category": "electronics",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "embedded-iot-controls",
       "source": "./plugins/embedded-iot-controls",
       "description": "Embedded Systems & IoT Controls: silicon, memory, and peripherals; bare-metal, RTOS, and embedded Linux firmware models; C/C++/Rust; real-time concurrency and timing; firmware design patterns; industrial control and OT (PLC, fieldbus, OPC UA, unified namespace); control theory in firmware; connectivity (BLE, Thread, Matter, LoRaWAN, cellular, MQTT/CoAP/Sparkplug); cloud, fleet, and OTA lifecycle; device security and regulation (CRA, RED/EN 18031, IEC 62443, PSA); functional safety (IEC 61508, ISO 26262, DO-178C, IEC 62304); testing; and board bring-up.",
@@ -186,6 +219,17 @@
       }
     },
     {
+      "name": "flight-software",
+      "source": "./plugins/flight-software",
+      "description": "Flight Software: what makes spacecraft software different, flight software architecture and the frameworks worth knowing (cFS, F Prime), languages and coding standards including Rust's actual status, flight processors, radiation effects expressed in software terms, real-time discipline and RTOS choice, FDIR, time and clocks, command and telemetry, data handling and in-flight update, GNC software, verification and validation, the ground segment, onboard autonomy and AI, and the failure case studies that produced the rules.",
+      "version": "0.1.0",
+      "category": "aerospace",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
       "name": "frontend-design",
       "source": "./plugins/frontend-design",
       "description": "Frontend Design: graphic design and UX/UI best practices, Next.js production patterns, and full-stack performance optimization for Python, Next.js, and Azure.",
@@ -202,6 +246,28 @@
       "description": "Fundamental Physics: quantum mechanics, quantum field theory, the Standard Model, general relativity and astrophysics/cosmology as a single connected reference — the postulates and formalism of QM, path integrals and renormalization, the gauge structure and particle content of the Standard Model, special relativity and the Einstein field equations, black hole solutions and thermodynamics, gravitational waves, FLRW cosmology and ΛCDM, stellar structure and evolution, compact objects, the measurement problem and interpretations, the incompatibility of GR and QFT, and the anomalies that are currently live.",
       "version": "0.1.0",
       "category": "physics",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "genetics-neuroscience-technical",
+      "source": "./plugins/genetics-neuroscience-technical",
+      "description": "Genetics and Neuroscience: molecular genetics and the central dogma stated accurately, gene regulation and epigenetics, mutation, variation and inheritance, population and quantitative genetics including heritability and polygenic scores, genome engineering and the CRISPR toolbox, delivery, screens and synthetic biology, neuron biophysics and synapses, plasticity, neural coding, circuit architectures, neuromodulation, development and glia, neural engineering methods, and stimulation and intervention.",
+      "version": "0.1.0",
+      "category": "life-sciences",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "linux-server-admin",
+      "source": "./plugins/linux-server-admin",
+      "description": "Linux Server Administration: the filesystem and file semantics that surprise people, users, permissions and capabilities, processes and resource control, systemd (units, ordering, hardening directives, journald, timers), storage and LVM and filesystems, networking and its diagnosis order, packages and distributions, boot, security hardening including SELinux and AppArmor and SSH, observability and performance with eBPF, a troubleshooting methodology, containers and namespaces, configuration management, and backup and recovery.",
+      "version": "0.1.0",
+      "category": "systems-administration",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -257,6 +323,17 @@
       "description": "Mobile Development: enterprise mobile on Azure — React Native New Architecture, native iOS (Swift/SwiftUI) and Android (Kotlin/Compose), mobile UI/UX and design patterns, Azure hosting/Intune/CI-CD after App Center, and mobile security (OWASP MASVS, secure storage/comms, MFA/passkeys).",
       "version": "0.1.0",
       "category": "frontend",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "nanotechnology",
+      "source": "./plugins/nanotechnology",
+      "description": "Nanotechnology: the scaling laws and which forces matter at the nanoscale, quantum confinement and tunnelling, top-down fabrication and lithography, bottom-up synthesis and self-assembly, the semiconductor process and what a node name actually means, characterization methods, nanomaterials (carbon, 2D materials, nanoparticles and their optics), DNA nanotechnology, nanomedicine, computational nanoscience from DFT through machine-learned interatomic potentials, and nanoparticle safety and environmental behaviour.",
+      "version": "0.1.0",
+      "category": "emerging-tech",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
@@ -444,6 +521,17 @@
       "description": "Software Architecture: production architecture for Python, Next.js/TypeScript, and Azure at scale; Azure architecture patterns; and the software design process including ADRs, C4 model, fitness functions, and just-enough design.",
       "version": "0.2.0",
       "category": "engineering-process",
+      "author": {
+        "name": "Adam Matthew Steinberger",
+        "email": "adam@matthewsteinberger.com"
+      }
+    },
+    {
+      "name": "space-exploration",
+      "source": "./plugins/space-exploration",
+      "description": "Space Exploration: mission architecture and the design cascade where everything is mass, trajectory and mission design, power, thermal control, communications and the link budget, navigation and autonomy, attitude control and in-space propulsion, entry, descent and landing and surface operations, human physiology and its hard limits, life support and ISRU, radiation environments and shielding, instrumentation, planetary protection, and reliability and margins.",
+      "version": "0.1.0",
+      "category": "aerospace",
       "author": {
         "name": "Adam Matthew Steinberger",
         "email": "adam@matthewsteinberger.com"
