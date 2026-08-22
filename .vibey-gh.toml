@@ -30,11 +30,11 @@ content_paths = ["plugins/", ".claude-plugin/marketplace.json"]
 code_paths    = ["src/"]
 
 [install]
-# The merge train only. `provenance.yml` would duplicate the fingerprint check that
+# The merge train and the promotion. `provenance.yml` would duplicate the fingerprint check that
 # already runs inside ci.yml's "Validate manifests and build" job — and that job name is a
 # REQUIRED status check in both rulesets, so the check has to stay where it is rather than
 # move to a differently-named workflow.
-workflows = ["merge-train.yml"]
+workflows = ["merge-train.yml", "promote-to-main.yml"]
 
 [branches]
 integration = "develop"

@@ -1,36 +1,25 @@
 # Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
-name: Promote develop to main
+name: Promote
 
-# Weekly: if `develop` has anything `main` does not, open the promotion pull request and
-# rebase-merge it. Merging to main publishes to PyPI (see release.yml), so this is the
-# release train — it runs at 08:17 on Mondays, an hour after the develop merge train, so
-# the week's pull requests are already in.
+# The other half of the flow. The merge train fills the integration branch; this moves it
+# to the release branch, which is what publishes.
 #
-# The comparison is by CONTENT, not by commit count. develop -> main is rebase-merged, so
-# main's commits are rewritten copies with different SHAs; develop will always look
-# "ahead" by some number of commits even when the two trees are identical. `git diff`
-# between the branches is the only honest test of whether there is anything to release.
+# It follows the merge train's SUCCESS rather than a clock, so a week's work is promoted
+# as soon as it is all in. The cron is a backstop for the weeks the train has nothing to
+# merge and so never completes, and for anything that arrives by another route.
 #
-# Rebase, because main's ruleset sets allowed_merge_methods: ["rebase"] — which is also
-# the only method consistent with the required_linear_history rule both rulesets enforce.
-# A merge commit would violate it, which is why merges to main used to need an admin
-# bypass. Every commit from develop is preserved, replayed onto the front of main.
+# The decisions live in `vibey-gh promote`, where they are unit-tested: compare the
+# branches by CONTENT rather than commit count, derive the version before opening
+# anything, wait for the checks, then merge. A hand-written version of this workflow gets
+# at least one of those wrong.
 #
-# NOTE ON PERMISSIONS. main's ruleset requires an approving review and GitHub Actions is
-# not among its bypass actors, so the default GITHUB_TOKEN cannot merge. Supply a
-# repository secret `AUTOMERGE_TOKEN` (a token belonging to someone with the admin role),
-# or add GitHub Actions to the ruleset's bypass actors. Without one of those this job
-# opens the pull request and reports that it could not merge it, which is a safe place to
-# stop — the release simply waits for a human.
+# PERMISSIONS. A ruleset requiring an approving review cannot be satisfied by the default
+# GITHUB_TOKEN. Supply `AUTOMERGE_TOKEN` (a token belonging to someone with the admin
+# role) or the job will open the pull request and report that it could not merge it —
+# which is a safe place to stop.
 
 on:
-  # Follows the merge train's SUCCESS rather than a clock. The cron below is a backstop
-  # for the weeks the train has nothing to merge and so never runs to completion, and for
-  # anything that lands on develop by another route.
   workflow_run:
-    # Must match the `name:` of the merge-train workflow EXACTLY. It is now the one
-    # vibey-gh installs, which is called "Merge train" — a workflow_run trigger naming a
-    # workflow that does not exist never fires, and nothing reports that it did not.
     workflows: ["Merge train"]
     types: [completed]
   schedule:
@@ -48,122 +37,42 @@ permissions:
   pull-requests: write
 
 concurrency:
-  group: promote-to-main
+  group: promote
   cancel-in-progress: false
 
 jobs:
   promote:
-    name: Promote develop to main
-    # A merge train that failed leaves develop in an unknown state; do not promote it.
+    name: Promote
+    # A merge train that failed leaves the integration branch in an unknown state.
     if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          # Same reason as release.yml: checkout's extraheader beats a remote URL, so the
-          # push of the version bump needs the token here or it authenticates as the bot.
+          # checkout's extraheader beats a remote URL, so the push of the version bump
+          # needs the token HERE or it authenticates as the default bot and is refused.
           token: ${{ secrets.AUTOMERGE_TOKEN || github.token }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install the tooling
+        run: |
+          set -euo pipefail
+          if grep -qE '^name = "vibey-(gh|bootstrap)"' pyproject.toml 2>/dev/null; then
+            python -m pip install --quiet -e .
+          else
+            python -m pip install --quiet vibey-gh
+          fi
 
       - name: Promote
         env:
           GH_TOKEN: ${{ secrets.AUTOMERGE_TOKEN || github.token }}
-          DRY_RUN: ${{ inputs.dry_run }}
         run: |
           set -euo pipefail
-          git fetch --quiet origin main develop
-
-          if git diff --quiet origin/main origin/develop; then
-            echo "::notice::develop and main have identical trees; nothing to promote."
-            echo "Nothing to promote — \`develop\` and \`main\` are identical." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-
-          changed=$(git diff --name-only origin/main origin/develop | wc -l | tr -d ' ')
-
-          # Decide the release version from what actually changed. Without this a week
-          # whose version nobody bumped promotes fine and then publishes NOTHING: the PyPI
-          # upload uses skip-existing, so an unchanged version is a green run that
-          # released nothing, silently. `none` is a legitimate answer — docs and workflow
-          # changes do not reach an installed user — and the promotion still proceeds.
-          git checkout --quiet -B develop origin/develop
-          python3 -m pip install --quiet "vibey-gh>=1.1.1"
-          bumped=$(vibey-gh version --since origin/main --explain --apply)
-
-          if [ "${bumped}" != "none" ] && [ "${DRY_RUN}" != "true" ]; then
-            git config user.name "vibey[bot]"
-            git config user.email "adam@matthewsteinberger.com"
-            git add src/vibey_skills/__init__.py .claude-plugin/marketplace.json
-            # Repeated -m, not an embedded newline: a heredoc-style message would put
-            # lines at column 0 and end this YAML block scalar. Each -m becomes its own
-            # paragraph, which also makes the trailer a well-formed final paragraph.
-            git commit --quiet \
-              -m "Release ${bumped}" \
-              -m "Version derived from what changed since the last release by vibey-gh, so the promotion actually publishes." \
-              -m "Made-With: Vibey, the auto-vibecoding machine by Adam Matthew Steinberger"
-            if git push --quiet origin develop; then
-              echo "::notice::bumped to ${bumped} and pushed to develop"
-            else
-              echo "::error::could not push the version bump to develop; promoting it would publish nothing."
-              exit 1
-            fi
-            git fetch --quiet origin develop
-          elif [ "${bumped}" != "none" ]; then
-            echo "::notice::dry run — would bump to ${bumped}"
-            git checkout --quiet -- src/vibey_skills/__init__.py .claude-plugin/marketplace.json
-          fi
-
-          version=$(python3 -c "import re,pathlib; print(re.search(r'__version__ = \"([^\"]+)\"', pathlib.Path('src/vibey_skills/__init__.py').read_text()).group(1))")
-          echo "::notice::${changed} file(s) differ; releasing as ${version}"
-
-          {
-            echo "## Promote develop to main"
-            echo
-            echo "- Files differing: ${changed}"
-            echo "- Package version: \`${version}\`"
-          } >> "$GITHUB_STEP_SUMMARY"
-
-          if [ "${DRY_RUN}" = "true" ]; then
-            echo "- Dry run: stopping before opening the pull request." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-
-          pr=$(gh pr list --base main --head develop --state open --json number --jq '.[0].number // ""')
-          if [ -z "${pr}" ]; then
-            pr=$(gh pr create --base main --head develop \
-                   --title "Promote develop to main ($(date -u +%Y-%m-%d))" \
-                   --body "$(printf '%s\n' \
-                     "Weekly promotion opened by \`Promote develop to main\`." \
-                     "" \
-                     "${changed} file(s) differ from \`main\`. Package version is \`${version}\` — merging publishes to PyPI, and skips if that version is already there, so bump it first if this release is meant to be installable." \
-                     "" \
-                     "Rebase-merged, per main's ruleset: every commit from \`develop\` is preserved and replayed onto the front of main's history." )" \
-                   | tr -dc '0-9')
-            echo "::notice::opened pull request #${pr}"
-            echo "- Opened #${pr}" >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "::notice::reusing open pull request #${pr}"
-            echo "- Reusing #${pr}" >> "$GITHUB_STEP_SUMMARY"
-          fi
-
-          # A pull request opened seconds ago has no results yet. Wait for the checks
-          # rather than merging blind; --watch exits non-zero if any of them fail.
-          if ! timeout 1800 gh pr checks "${pr}" --watch --interval 30; then
-            echo "::warning::checks did not pass on #${pr}; leaving it open."
-            echo "- Checks did not pass — left open for review." >> "$GITHUB_STEP_SUMMARY"
-            exit 0
-          fi
-
-          # Plain merge first; it is refused while main's approving-review requirement is
-          # unmet, even for an admin's token, because bypassing is opt-in per call. The
-          # --admin fallback succeeds only if the token carries the admin role.
-          if gh pr merge "${pr}" --rebase 2>/dev/null; then
-            echo "::notice::#${pr} rebase-merged into main; release.yml will publish to PyPI."
-            echo "- Rebase-merged. \`release.yml\` publishes to PyPI and realigns develop." >> "$GITHUB_STEP_SUMMARY"
-          elif gh pr merge "${pr}" --rebase --admin; then
-            echo "::notice::#${pr} rebase-merged into main (review requirement bypassed)."
-            echo "- Rebase-merged, bypassing the review requirement. \`release.yml\` publishes to PyPI and realigns develop." >> "$GITHUB_STEP_SUMMARY"
-          else
-            echo "::warning::could not merge #${pr}. The token cannot satisfy or bypass main's ruleset — see the permissions note in this workflow. The pull request is open and green; a human can merge it."
-            echo "- Blocked by ruleset — left open, green, for a human to merge." >> "$GITHUB_STEP_SUMMARY"
-          fi
+          git config user.name "vibey[bot]"
+          git config user.email "adam@matthewsteinberger.com"
+          vibey-gh promote ${{ inputs.dry_run && '--dry-run' || '' }}

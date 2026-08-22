@@ -266,10 +266,12 @@ feature/*  --PR-->  develop  --PR-->  main
   - `merge-train.yml` (07:17) reviews every open pull request into develop and
     squash-merges the ready ones. "Ready" is mechanical — not a draft, no conflicts,
     checks green, no changes requested; anything else is skipped with the reason recorded.
-  - `promote-to-main.yml` (08:17) compares develop and main **by content** and, if they
+  - `promote-to-main.yml` (08:17) runs `vibey-gh promote`, which compares develop and
+    main **by content** and, if they
     differ, opens the promotion pull request, waits for its checks and rebase-merges it.
     That push publishes to PyPI.
-- **`develop` is realigned to `main`** by `release.yml`'s `sync-develop` job after each
+- **`develop` is realigned to `main`** by `vibey-gh realign`, in `release.yml`'s
+  `sync-develop` job, after each
   publish. Rebase gives main rewritten SHAs, so develop can never be fast-forwarded onto
   it; the job realigns only when the two trees are **identical**, so it can never discard
   work. Do not realign by hand.

@@ -65,7 +65,7 @@ jobs:
         id: version
         run: |
           set -euo pipefail
-          python3 -m pip install --quiet "vibey-gh>=1.1.1"
+          python3 -m pip install --quiet "vibey-gh>=1.2.0"
           if [ "${GITHUB_REF}" = "refs/heads/develop" ]; then
             version=$(vibey-gh version --dev "${GITHUB_RUN_NUMBER}" --apply)
             publish_pypi=false
@@ -294,34 +294,26 @@ jobs:
           # the Actions bot, which develop's ruleset refuses.
           token: ${{ secrets.AUTOMERGE_TOKEN || github.token }}
 
-      - name: Realign develop with main
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: python3 -m pip install --quiet "vibey-gh>=1.2.0"
+
+      # This was ~35 lines of inline shell doing exactly what `vibey-gh realign` does:
+      # refuse unless the two branches' TREES are identical, then --force-with-lease
+      # pinned to the SHA just read, and treat a rejected push as a failure rather than a
+      # warning. The rule has not changed; it is just tested now.
+      #
+      # Why it matters, restated because it is easy to mistake for tidiness: main is
+      # rebase-merged, so its commits are rewritten copies. Leave develop divergent and
+      # the next promotion pull request opens CONFLICTING, because git sees every change
+      # twice.
+      - name: Realign
         run: |
           set -euo pipefail
-          git fetch --quiet origin main develop
-
-          if ! git diff --quiet origin/main origin/develop; then
-            echo "::warning::develop has content main does not, so it was left untouched. Promote it with a pull request."
-            exit 0
-          fi
-          if [ "$(git rev-parse origin/develop)" = "$(git rev-parse origin/main)" ]; then
-            echo "::notice::develop already matches main; nothing to do."
-            exit 0
-          fi
-
-          # --force-with-lease pinned to the SHA just read: if anything lands on develop
-          # between the check above and this push, the push is refused rather than
-          # silently overwriting it.
-          # A rejected push is a FAILURE, not a warning. Leaving develop divergent blocks
-          # the next promotion under the strict up-to-date policy, and the first time this
-          # happened the job reported success and the drift went unnoticed. The only
-          # benign outcomes are the two handled above: develop has real work, or it is
-          # already aligned.
-          before="$(git rev-parse origin/develop)"
-          if git push --force-with-lease="refs/heads/develop:${before}" \
-               origin "origin/main:refs/heads/develop"; then
-            echo "::notice::develop realigned to main — identical trees, histories converged."
-          else
-            echo "::error::could not realign develop, so it is now divergent from main and the next promotion will be blocked. If AUTOMERGE_TOKEN is unset or lacks the admin role the push is refused by develop's ruleset. Realign by hand with: git push --force-with-lease origin main:develop"
-            exit 1
-          fi
+          git config user.name "vibey[bot]"
+          git config user.email "adam@matthewsteinberger.com"
+          vibey-gh realign
 
