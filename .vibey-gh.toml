@@ -26,8 +26,12 @@ sources = [
 files         = ["src/vibey_skills/__init__.py", ".claude-plugin/marketplace.json"]
 # The skills and the manifest are the product — a change here is what users receive.
 content_paths = ["plugins/", ".claude-plugin/marketplace.json"]
-# src/ alone is the packaging CLI: a fix, not new content.
-code_paths    = ["src/"]
+# src/ alone is the packaging CLI: a fix, not new content. pyproject.toml counts with it
+# — it declares the dependencies and force-includes plugins/ into the wheel, so a change
+# there changes what an installed user gets. Left out, a dependency bump reads as "docs,
+# workflows, tooling" and the promotion publishes nothing, silently. That is exactly what
+# happened in vibey-bootstrap.
+code_paths    = ["src/", "pyproject.toml"]
 
 [install]
 # The merge train and the promotion. `provenance.yml` would duplicate the fingerprint check that
