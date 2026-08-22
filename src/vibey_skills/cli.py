@@ -32,6 +32,7 @@ from . import (
 )
 
 DEFAULT_DEST = Path.home() / ".claude" / "skills"
+DEFAULT_INDEX = Path(".vibey-skills/index")
 
 
 # --------------------------------------------------------------------------- helpers
@@ -226,6 +227,60 @@ def cmd_marketplace(_args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_index_build(args: argparse.Namespace) -> int:
+    from .context_engine import build_index, inspect_index
+
+    build_index(Path(args.output))
+    json.dump(inspect_index(Path(args.output)), sys.stdout, indent=2, sort_keys=True)
+    sys.stdout.write("\n")
+    return 0
+
+
+def cmd_index_inspect(args: argparse.Namespace) -> int:
+    from .context_engine import inspect_index
+
+    result = inspect_index(Path(args.index))
+    if args.json:
+        json.dump(result, sys.stdout, indent=2, sort_keys=True)
+        sys.stdout.write("\n")
+    else:
+        for key, value in result.items():
+            print(f"{key}: {value}")
+    return 0
+
+
+def cmd_search(args: argparse.Namespace) -> int:
+    from .context_engine import search
+
+    result = search(Path(args.index), args.query, limit=args.limit)
+    if args.json:
+        json.dump(result, sys.stdout, indent=2, ensure_ascii=False, sort_keys=True)
+        sys.stdout.write("\n")
+    else:
+        for item in result:
+            print(f"{item['score']:10.4f}  {item['plugin']}/{item['skill']}  {' > '.join(item['heading_path'])}")
+    return 0
+
+
+def cmd_packet(args: argparse.Namespace) -> int:
+    from .context_engine import compile_packet
+
+    request = json.loads(Path(args.request).read_text(encoding="utf-8"))
+    markdown, manifest = compile_packet(Path(args.index), request, budget=args.budget)
+    Path(args.output).write_text(markdown, encoding="utf-8")
+    Path(args.manifest).write_text(json.dumps(manifest, indent=2, ensure_ascii=False, sort_keys=True) + "\n", encoding="utf-8")
+    return 0 if manifest["status"] == "ok" else 2
+
+
+def cmd_evaluate(args: argparse.Namespace) -> int:
+    from .context_engine import evaluate
+
+    result = evaluate(Path(args.index), Path(args.cases), top_k=args.top_k)
+    json.dump(result, sys.stdout, indent=2, ensure_ascii=False, sort_keys=True)
+    sys.stdout.write("\n")
+    return 0 if result["passed_mandatory_recall"] else 2
+
+
 # --------------------------------------------------------------------------- parser
 
 
@@ -279,6 +334,37 @@ def build_parser() -> argparse.ArgumentParser:
     )
     p_market.set_defaults(func=cmd_marketplace)
 
+    p_index = sub.add_parser("index", help="build or inspect a local lexical index")
+    index_sub = p_index.add_subparsers(dest="index_command")
+    p_index_build = index_sub.add_parser("build", help="build a deterministic FTS5 index")
+    p_index_build.add_argument("--output", default=str(DEFAULT_INDEX))
+    p_index_build.set_defaults(func=cmd_index_build)
+    p_index_inspect = index_sub.add_parser("inspect", help="inspect an index")
+    p_index_inspect.add_argument("index")
+    p_index_inspect.add_argument("--json", action="store_true")
+    p_index_inspect.set_defaults(func=cmd_index_inspect)
+
+    p_search = sub.add_parser("search", help="search indexed skill sections")
+    p_search.add_argument("query")
+    p_search.add_argument("--index", default=str(DEFAULT_INDEX))
+    p_search.add_argument("--limit", type=int, default=20)
+    p_search.add_argument("--json", action="store_true")
+    p_search.set_defaults(func=cmd_search)
+
+    p_packet = sub.add_parser("packet", help="compile a bounded context packet")
+    p_packet.add_argument("--request", required=True)
+    p_packet.add_argument("--index", default=str(DEFAULT_INDEX))
+    p_packet.add_argument("--budget", type=int)
+    p_packet.add_argument("--output", required=True)
+    p_packet.add_argument("--manifest", required=True)
+    p_packet.set_defaults(func=cmd_packet)
+
+    p_evaluate = sub.add_parser("evaluate", help="evaluate retrieval against a gold case set")
+    p_evaluate.add_argument("--cases", required=True)
+    p_evaluate.add_argument("--index", default=str(DEFAULT_INDEX))
+    p_evaluate.add_argument("--top-k", type=int, default=10)
+    p_evaluate.set_defaults(func=cmd_evaluate)
+
     return parser
 
 
@@ -290,7 +376,7 @@ def main(argv: list[str] | None = None) -> int:
         return 1
     try:
         return args.func(args)
-    except FileNotFoundError as exc:
+    except (FileNotFoundError, ValueError, json.JSONDecodeError) as exc:
         print(f"vibey-skills: {exc}", file=sys.stderr)
         return 1
     except BrokenPipeError:
