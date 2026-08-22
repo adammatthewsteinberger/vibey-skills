@@ -1,6 +1,20 @@
 ---
 name: python-quality-testing
 description: Use when writing Python tests, setting up pytest, implementing TDD in Python, using Hypothesis for property-based testing, setting up mutation testing, configuring Ruff/mypy/Black, implementing contract testing with Pact, or building Python quality pipelines on Azure. Triggers on any Python testing or quality tooling question, including pytest fixtures, parametrize, conftest, coverage thresholds, testcontainers, Azurite, Cosmos DB emulator, or Azure DevOps pipeline YAML for Python.
+domains:
+  - testing
+  - database
+phases:
+  - build
+  - verify
+languages:
+  - python
+technologies:
+  - pytest
+  - postgresql
+mandatory_sections:
+  - pytest: The Complete Reference
+retrieval_version: 1
 ---
 
 # Python Quality Testing

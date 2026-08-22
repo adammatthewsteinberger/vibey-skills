@@ -21,6 +21,9 @@ build/
 *.egg-info/
 __pycache__/
 .venv/
+.vibey-skills/
+packet.md
+packet.json
 
 # macOS
 .DS_Store

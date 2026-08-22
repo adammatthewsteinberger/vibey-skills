@@ -1,6 +1,16 @@
 ---
 name: test-strategy
 description: Use when designing a test strategy, choosing a testing framework, setting up test architecture, balancing unit vs integration vs E2E tests, implementing contract testing between services, or assessing test suite health. Use whenever someone asks about how to test or what testing approach to take. Also triggers on test pyramid questions, microservice testing, Swiss Cheese model, SMURF, TDD vs BDD choices, test doubles (mock vs stub vs fake), or any question about test portfolio design.
+domains:
+  - testing
+phases:
+  - build
+  - verify
+technologies:
+  - pytest
+mandatory_sections:
+  - Anti-Patterns
+retrieval_version: 1
 ---
 
 # Test Strategy

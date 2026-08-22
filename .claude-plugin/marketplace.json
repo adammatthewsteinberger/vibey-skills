@@ -1025,7 +1025,7 @@
       "name": "quality-engineering",
       "source": "./plugins/quality-engineering",
       "description": "Quality Engineering: Python testing and quality practices, test strategy and frameworks, and systematic debugging with observability — structured logging, OpenTelemetry, distributed tracing, and error handling patterns.",
-      "version": "0.2.0",
+      "version": "0.3.0",
       "category": "engineering-process",
       "author": {
         "name": "Adam Matthew Steinberger",

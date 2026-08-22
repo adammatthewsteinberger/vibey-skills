@@ -152,6 +152,18 @@ def main() -> int:
     if len(entry_by_name) != len(entries):
         report.fail("marketplace.json: duplicate plugin names in `plugins`")
 
+    # The context engine owns the optional retrieval metadata schema. Importing it from
+    # source keeps this validator dependency-free while ensuring malformed list values,
+    # unsupported schema versions, symlink escapes, duplicates, and nonexistent mandatory
+    # headings fail in the same command contributors and CI already run.
+    try:
+        sys.path.insert(0, str(ROOT / "src"))
+        from vibey_skills.context_engine import ContextEngineError, build_manifest
+
+        build_manifest(ROOT / "plugins")
+    except (ContextEngineError, OSError, ValueError) as exc:
+        report.fail(f"retrieval metadata/corpus validation failed: {exc}")
+
     # --- marketplace entries ---------------------------------------------
     for entry in entries:
         name = entry.get("name")
