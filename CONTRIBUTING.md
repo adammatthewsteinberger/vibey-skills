@@ -27,7 +27,7 @@ Every code change carries it, and CI enforces it. Source files in `tools/`, `src
 
 ```bash
 git config core.hooksPath .githooks          # adds the trailer for you
-python3 tools/check_fingerprints.py --apply  # adds missing headers
+vibey-gh check --apply  # adds missing headers
 ```
 
 ## Branching
@@ -40,7 +40,7 @@ always and only — both enforced by the branch rulesets. Pushes to `develop` pu
 TestPyPI, pushes to `main` publish to PyPI, and `develop` is realigned to `main`
 automatically after a release. Do not realign or back-merge by hand.
 
-Two weekly trains move work along on Mondays: `merge-train-develop.yml` squash-merges
+Two weekly trains move work along on Mondays: `merge-train.yml` squash-merges
 ready pull requests into `develop`, and `promote-to-main.yml` rebase-merges `develop`
 into `main` when their contents differ.
 

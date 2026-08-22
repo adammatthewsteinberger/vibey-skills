@@ -1,0 +1,45 @@
+# vibey-gh configuration for this marketplace.
+#
+# The tooling that used to live in tools/check_fingerprints.py, tools/next_version.py and
+# tools/dev_version.py is now the `vibey-gh` package. Same rules, one implementation, so
+# a fix reaches every repository that uses it rather than one copy of it.
+#
+# `fingerprint.text` and `fingerprint.trailer` are left at their defaults, which are
+# already the exact strings this repository used. Restating them here would just create
+# two places for them to drift apart.
+
+[fingerprint]
+# Files that CAN carry a header comment. Deliberately not plugins/**/*.md — those are the
+# product, verified byte-for-byte against the documents they were split from, and a header
+# would be both context noise and a diff against the source. The commit trailer covers
+# them instead, which is the whole reason the rule has two halves.
+sources = [
+  "tools/*.py",
+  "src/**/*.py",
+  "docs/*.py",
+  ".github/workflows/*.yml",
+]
+
+[version]
+# BOTH sites, and they must never disagree: the CLI reports one and Claude Code reads the
+# other. The validator fails the build if they differ.
+files         = ["src/vibey_skills/__init__.py", ".claude-plugin/marketplace.json"]
+# The skills and the manifest are the product — a change here is what users receive.
+content_paths = ["plugins/", ".claude-plugin/marketplace.json"]
+# src/ alone is the packaging CLI: a fix, not new content.
+code_paths    = ["src/"]
+
+[install]
+# The merge train and the promotion. `provenance.yml` would duplicate the fingerprint check that
+# already runs inside ci.yml's "Validate manifests and build" job — and that job name is a
+# REQUIRED status check in both rulesets, so the check has to stay where it is rather than
+# move to a differently-named workflow.
+workflows = ["merge-train.yml", "promote-to-main.yml"]
+
+[branches]
+integration = "develop"
+release     = "main"
+
+[merge_train]
+owner           = "adammatthewsteinberger"
+trusted_authors = ["adammatthewsteinberger", "claude[bot]", "github-actions[bot]", "vibey[bot]"]

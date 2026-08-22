@@ -54,11 +54,20 @@ jobs:
           BASE_SHA: ${{ github.event.pull_request.base.sha }}
         run: |
           set -euo pipefail
+          # The rule is the same one this repository has always applied; the
+          # implementation is now the `vibey-gh` package rather than a copy of it here,
+          # so a fix reaches every repository that uses it. It has no dependencies, so
+          # this costs one wheel.
+          #
+          # --ci skips the core.hooksPath assertion, which is per-clone local git config
+          # that no runner can satisfy. The hook FILES are repository state and are still
+          # checked.
+          python3 -m pip install --quiet "vibey-gh>=1.2.0"
           if [ -n "${BASE_SHA:-}" ]; then
             git fetch --quiet --depth=50 origin "${BASE_SHA}" 2>/dev/null || true
-            python3 tools/check_fingerprints.py --commits "${BASE_SHA}..HEAD"
+            vibey-gh check --ci --commits "${BASE_SHA}..HEAD"
           else
-            python3 tools/check_fingerprints.py
+            vibey-gh check --ci
           fi
 
       - name: Build sdist and wheel

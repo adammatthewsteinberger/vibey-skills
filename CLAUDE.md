@@ -172,6 +172,30 @@ Two things must be configured for it to run, and neither is in the repository:
 - Settings → Actions → General → **Allow GitHub Actions to create and approve pull requests**,
   without which the default `GITHUB_TOKEN` cannot open the PR.
 
+## Release tooling lives in a package, not in this repository
+
+`vibey-gh` (on PyPI, no dependencies) provides the fingerprint check, the derived version
+bump, the merge train, and branch realignment. This repository used to carry its own copy
+of all of that — `tools/check_fingerprints.py`, `tools/next_version.py`,
+`tools/dev_version.py` and a 170-line merge-train workflow, about 530 lines. They are
+gone; the behaviour is unchanged.
+
+```bash
+pip install vibey-gh
+vibey-gh install          # hooks + the merge-train workflow, and points core.hooksPath
+vibey-gh check            # are the fingerprints intact?
+vibey-gh version --since origin/main --explain
+```
+
+Everything project-specific is in `.vibey-gh.toml`: which files carry headers, which hold
+the version, which paths count as content versus code, and who the merge train trusts.
+
+`[install] workflows = ["merge-train.yml"]` is deliberate. The bundled `provenance.yml`
+would duplicate the fingerprint check that already runs inside ci.yml's **Validate
+manifests and build** job — and that job name is a REQUIRED status check in both
+rulesets, so the check has to stay where it is rather than move to a differently-named
+workflow.
+
 ## The fingerprint
 
 **Every code change carries it. This is mandatory and CI enforces it.**
@@ -185,20 +209,21 @@ Made-With: Vibey, the auto-vibecoding machine by Adam Matthew Steinberger
 Two places, because a change can be either:
 
 - **Source files** carry the header comment — `tools/`, `src/`, `docs/*.py` and
-  `.github/workflows/*.yml`. `python3 tools/check_fingerprints.py --apply` adds it to
-  anything missing it.
+  `.github/workflows/*.yml`. `vibey-gh check --apply` adds it to anything missing it.
 - **Every commit** carries the `Made-With:` trailer. This is what makes the rule total:
   a change to a `SKILL.md` or a JSON manifest still arrives as a commit, and the commit
   is fingerprinted even when the file cannot be.
 
-Enable the hook once per clone so the trailer is added for you:
+Install the tooling and its hooks once per clone, so the trailer is added for you and a
+push without the fingerprints is refused:
 
 ```bash
-git config core.hooksPath .githooks
+pip install vibey-gh
+vibey-gh install
 ```
 
-`tools/check_fingerprints.py` runs in CI on every push and pull request; on a pull
-request it also checks the trailer on each commit the branch adds.
+`vibey-gh check` runs in CI on every push and pull request; on a pull request it also
+checks the trailer on each commit the branch adds.
 
 **What is deliberately not fingerprinted**, and why the trailer exists to cover it:
 
@@ -219,7 +244,7 @@ feature/*  --PR-->  develop  --PR-->  main
 - **Work happens on `feature/*` branches**, never directly on `develop`. Open a pull
   request into `develop`.
 - **Every push to `develop` publishes to TestPyPI** as `<release>.dev<run_number>` — see
-  `tools/dev_version.py`. An index version is immutable, so a develop build cannot reuse
+  `vibey-gh version --dev`. An index version is immutable, so a develop build cannot reuse
   the release version; the dev suffix makes each push distinct and sorts it before the
   release it anticipates. The patch is applied in the runner only and never committed.
 - **Every push to `main` publishes to PyPI** as the exact version in
@@ -238,20 +263,22 @@ feature/*  --PR-->  develop  --PR-->  main
   need an admin bypass.
 - **Two weekly trains** carry the work through, both on Monday, after the currency audit
   at 06:17:
-  - `merge-train-develop.yml` (07:17) reviews every open pull request into develop and
+  - `merge-train.yml` (07:17) reviews every open pull request into develop and
     squash-merges the ready ones. "Ready" is mechanical — not a draft, no conflicts,
     checks green, no changes requested; anything else is skipped with the reason recorded.
-  - `promote-to-main.yml` (08:17) compares develop and main **by content** and, if they
+  - `promote-to-main.yml` (08:17) runs `vibey-gh promote`, which compares develop and
+    main **by content** and, if they
     differ, opens the promotion pull request, waits for its checks and rebase-merges it.
     That push publishes to PyPI.
-- **`develop` is realigned to `main`** by `release.yml`'s `sync-develop` job after each
+- **`develop` is realigned to `main`** by `vibey-gh realign`, in `release.yml`'s
+  `sync-develop` job, after each
   publish. Rebase gives main rewritten SHAs, so develop can never be fast-forwarded onto
   it; the job realigns only when the two trees are **identical**, so it can never discard
   work. Do not realign by hand.
 
 ### Version bumps are derived, not remembered
 
-`tools/next_version.py` decides the release version from what actually changed since
+`vibey-gh version` decides the release version from what actually changed since
 `main`, and the promotion applies it:
 
 | what changed | bump |
