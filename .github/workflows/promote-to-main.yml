@@ -28,7 +28,10 @@ on:
   # for the weeks the train has nothing to merge and so never runs to completion, and for
   # anything that lands on develop by another route.
   workflow_run:
-    workflows: ["Merge train (develop)"]
+    # Must match the `name:` of the merge-train workflow EXACTLY. It is now the one
+    # vibey-gh installs, which is called "Merge train" — a workflow_run trigger naming a
+    # workflow that does not exist never fires, and nothing reports that it did not.
+    workflows: ["Merge train"]
     types: [completed]
   schedule:
     - cron: "17 8 * * 1"
@@ -84,7 +87,8 @@ jobs:
           # released nothing, silently. `none` is a legitimate answer — docs and workflow
           # changes do not reach an installed user — and the promotion still proceeds.
           git checkout --quiet -B develop origin/develop
-          bumped=$(python3 tools/next_version.py --since origin/main --explain --apply)
+          python3 -m pip install --quiet "vibey-gh>=1.1.1"
+          bumped=$(vibey-gh version --since origin/main --explain --apply)
 
           if [ "${bumped}" != "none" ] && [ "${DRY_RUN}" != "true" ]; then
             git config user.name "vibey[bot]"
@@ -95,7 +99,7 @@ jobs:
             # paragraph, which also makes the trailer a well-formed final paragraph.
             git commit --quiet \
               -m "Release ${bumped}" \
-              -m "Version derived from what changed since the last release by tools/next_version.py, so the promotion actually publishes." \
+              -m "Version derived from what changed since the last release by vibey-gh, so the promotion actually publishes." \
               -m "Made-With: Vibey, the auto-vibecoding machine by Adam Matthew Steinberger"
             if git push --quiet origin develop; then
               echo "::notice::bumped to ${bumped} and pushed to develop"
