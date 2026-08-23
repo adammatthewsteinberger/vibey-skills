@@ -34,8 +34,8 @@ concurrency:
   # giving each commit its own group lets them run in parallel and all reach the index.
   #
   # main and tags keep a shared group. There the version is NOT unique per run — reruns
-  # and retags publish the same version — so two of them racing could half-upload across
-  # the two indexes, which is exactly what serialising prevents.
+  # and retags publish the same version — so two of them racing could upload the same
+  # immutable artifact concurrently, which is exactly what serialising prevents.
   group: release-${{ github.ref }}-${{ github.ref == 'refs/heads/develop' && github.sha || 'shared' }}
   cancel-in-progress: false
 
@@ -73,7 +73,7 @@ jobs:
           else
             version=$(python3 -c "import re,pathlib; print(re.search(r'__version__ = \"([^\"]+)\"', pathlib.Path('src/vibey_skills/__init__.py').read_text()).group(1))")
             publish_pypi=true
-            echo "release build — TestPyPI then PyPI, as ${version}"
+            echo "release build — PyPI only, as ${version}"
           fi
           echo "version=${version}" >> "$GITHUB_OUTPUT"
           echo "publish_pypi=${publish_pypi}" >> "$GITHUB_OUTPUT"
@@ -103,16 +103,12 @@ jobs:
           name: dist
           path: dist/
 
-  # TestPyPI first, and PyPI only if it succeeds. A PyPI version number is immutable — it
-  # can never be reused, even after a yank — so the one chance to catch a bad artifact is
-  # before it lands. TestPyPI is a separate instance with its own account and its own
-  # trusted publisher; configure one there for this project or this job will fail.
-  #
-  # `skip-existing` because TestPyPI may already hold a version from a re-run of the same
-  # tag; that should not block the real publish.
+  # Develop is the TestPyPI lane. Main and tags publish directly to PyPI from the same
+  # build artifact, without making the production release depend on a second registry.
   testpypi:
     name: Publish to TestPyPI
     needs: build
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     environment:
       name: testpypi
@@ -149,6 +145,7 @@ jobs:
   verify-testpypi:
     name: Verify the TestPyPI artifact
     needs: [build, testpypi]
+    if: github.ref == 'refs/heads/develop'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -219,7 +216,7 @@ jobs:
   # PyPI already holds, and that must be a no-op rather than a red build.
   pypi:
     name: Publish to PyPI
-    needs: [build, verify-testpypi]
+    needs: build
     if: needs.build.outputs.publish_pypi == 'true'
     runs-on: ubuntu-latest
     environment:
@@ -316,4 +313,3 @@ jobs:
           git config user.name "vibey[bot]"
           git config user.email "adam@matthewsteinberger.com"
           vibey-gh realign
-

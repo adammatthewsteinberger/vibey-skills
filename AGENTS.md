@@ -247,8 +247,8 @@ feature/*  --PR-->  develop  --PR-->  main
   `vibey-gh version --dev`. An index version is immutable, so a develop build cannot reuse
   the release version; the dev suffix makes each push distinct and sorts it before the
   release it anticipates. The patch is applied in the runner only and never committed.
-- **Every push to `main` publishes to PyPI** as the exact version in
-  `src/vibey_skills/__init__.py`, after the same TestPyPI-then-verify gate. Most pushes to
+- **Every push to `main` publishes directly to PyPI** as the exact version in
+  `src/vibey_skills/__init__.py`. Most pushes to
   main carry no version bump, so the publish skips a version PyPI already holds rather
   than failing.
 - **A `v*` tag** additionally attaches the artifacts to a GitHub Release.
@@ -312,16 +312,10 @@ they belong in a pull request.
 wheel-completeness assertion, a wheel smoke test, and `mkdocs build --strict` on every push
 and pull request.
 
-Pushing a `v*` tag triggers `.github/workflows/release.yml`, which builds, then publishes in
-this order:
-
-1. **TestPyPI** — separate instance, separate trusted publisher.
-2. **Verify** — installs that exact version from TestPyPI and asserts all 644 skills land.
-3. **PyPI** — only if the verify step passed.
-4. **GitHub Release** — sdist and wheel attached.
-
-TestPyPI comes first because a PyPI version number is immutable: it can never be reused, even
-after a yank, so the only chance to catch a bad artifact is before it is uploaded.
+Pushing a `v*` tag triggers `.github/workflows/release.yml`, which builds once, publishes
+directly to PyPI, and attaches the same sdist and wheel to a GitHub Release. Develop remains
+the isolated TestPyPI lane and verifies its uniquely versioned development artifact there;
+main and tags do not depend on a second registry.
 
 Both publishes use Trusted Publishing (OIDC) — no API token is stored anywhere. Bump the
 version in `src/vibey_skills/__init__.py` and `marketplace.json`'s
