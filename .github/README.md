@@ -23,26 +23,40 @@ how that's fixed, is in
 
 ## Workflow inventory
 
-Four workflows are hand-authored because they are specific to this repository's product:
-`CI` (manifest and skill-frontmatter validation, packaging, the wheel-completeness
-assertion), `Release` (the TestPyPI/PyPI publish pipeline and `develop`'s realignment onto
-`main`), `Docs` (the mkdocs Material site, deployed to GitHub Pages), and
+Five workflows are hand-authored because they are specific to this repository's product or
+its release pattern: `CI` (manifest and skill-frontmatter validation, packaging, the
+wheel-completeness assertion), `Release` (the TestPyPI/PyPI publish pipeline and
+`develop`'s realignment onto `main`), `Release artifacts` (attaches the sdist/wheel to
+whatever GitHub Release `github-release.yml` creates — vibey-gh's own template has no
+way to attach files), `Docs` (the mkdocs Material site, deployed to GitHub Pages), and
 `Currency research` (a scheduled agent that audits dated claims in skill content against
-the live web). Six more are managed by `vibey-gh install` from its own templates and
-regenerated verbatim whenever that command runs: `provenance.yml` (the fingerprint check,
-job name **Provenance**), `codeql.yml` (job name **Analyze Python**), `merge-train.yml`,
-`promote-to-main.yml`, `branch-intake.yml`, and `automation-bootstrap.yml`. `Provenance`
-and `Analyze Python` are required status checks on both branch rulesets, alongside the
-hand-authored `Validate manifests and build` and `Build docs (strict)`.
+the live web). Nine more are managed by `vibey-gh install` from its own templates and
+regenerated verbatim whenever that command runs: `provenance.yml` (job name
+**Provenance**), `codeql.yml` (job name **Analyze Python**), `pr-automation.yml`
+(publishes the **PR automation / gate** check), `merge-train.yml`, `promote-to-main.yml`,
+`branch-intake.yml`, `automation-bootstrap.yml`, `github-release.yml`, and
+`repository-profile.yml`. `Provenance`, `Analyze Python`, and `PR automation / gate` are
+required status checks on both branch rulesets, alongside the hand-authored `Validate
+manifests and build` and `Build docs (strict)`.
 
 Not every template `vibey-gh` ships is adopted. `api-drift.yml` and
 `conventional-commits.yml` are excluded permanently: both assume that installing this
 repository's own package (`pip install .`) makes the `vibey-gh` CLI available, which is
-false here by design — runtime `dependencies` are deliberately empty. `documentation.yml`,
-`pr-automation.yml`, `github-release.yml`, `release-repair.yml`, and
-`repository-profile.yml` are not yet adopted pending further configuration.
+false here by design — runtime `dependencies` are deliberately empty.
+`documentation.yml` is not yet adopted pending further configuration.
 `release-surfaces.yml` is excluded because it would contest ownership of GitHub Pages with
 `docs.yml`, which already publishes the marketplace's real documentation site.
+`release-repair.yml` is excluded because it would spend an AI call diagnosing
+`github-release.yml`'s expected failures (below) as if each were a real one.
+
+`github-release.yml` is installed and required on this repository knowing it fails on
+most pushes to `main`: it has no way to skip a push that carries no version bump, and
+most of this repository's promotions are exactly that. There is no way to guard this from
+this side of the trigger — see
+[.vibey-gh.toml](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.vibey-gh.toml)'s
+`[install]` comment for the full reasoning. It is not a required check, so this doesn't
+block anything; `release.yml`'s own tag-triggered release job still creates a correct,
+artifact-carrying release regardless of whether this one succeeds.
 
 ## Exact-head PR automation
 

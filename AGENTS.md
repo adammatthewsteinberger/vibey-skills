@@ -191,7 +191,8 @@ Everything project-specific is in `.vibey-gh.toml`: which files carry headers, w
 the version, which paths count as content versus code, and who the merge train trusts.
 
 `[install] workflows` manages `merge-train.yml`, `promote-to-main.yml`,
-`provenance.yml`, `branch-intake.yml`, `automation-bootstrap.yml`, and `codeql.yml`.
+`provenance.yml`, `branch-intake.yml`, `automation-bootstrap.yml`, `codeql.yml`,
+`pr-automation.yml`, `github-release.yml`, and `repository-profile.yml`.
 `provenance.yml`'s job is named **Provenance** and is a REQUIRED status check on both
 rulesets — it replaced a hand-written "Check fingerprints" step that used to live inside
 ci.yml's **Validate manifests and build** job. `codeql.yml`'s job is named
@@ -199,11 +200,36 @@ ci.yml's **Validate manifests and build** job. `codeql.yml`'s job is named
 **default setup** (Settings -> Code security), which is now switched off. Default setup
 scanned both the `python` and `actions` languages; the template scans `python` only, so
 GitHub Actions workflow scanning has no coverage until vibey-gh's template adds it.
+`pr-automation.yml` publishes **PR automation / gate**, also a REQUIRED status check on
+both rulesets, configured with `[pr_automation] scan_workflows = ["CI", "Provenance",
+"CodeQL", "Docs"]` — the default additionally names `"API drift (Cloud Agents OpenAPI)"`,
+vibey-gh's own self-test, which is not installed here.
+
+`github-release.yml` is installed and REQUIRED knowing it fails on most pushes to
+`main`: it has no way to skip a push that carries no version bump, and per `[version]`
+above, most of this repository's own promotions are exactly that — docs- or
+tooling-only. `vibey_gh.github_release.publish()` raises "refusing to move existing tag"
+whenever the version file is unchanged, because the tag for that version already exists
+at an earlier SHA. There is no config knob for this and no way to guard it from this
+side of the trigger: a workflow run's overall `conclusion` is `success` once any job in
+it succeeds, so nothing this repository's own `Release` workflow does can make
+`github-release.yml`'s `workflow_run` trigger see anything other than `success`. Filed
+upstream; accepted here because it is not a required check, and because
+[.github/workflows/release-artifacts.yml](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.github/workflows/release-artifacts.yml)
+(hand-authored) plus the unchanged `github-release` job inside `release.yml` still
+produce a correct, artifact-carrying release on an actual version bump regardless of
+whether this workflow succeeds.
+
+`repository-profile.yml` is configured with a real `[repository_profile] description`
+and `topics` — its defaults are generic release-automation boilerplate that would
+overwrite this repository's actual GitHub description — and
+`delete_branch_on_merge = false`, since `develop` heads the next promotion PR and must
+survive a merge.
 
 Not (yet) installed: `documentation.yml` (the documentation contract isn't satisfied),
-`pr-automation.yml` / `github-release.yml` / `release-repair.yml` /
-`repository-profile.yml` (need config decisions made first), and `release-surfaces.yml`
-(would contest Pages ownership with docs.yml).
+and `release-surfaces.yml` (would contest Pages ownership with docs.yml).
+`release-repair.yml` is excluded because it would spend an AI call diagnosing
+`github-release.yml`'s expected failures as if each were a real one.
 
 Two templates are deliberately excluded **permanently**, both for the same underlying
 reason: a step that does `pip install .` (or checks out and installs this repo's own

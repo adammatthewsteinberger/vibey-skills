@@ -334,11 +334,13 @@ Full detail in [.github/README.md](https://github.com/adammatthewsteinberger/vib
 
 ### Workflows
 
-Ten workflows in total: four hand-authored (`CI`, `Release`, `Docs`,
-`Currency research`) and six managed by `vibey-gh install` (`provenance.yml`,
-`codeql.yml`, `merge-train.yml`, `promote-to-main.yml`, `branch-intake.yml`,
-`automation-bootstrap.yml`). Full inventory, including which of `vibey-gh`'s shipped
-templates are deliberately not adopted and why, is in
+Fourteen workflows in total: five hand-authored (`CI`, `Release`, `Release artifacts`,
+`Docs`, `Currency research`) and nine managed by `vibey-gh install` (`provenance.yml`,
+`codeql.yml`, `pr-automation.yml`, `merge-train.yml`, `promote-to-main.yml`,
+`branch-intake.yml`, `automation-bootstrap.yml`, `github-release.yml`,
+`repository-profile.yml`). Full inventory, including which of `vibey-gh`'s shipped
+templates are deliberately not adopted and why, and why `github-release.yml` is required
+despite failing on most pushes to `main`, is in
 [.github/README.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.github/README.md#workflow-inventory).
 
 ### Troubleshooting
