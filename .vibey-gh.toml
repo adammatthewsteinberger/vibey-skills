@@ -48,7 +48,11 @@ code_paths    = ["src/", "pyproject.toml"]
 #                             — need config decisions made first (scan_workflows, profile
 #                               description/topics, release.yml's own release job removed).
 #   release-surfaces.yml     — would fight docs.yml for ownership of GitHub Pages.
-#   codeql.yml                — needs CodeQL default setup switched off first.
+#
+# codeql.yml runs "Analyze Python" only (CodeQL default setup, now switched off, also
+# scanned the "actions" language — that coverage is gone until vibey-gh's template adds
+# it). Both rulesets' required check was updated from "Analyze (python)" to
+# "Analyze Python" in the same change that installed this workflow.
 workflows = [
   "merge-train.yml",
   "promote-to-main.yml",
@@ -56,6 +60,7 @@ workflows = [
   "branch-intake.yml",
   "conventional-commits.yml",
   "automation-bootstrap.yml",
+  "codeql.yml",
 ]
 
 [branches]
