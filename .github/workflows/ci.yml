@@ -19,9 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-        with:
-          # Needed so the fingerprint check can walk the pull request's commits.
-          fetch-depth: 0
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -41,34 +38,9 @@ jobs:
       - name: Check documentation links
         run: python3 tools/check_links.py
 
-      # Every code change carries the fingerprint. Source files that have a comment
-      # syntax carry a header; every commit carries a `Made-With:` trailer, which is what
-      # covers the changes that cannot hold a comment — a SKILL.md whose bytes are
-      # verified against its source document, or a JSON manifest.
-      #
-      # On a pull request the trailer is checked across the commits the PR actually adds.
-      # The base SHA is passed through `env:` rather than interpolated into the shell, so
-      # there is no injection surface here even though it comes from `github.event`.
-      - name: Check fingerprints
-        env:
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-        run: |
-          set -euo pipefail
-          # The rule is the same one this repository has always applied; the
-          # implementation is now the `vibey-gh` package rather than a copy of it here,
-          # so a fix reaches every repository that uses it. It has no dependencies, so
-          # this costs one wheel.
-          #
-          # --ci skips the core.hooksPath assertion, which is per-clone local git config
-          # that no runner can satisfy. The hook FILES are repository state and are still
-          # checked.
-          python3 -m pip install --quiet "vibey-gh==1.16.0"
-          if [ -n "${BASE_SHA:-}" ]; then
-            git fetch --quiet --depth=50 origin "${BASE_SHA}" 2>/dev/null || true
-            vibey-gh check --ci --commits "${BASE_SHA}..HEAD"
-          else
-            vibey-gh check --ci
-          fi
+      # The fingerprint check now runs in its own required workflow — see
+      # .github/workflows/provenance.yml (job name "Provenance") — rather than here, so
+      # `vibey-gh install` can keep that step current without touching this file.
 
       - name: Build sdist and wheel
         run: uv build

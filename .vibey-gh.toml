@@ -35,11 +35,28 @@ content_paths = ["plugins/", ".claude-plugin/marketplace.json"]
 code_paths    = ["src/", "pyproject.toml"]
 
 [install]
-# The merge train and the promotion. `provenance.yml` would duplicate the fingerprint check that
-# already runs inside ci.yml's "Validate manifests and build" job — and that job name is a
-# REQUIRED status check in both rulesets, so the check has to stay where it is rather than
-# move to a differently-named workflow.
-workflows = ["merge-train.yml", "promote-to-main.yml"]
+# The merge train, the promotion, and the templates that don't collide with anything this
+# repository already owns. `provenance.yml` now duplicates and replaces ci.yml's own
+# "Check fingerprints" step — both a required check named "Provenance" and the ruleset
+# update land in the same change, so the check is never unenforced in between.
+#
+# Deliberately NOT installed:
+#   api-drift.yml            — vibey-gh's own self-test; `pip install .` installs
+#                               vibey-skills here, so the import it asserts always fails.
+#   documentation.yml        — the documentation contract isn't satisfied yet.
+#   pr-automation.yml, github-release.yml, release-repair.yml, repository-profile.yml
+#                             — need config decisions made first (scan_workflows, profile
+#                               description/topics, release.yml's own release job removed).
+#   release-surfaces.yml     — would fight docs.yml for ownership of GitHub Pages.
+#   codeql.yml                — needs CodeQL default setup switched off first.
+workflows = [
+  "merge-train.yml",
+  "promote-to-main.yml",
+  "provenance.yml",
+  "branch-intake.yml",
+  "conventional-commits.yml",
+  "automation-bootstrap.yml",
+]
 
 [branches]
 integration = "develop"
