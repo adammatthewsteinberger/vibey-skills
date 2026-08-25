@@ -26,8 +26,9 @@ Every code change carries it, and CI enforces it. Source files in `tools/`, `src
 `Made-With:` trailer, which covers the changes that cannot hold a comment.
 
 ```bash
-git config core.hooksPath .githooks          # adds the trailer for you
-vibey-gh check --apply  # adds missing headers
+pip install "vibey-gh==1.16.0"   # or: pip install -e ".[dev]"
+vibey-gh install                 # writes the hooks and points core.hooksPath at them
+vibey-gh check --apply           # adds missing headers
 ```
 
 ## Branching

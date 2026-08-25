@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
+# Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
 """Validate the vibey-skills marketplace.
 
 Stdlib only — no dependencies, no build step. Run from anywhere:

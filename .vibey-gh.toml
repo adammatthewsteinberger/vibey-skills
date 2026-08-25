@@ -4,9 +4,10 @@
 # tools/dev_version.py is now the `vibey-gh` package. Same rules, one implementation, so
 # a fix reaches every repository that uses it rather than one copy of it.
 #
-# `fingerprint.text` and `fingerprint.trailer` are left at their defaults, which are
-# already the exact strings this repository used. Restating them here would just create
-# two places for them to drift apart.
+# `fingerprint.text` and `fingerprint.trailer` are left at their defaults. Pin the exact
+# `vibey-gh` version everywhere it is installed (workflows, [dev] extra) rather than relying
+# on this — a floating specifier lets the defaults drift out from under this repository
+# with no warning, which is exactly what broke CI between 1.2.0 and 1.16.0.
 
 [fingerprint]
 # Files that CAN carry a header comment. Deliberately not plugins/**/*.md — those are the
@@ -47,3 +48,7 @@ release     = "main"
 [merge_train]
 owner           = "adammatthewsteinberger"
 trusted_authors = ["adammatthewsteinberger", "claude[bot]", "github-actions[bot]", "vibey[bot]"]
+
+[documentation]
+# Re-enabled in Stage 4, once the required files and README sections exist.
+enabled = false
