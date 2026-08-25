@@ -190,11 +190,28 @@ vibey-gh version --since origin/main --explain
 Everything project-specific is in `.vibey-gh.toml`: which files carry headers, which hold
 the version, which paths count as content versus code, and who the merge train trusts.
 
-`[install] workflows = ["merge-train.yml"]` is deliberate. The bundled `provenance.yml`
-would duplicate the fingerprint check that already runs inside ci.yml's **Validate
-manifests and build** job — and that job name is a REQUIRED status check in both
-rulesets, so the check has to stay where it is rather than move to a differently-named
-workflow.
+`[install] workflows` manages `merge-train.yml`, `promote-to-main.yml`,
+`provenance.yml`, `branch-intake.yml`, `conventional-commits.yml`, and
+`automation-bootstrap.yml`. `provenance.yml`'s job is named **Provenance** and is a
+REQUIRED status check on both rulesets — it replaced a hand-written "Check fingerprints"
+step that used to live inside ci.yml's **Validate manifests and build** job.
+
+Not (yet) installed: `codeql.yml` (needs CodeQL default setup switched off first),
+`documentation.yml` (the documentation contract isn't satisfied), `pr-automation.yml` /
+`github-release.yml` / `release-repair.yml` / `repository-profile.yml` (need config
+decisions made first), and `release-surfaces.yml` (would contest Pages ownership with
+docs.yml). `api-drift.yml` is deliberately excluded permanently: it is vibey-gh's own
+self-test — `pip install .` installs `vibey-skills` here, not `vibey-gh`, so the import
+it asserts always fails.
+
+`vibey-gh install` fully regenerates every file in this list from its template, including
+the `pip install` line inside it — which is **unpinned**, unlike the hand-authored
+ci.yml/release.yml. A hand-edit to pin it would immediately be flagged as "out of date" by
+`vibey-gh check`, so these workflows cannot be pinned the way Stage 1 pinned ci.yml and
+release.yml. A future vibey-gh release can still change behavior under `provenance.yml`,
+`merge-train.yml`, or `promote-to-main.yml` without warning; upgrading `vibey-gh` in
+`pyproject.toml`'s `[dev]` extra and re-running `vibey-gh install` deliberately, then
+re-verifying `vibey-gh check --ci`, is the only way to catch that before it reaches CI.
 
 ## The fingerprint
 
