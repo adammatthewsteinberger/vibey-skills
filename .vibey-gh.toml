@@ -84,5 +84,4 @@ owner           = "adammatthewsteinberger"
 trusted_authors = ["adammatthewsteinberger", "claude[bot]", "github-actions[bot]", "vibey[bot]"]
 
 [documentation]
-# Re-enabled in Stage 4, once the required files and README sections exist.
-enabled = false
+enabled = true

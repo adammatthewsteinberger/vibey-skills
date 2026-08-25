@@ -277,6 +277,87 @@ Branch from `develop`; PRs need green CI. Full workflow and the `SKILL.md` forma
 [CONTRIBUTING.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CONTRIBUTING.md)
 and [CLAUDE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CLAUDE.md).
 
+## Release automation
+
+This repository's own release pipeline — the fingerprint check, version bumps, the merge
+train, promotion, and branch realignment — runs on
+[`vibey-gh`](https://pypi.org/project/vibey-gh/) rather than a bespoke copy of that
+tooling. The sections below exist to satisfy `vibey-gh`'s own documentation contract
+(`vibey-gh check` verifies they're present), and document that automation for whoever
+next touches a workflow file — not the marketplace itself, covered above.
+
+### Why vibey-gh
+
+Before adopting it, this repository carried roughly 530 lines of its own fingerprint,
+versioning, and merge-train scripts under `tools/`. They were deleted in favor of the
+published package so a fix reaches every repository that uses it, not just this one — see
+[CLAUDE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CLAUDE.md#release-tooling-lives-in-a-package-not-in-this-repository).
+
+### Requirements
+
+Python 3.11+ (for `vibey-gh` itself; this package supports 3.10+), Git, and the GitHub CLI
+(`gh`). A repository-level `ANTHROPIC_API_KEY` secret and an `AUTOMERGE_TOKEN` with the
+admin role are already configured, along with GitHub Pages deploying from Actions.
+
+### Commands
+
+```bash
+pip install "vibey-gh==1.16.0"   # or: pip install -e ".[dev]"
+vibey-gh install                 # writes the hooks and the managed workflow files
+vibey-gh check --ci              # exactly what CI runs
+vibey-gh version --since origin/main --explain
+```
+
+### Configuration
+
+Everything project-specific is in
+[`.vibey-gh.toml`](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.vibey-gh.toml):
+which files carry the fingerprint header, which files hold the version, which paths count
+as content versus code for a version bump, which workflow templates are managed, and who
+the merge train trusts.
+
+### Architecture
+
+A pre-commit hook adds the fingerprint trailer locally; a pre-push hook refuses a push
+that fails `vibey-gh check`. The same checks run again, unconditionally, in CI, because a
+hook lives in a clone and can be bypassed. Managed workflow files are regenerated from
+`vibey-gh`'s own templates by `vibey-gh install` — hand-editing one is reported as "out of
+date" by `check` and overwritten on the next `install`.
+
+### Security model
+
+Permanent branches (`develop`, `main`) may advance but are never deleted or force-pushed.
+`develop` is realigned onto `main` only when the two trees are byte-identical, so the
+realignment can never discard work. A pull request's evidence is tied to its exact head
+commit — a check or review against an earlier commit doesn't count once the branch moves.
+Full detail in [.github/README.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.github/README.md#ai-trust-boundary).
+
+### Workflows
+
+Ten workflows in total: four hand-authored (`CI`, `Release`, `Docs`,
+`Currency research`) and six managed by `vibey-gh install` (`provenance.yml`,
+`codeql.yml`, `merge-train.yml`, `promote-to-main.yml`, `branch-intake.yml`,
+`automation-bootstrap.yml`). Full inventory, including which of `vibey-gh`'s shipped
+templates are deliberately not adopted and why, is in
+[.github/README.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.github/README.md#workflow-inventory).
+
+### Troubleshooting
+
+- **`vibey-gh check` fails locally with "core.hooksPath is not .githooks"** — run
+  `vibey-gh install`.
+- **A managed workflow shows as "out of date"** — it was hand-edited; revert the edit and
+  change `.vibey-gh.toml` instead, then run `vibey-gh install` again.
+- **CI is red on a fingerprint check after a `vibey-gh` upgrade** — this happened once: a
+  floating version specifier let CI silently jump from 1.2.0 to 1.16.0, which changed the
+  default fingerprint text and added a documentation contract. Every install of `vibey-gh`
+  in this repository is now pinned to an exact version for that reason.
+
+### Licence
+
+`vibey-gh` itself is MIT-licensed — see its
+[repository](https://github.com/adammatthewsteinberger/vibey-gh) for its own license text.
+This repository's license is below.
+
 ## License & attribution
 
 [MIT](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/LICENSE) © 2026 The Vizius Group and Adam Matthew Steinberger.
@@ -289,3 +370,5 @@ The Vizius Group — see [NOTICE.md](https://github.com/adammatthewsteinberger/v
 ---
 
 Built by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com) · [more open source](https://hire.adam.matthewsteinberger.com/open-source)
+
+Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
