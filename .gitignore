@@ -7,9 +7,13 @@ archive/
 # cannot live in the tree it protects.
 .claudeloop/
 
-# Local agent session state
+# Local agent session state. .claude/settings.json and .claude/skills/ are the
+# project-level, checked-in exceptions — vibey-gh's documentation contract also expects
+# them to exist on disk.
 .remember/
-.claude/
+.claude/*
+!.claude/settings.json
+!.claude/skills/
 
 # mkdocs build output and its throwaway venv
 site/

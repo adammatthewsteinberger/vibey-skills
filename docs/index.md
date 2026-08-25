@@ -47,3 +47,7 @@ MIT, © 2026 The Vizius Group and Adam Matthew Steinberger. See
 [NOTICE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/NOTICE.md) —
 the project was originally developed at The Vizius Group as `vibe-engineering-skills` and is
 republished here with their permission.
+
+---
+
+Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
