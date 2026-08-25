@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
+# Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
 """Pick which plugins the weekly currency audit should research, and brief the agent.
 
 Stdlib only, like the other checkers. Run from anywhere:
