@@ -132,6 +132,12 @@ because outdated descriptions are everywhere.**
   command line. ⚠️ **The old feature-flag method was removed, which broke some
   command-line scripts.**
 - **⚠️ At that announcement, CGAL was still the default backend**, with Manifold opt-in.
+- **⚠️ That changed on 2025-08-17**, when OpenSCAD maintainer Marius Kintel announced on the
+  project mailing list that **Manifold is now the default backend in development
+  snapshots**, calling it "battle tested"; CGAL remains selectable via preferences or
+  `--backend=cgal`. ⚠️ **The most recent tagged "stable" release is still 2021.01, which
+  predates Manifold support entirely** — anyone using Manifold at all is already on a
+  development snapshot, where the default has now flipped.
 
 > **⚠️ GOTCHA — two things to be careful about here.**
 > **First, many current sources — including reference documentation and comparison
@@ -233,15 +239,18 @@ code-CAD search — **including CadQuery's own documentation and multiple 2026
 comparison articles** — describe OpenSCAD's kernel as CGAL and contrast it unfavourably
 with OCCT on that basis. **That framing predates the Manifold work.** I followed up
 specifically and found the **OpenSCAD mailing list announcement (2024-09-28) that Manifold
-is no longer experimental**, plus **the Manifold project's own performance discussion**
-for the speedup figures. ⚠️ **§16.1 reflects that; the widely-repeated "OpenSCAD uses
-CGAL" line is now incomplete.**
+is no longer experimental**, a **later mailing list post (2025-08-17) from the same
+maintainer confirming Manifold became the default backend in development snapshots**, plus
+**the Manifold project's own performance discussion** for the speedup figures. ⚠️ **§16.1
+reflects that; the widely-repeated "OpenSCAD uses CGAL" line is now incomplete.**
 
 **Confidence.** **High** in §1–§12 → `cad-geometry-kernels-formats-and-code-cad`, `cad-slicing-pipeline-and-processes`, `cad-design-tolerances-and-materials`, `cad-generative-automation-and-scanning` — established mathematics and process physics, with
 numbers stated as representative ranges that vary by machine and material. **High** in
 §16.1's Manifold facts, which come from the project and the OpenSCAD maintainers directly,
-including the caveat that **CGAL remained the default backend at the time of that
-announcement** — ⚠️ **verify the current default for your version rather than assuming.**
+including that **CGAL remained the default backend at the time of the 2024-09-28
+announcement, and that Manifold became the default in development snapshots as of
+2025-08-17** — ⚠️ **verify which snapshot and backend you are actually running rather than
+assuming, since the tagged "stable" release (2021.01) predates either backend option.**
 
 ⚠️ **Two explicit hedges.** **§16.2's slicer assessment is drawn from comparison articles,
 which are opinion-shaped and frequently affiliate-monetized**; I have framed it as
