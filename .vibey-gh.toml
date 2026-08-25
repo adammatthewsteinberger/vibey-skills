@@ -56,16 +56,37 @@ code_paths    = ["src/", "pyproject.toml"]
 #                               never actually normalize anything.
 #
 # Deliberately NOT installed for other reasons:
-#   documentation.yml        — the documentation contract isn't satisfied yet.
-#   pr-automation.yml, github-release.yml, release-repair.yml, repository-profile.yml
-#                             — need config decisions made first (scan_workflows, profile
-#                               description/topics, release.yml's own release job removed).
 #   release-surfaces.yml     — would fight docs.yml for ownership of GitHub Pages.
+#   release-repair.yml       — watches for failures of "GitHub Release" among others and
+#                               spends an AI call diagnosing each one. Since
+#                               github-release.yml (below) is expected to fail on most
+#                               pushes to main, adopting this too would mean repeatedly
+#                               "repairing" a failure that isn't one.
 #
 # codeql.yml runs "Analyze Python" only (CodeQL default setup, now switched off, also
 # scanned the "actions" language — that coverage is gone until vibey-gh's template adds
 # it). Both rulesets' required check was updated from "Analyze (python)" to
 # "Analyze Python" in the same change that installed this workflow.
+#
+# pr-automation.yml is configured below in [pr_automation]. "PR automation / gate" is a
+# required check on both rulesets.
+#
+# github-release.yml is installed KNOWING it will fail on most pushes to main. It fires
+# on every completed `Release` run on main with no way to skip a push that carries no
+# version bump — and most of this repository's own promotions are exactly that (docs- or
+# tooling-only, per [version] above). `vibey_gh.github_release.publish()` raises
+# "refusing to move existing tag" whenever the version file is unchanged, because the tag
+# for that version already exists at an earlier SHA. There is no config knob for this,
+# and no way to guard it from this side of the trigger — a workflow run's overall
+# `conclusion` is `success` once any job in it succeeds, so nothing this repository's own
+# `Release` workflow does can make `github-release.yml`'s `workflow_run` trigger see
+# anything other than `success`. Filed upstream; accepted here as a known, expected,
+# non-blocking failure (it is not a required check) rather than declined outright,
+# because release.yml's own "github-release" job — kept, unchanged, tag-push-triggered —
+# already creates the tag and attaches build artifacts correctly regardless of whether
+# this one succeeds. `.github/workflows/release-artifacts.yml` (hand-authored, not
+# vibey-gh-managed) attaches those same artifacts to whatever release github-release.yml
+# creates on an actual bump, and exits cleanly rather than failing when none appears.
 workflows = [
   "merge-train.yml",
   "promote-to-main.yml",
@@ -73,7 +94,29 @@ workflows = [
   "branch-intake.yml",
   "automation-bootstrap.yml",
   "codeql.yml",
+  "pr-automation.yml",
+  "github-release.yml",
+  "repository-profile.yml",
 ]
+
+[pr_automation]
+# This repository's real workflow names. The default also names "API drift (Cloud Agents
+# OpenAPI)", which is vibey-gh's own self-test and is deliberately not installed here —
+# left in, the gate would wait forever on a workflow that never runs.
+scan_workflows = ["CI", "Provenance", "CodeQL", "Docs"]
+
+[repository_profile]
+description = "Agent Skills for vibe engineering — 644 evidence-grounded practitioner references as a Claude Code plugin marketplace"
+topics = [
+  "claude-code",
+  "agent-skills",
+  "plugin-marketplace",
+  "prompt-engineering",
+  "developer-tools",
+]
+# develop is the head of the promotion PR into main; auto-deleting it on merge would
+# delete the very branch the next promotion needs to exist.
+delete_branch_on_merge = false
 
 [branches]
 integration = "develop"
