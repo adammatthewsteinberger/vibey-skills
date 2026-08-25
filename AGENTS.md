@@ -191,22 +191,32 @@ Everything project-specific is in `.vibey-gh.toml`: which files carry headers, w
 the version, which paths count as content versus code, and who the merge train trusts.
 
 `[install] workflows` manages `merge-train.yml`, `promote-to-main.yml`,
-`provenance.yml`, `branch-intake.yml`, `conventional-commits.yml`,
-`automation-bootstrap.yml`, and `codeql.yml`. `provenance.yml`'s job is named
-**Provenance** and is a REQUIRED status check on both rulesets — it replaced a
-hand-written "Check fingerprints" step that used to live inside ci.yml's **Validate
-manifests and build** job. `codeql.yml`'s job is named **Analyze Python** and is also a
-REQUIRED status check on both rulesets, replacing CodeQL **default setup** (Settings ->
-Code security), which is now switched off. Default setup scanned both the `python` and
-`actions` languages; the template scans `python` only, so GitHub Actions workflow
-scanning has no coverage until vibey-gh's template adds it.
+`provenance.yml`, `branch-intake.yml`, `automation-bootstrap.yml`, and `codeql.yml`.
+`provenance.yml`'s job is named **Provenance** and is a REQUIRED status check on both
+rulesets — it replaced a hand-written "Check fingerprints" step that used to live inside
+ci.yml's **Validate manifests and build** job. `codeql.yml`'s job is named
+**Analyze Python** and is also a REQUIRED status check on both rulesets, replacing CodeQL
+**default setup** (Settings -> Code security), which is now switched off. Default setup
+scanned both the `python` and `actions` languages; the template scans `python` only, so
+GitHub Actions workflow scanning has no coverage until vibey-gh's template adds it.
 
 Not (yet) installed: `documentation.yml` (the documentation contract isn't satisfied),
 `pr-automation.yml` / `github-release.yml` / `release-repair.yml` /
 `repository-profile.yml` (need config decisions made first), and `release-surfaces.yml`
-(would contest Pages ownership with docs.yml). `api-drift.yml` is deliberately excluded
-permanently: it is vibey-gh's own self-test — `pip install .` installs `vibey-skills`
-here, not `vibey-gh`, so the import it asserts always fails.
+(would contest Pages ownership with docs.yml).
+
+Two templates are deliberately excluded **permanently**, both for the same underlying
+reason: a step that does `pip install .` (or checks out and installs this repo's own
+default branch) expecting that to make the `vibey-gh` CLI itself available. It never
+does — this repo's runtime `dependencies` are deliberately `[]`, so that install only
+ever yields `vibey-skills`.
+- `api-drift.yml` — asserts `vibey_gh.surfaces` parity on whatever it installed; the
+  import fails outright.
+- `conventional-commits.yml` — its "Check out trusted normalizer" step installs this
+  repo's default branch, then calls a `vibey-gh` CLI that was never actually installed.
+  Confirmed failing on PR #48 with "vibey-gh: command not found" inside the msg-filter.
+  Not a required check, so this was silent rather than blocking — worse, since it can
+  never actually normalize a commit message.
 
 `vibey-gh install` fully regenerates every file in this list from its template, including
 the `pip install` line inside it — which is **unpinned**, unlike the hand-authored
