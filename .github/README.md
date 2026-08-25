@@ -1,0 +1,107 @@
+# .github
+
+This document explains the automation that lives in this directory: what runs, why it
+runs, what it is and is not trusted to do, and how to change it safely. It is written for
+whoever next touches a workflow file — a maintainer, a contributor, or an agent — not for
+users of the marketplace itself (that's the root
+[README.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/README.md)).
+
+## Delivery model
+
+Work moves `feature/* -> develop -> main`. A `feature/*` branch is squash-merged into
+`develop`; `develop` is rebase-merged into `main`, which is the only method consistent
+with the `required_linear_history` rule both branch rulesets enforce. Every push to
+`develop` publishes a `<release>.dev<run_number>` build to TestPyPI; every push to `main`
+publishes the exact version in `src/vibey_skills/__init__.py` to PyPI, after the same
+TestPyPI-then-verify gate. A `v*` tag additionally attaches build artifacts to a GitHub
+Release. Two weekly trains carry ordinary work through without a human in the loop: a
+merge train squash-merges ready pull requests into `develop`, and a promotion opens (and,
+once its checks pass, rebase-merges) the pull request that carries `develop` into `main`
+when the two differ. Full detail, including why `develop` used to fall behind `main` and
+how that's fixed, is in
+[CLAUDE.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/CLAUDE.md).
+
+## Workflow inventory
+
+Four workflows are hand-authored because they are specific to this repository's product:
+`CI` (manifest and skill-frontmatter validation, packaging, the wheel-completeness
+assertion), `Release` (the TestPyPI/PyPI publish pipeline and `develop`'s realignment onto
+`main`), `Docs` (the mkdocs Material site, deployed to GitHub Pages), and
+`Currency research` (a scheduled agent that audits dated claims in skill content against
+the live web). Six more are managed by `vibey-gh install` from its own templates and
+regenerated verbatim whenever that command runs: `provenance.yml` (the fingerprint check,
+job name **Provenance**), `codeql.yml` (job name **Analyze Python**), `merge-train.yml`,
+`promote-to-main.yml`, `branch-intake.yml`, and `automation-bootstrap.yml`. `Provenance`
+and `Analyze Python` are required status checks on both branch rulesets, alongside the
+hand-authored `Validate manifests and build` and `Build docs (strict)`.
+
+Not every template `vibey-gh` ships is adopted. `api-drift.yml` and
+`conventional-commits.yml` are excluded permanently: both assume that installing this
+repository's own package (`pip install .`) makes the `vibey-gh` CLI available, which is
+false here by design — runtime `dependencies` are deliberately empty. `documentation.yml`,
+`pr-automation.yml`, `github-release.yml`, `release-repair.yml`, and
+`repository-profile.yml` are not yet adopted pending further configuration.
+`release-surfaces.yml` is excluded because it would contest ownership of GitHub Pages with
+`docs.yml`, which already publishes the marketplace's real documentation site.
+
+## Exact-head PR automation
+
+`vibey-gh`'s design principle is that only evidence produced against a pull request's
+*exact current head commit* counts — a check that ran against an earlier commit, or a
+review approving an earlier commit, is stale the moment the branch moves. The merge train
+applies this mechanically: readiness is not a draft, no merge conflicts, every check green,
+and no outstanding changes-requested review, evaluated fresh each run rather than cached
+from a prior pass. A pull request held back only by the review requirement is labeled and
+its owner is mentioned once, so a real contribution does not sit unnoticed; a draft or a
+red build gets neither, because that is the contributor's own next step, not something
+worth paging anyone about.
+
+## AI trust boundary
+
+The one workflow that runs an AI agent with write access, `Currency research`, is scoped
+tightly: it may only edit skill content for dated claims, must attach its research sources
+in the pull request body, and is explicitly forbidden from merging, closing, changing
+repository settings, or pushing to `develop` or `main` directly — it can only open a pull
+request into `develop`, which the ordinary review and merge-train path then evaluates like
+any other contribution. It also carries the fingerprint trailer, same as a human commit.
+
+## Credentials and settings
+
+`ANTHROPIC_API_KEY` and `AUTOMERGE_TOKEN` are configured as repository secrets.
+`AUTOMERGE_TOKEN` exists because a branch ruleset that requires an approving review cannot
+be satisfied by the default `GITHUB_TOKEN`, and because a push authenticated as
+`github-actions[bot]` does not trigger further workflows — a release chain downstream of an
+automated merge would silently stop. Settings -> Actions -> General must allow Actions to
+create and approve pull requests, or the merge train and the promotion cannot open theirs.
+
+## Permanent-branch safety
+
+`develop` and `main` are permanent branches, protected by rulesets that both trainings
+respect: they may advance, but neither this automation nor a human is expected to delete or
+force-push them. `develop` is realigned onto `main` after every release by fast-forward
+only — the job checks the two trees are byte-identical first, so it can never discard work,
+and never back-merges by hand.
+
+## Failure recovery
+
+`automation-bootstrap.yml` exists for the case the privileged automation itself is broken:
+an admin-only, manually dispatched recovery merge, gated on an open non-draft pull request
+against `develop`, an exact head match, changes confined to workflow/template/automation
+paths, and every non-gate check green. Outside that narrow path, a failed required check
+blocks the merge train exactly as intended, and the fix is the ordinary one — push a new
+commit and let the checks run again against the new head.
+
+## Changing workflows
+
+The four hand-authored workflows are edited directly; their `name:` fields are load-bearing
+(`CI` and `Release` are watched by name elsewhere) and must not change casually. The six
+`vibey-gh`-managed workflows are edited by changing `.vibey-gh.toml`'s `[install]`
+`workflows` list or the relevant config table, then running `vibey-gh install` — a manual
+edit to one of these files is reported as "out of date" by `vibey-gh check` and overwritten
+on the next `install`. Adding a new managed template is a one-line config change followed
+by `vibey-gh install`; removing one requires deleting the generated file by hand, since
+`install` never deletes.
+
+---
+
+Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
