@@ -1,4 +1,4 @@
-# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
+# Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
 name: CI
 
 on:
@@ -62,7 +62,7 @@ jobs:
           # --ci skips the core.hooksPath assertion, which is per-clone local git config
           # that no runner can satisfy. The hook FILES are repository state and are still
           # checked.
-          python3 -m pip install --quiet "vibey-gh>=1.2.0"
+          python3 -m pip install --quiet "vibey-gh==1.16.0"
           if [ -n "${BASE_SHA:-}" ]; then
             git fetch --quiet --depth=50 origin "${BASE_SHA}" 2>/dev/null || true
             vibey-gh check --ci --commits "${BASE_SHA}..HEAD"

@@ -181,7 +181,7 @@ of all of that — `tools/check_fingerprints.py`, `tools/next_version.py`,
 gone; the behaviour is unchanged.
 
 ```bash
-pip install vibey-gh
+pip install "vibey-gh==1.16.0"
 vibey-gh install          # hooks + the merge-train workflow, and points core.hooksPath
 vibey-gh check            # are the fingerprints intact?
 vibey-gh version --since origin/main --explain
@@ -201,9 +201,9 @@ workflow.
 **Every code change carries it. This is mandatory and CI enforces it.**
 
 ```
-# Made with love by Vibey, the auto-vibecoding machine by Adam Matthew Steinberger.
+# Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
 
-Made-With: Vibey, the auto-vibecoding machine by Adam Matthew Steinberger
+Made-With: Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
 ```
 
 Two places, because a change can be either:
@@ -218,7 +218,7 @@ Install the tooling and its hooks once per clone, so the trailer is added for yo
 push without the fingerprints is refused:
 
 ```bash
-pip install vibey-gh
+pip install "vibey-gh==1.16.0"
 vibey-gh install
 ```
 

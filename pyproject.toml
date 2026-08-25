@@ -78,6 +78,13 @@ docs = [
   "mkdocs-literate-nav>=0.6",
 ]
 
+# Pinned exactly, matching every workflow's install step (see .vibey-gh.toml) — a floating
+# specifier is what let CI silently jump 1.2.0 -> 1.16.0 and break on the new defaults.
+# vibey-gh requires Python >=3.11 (tomllib); this project supports >=3.10, hence the marker.
+dev = [
+  "vibey-gh==1.16.0; python_version>='3.11'",
+]
+
 # `vibey-skills` is the CLI. `vibe-skills` (the short alias from the vibe-engineering-skills
 # era) is kept as a deprecated entry point that prints one warning line and delegates; the
 # long-form `vibe-engineering-skills` script was dropped in 2.0.0.
