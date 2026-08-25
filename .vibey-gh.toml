@@ -40,22 +40,39 @@ code_paths    = ["src/", "pyproject.toml"]
 # "Check fingerprints" step — both a required check named "Provenance" and the ruleset
 # update land in the same change, so the check is never unenforced in between.
 #
-# Deliberately NOT installed:
-#   api-drift.yml            — vibey-gh's own self-test; `pip install .` installs
-#                               vibey-skills here, so the import it asserts always fails.
+# Deliberately NOT installed, permanently, both for the same underlying reason — a
+# template step that does `pip install .` (or an equivalent checkout-and-install of this
+# repo's own default branch) expecting that to make `vibey-gh` itself importable/runnable.
+# It never does here: this repo's runtime `dependencies` are deliberately `[]` (so `uvx
+# vibey-skills` resolves nothing), so that install only ever yields `vibey-skills`.
+#   api-drift.yml            — asserts vibey_gh.surfaces parity on whatever it installed;
+#                               the import fails outright.
+#   conventional-commits.yml — its "Check out trusted normalizer" step installs this
+#                               repo's default branch into `automation/`, then calls the
+#                               `vibey-gh` CLI, which was never actually installed —
+#                               confirmed failing on PR #48 with "vibey-gh: command not
+#                               found" inside the msg-filter. Not a required check, so it
+#                               was silent rather than blocking, which is worse: it can
+#                               never actually normalize anything.
+#
+# Deliberately NOT installed for other reasons:
 #   documentation.yml        — the documentation contract isn't satisfied yet.
 #   pr-automation.yml, github-release.yml, release-repair.yml, repository-profile.yml
 #                             — need config decisions made first (scan_workflows, profile
 #                               description/topics, release.yml's own release job removed).
 #   release-surfaces.yml     — would fight docs.yml for ownership of GitHub Pages.
-#   codeql.yml                — needs CodeQL default setup switched off first.
+#
+# codeql.yml runs "Analyze Python" only (CodeQL default setup, now switched off, also
+# scanned the "actions" language — that coverage is gone until vibey-gh's template adds
+# it). Both rulesets' required check was updated from "Analyze (python)" to
+# "Analyze Python" in the same change that installed this workflow.
 workflows = [
   "merge-train.yml",
   "promote-to-main.yml",
   "provenance.yml",
   "branch-intake.yml",
-  "conventional-commits.yml",
   "automation-bootstrap.yml",
+  "codeql.yml",
 ]
 
 [branches]
