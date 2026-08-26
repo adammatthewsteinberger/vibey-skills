@@ -22,10 +22,11 @@ flowchart TD
 
     Check --> Provenance[Provenance]
     Check --> CodeQL[CodeQL: Analyze Python]
-    Provenance -->|required check| Gate{PR Automation gate}
+    Provenance -->|required check| Gate{"PR Automation gate"}
     CodeQL -->|required check| Gate
     CIWorkflow[CI: Validate manifests and build] -->|required check| Gate
     Docs[Docs: Build docs strict] -->|required check| Gate
+    PRAutomation[PR automation] -->|publishes| Gate
 
     Gate -->|green + approved| MergeTrain[Merge train]
     MergeTrain -->|squash merge| develop
@@ -41,7 +42,11 @@ flowchart TD
     main -->|push| ReleaseWorkflow
     ReleaseWorkflow -->|vibey-gh version| PyPI[PyPI]
     PyPI --> GitHubPages[GitHub Pages]
-    PyPI --> GitHubRelease[GitHub Release]
+    ReleaseWorkflow -->|on a v* tag: tag, release, attach dist/*| GitHubRelease[GitHub Release]
+    ReleaseWorkflow -->|workflow_run| GitHubReleaseWorkflow[github-release.yml]
+    GitHubReleaseWorkflow -->|tag + release, no bump: expected failure| GitHubRelease
+    GitHubReleaseWorkflow -->|workflow_run| ReleaseArtifacts[Release artifacts]
+    ReleaseArtifacts -->|attaches dist/*| GitHubRelease
 
     main -->|realign| Realign
     Realign -->|fast-forward, only if trees match| develop
