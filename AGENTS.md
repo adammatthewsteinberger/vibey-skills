@@ -181,7 +181,7 @@ of all of that — `tools/check_fingerprints.py`, `tools/next_version.py`,
 gone; the behaviour is unchanged.
 
 ```bash
-pip install "vibey-gh==1.16.0"
+pip install "vibey-gh==1.27.0"
 vibey-gh install          # hooks + the merge-train workflow, and points core.hooksPath
 vibey-gh check            # are the fingerprints intact?
 vibey-gh version --since origin/main --explain
@@ -192,33 +192,45 @@ the version, which paths count as content versus code, and who the merge train t
 
 `[install] workflows` manages `merge-train.yml`, `promote-to-main.yml`,
 `provenance.yml`, `branch-intake.yml`, `automation-bootstrap.yml`, `codeql.yml`,
-`pr-automation.yml`, `github-release.yml`, and `repository-profile.yml`.
-`provenance.yml`'s job is named **Provenance** and is a REQUIRED status check on both
-rulesets — it replaced a hand-written "Check fingerprints" step that used to live inside
-ci.yml's **Validate manifests and build** job. `codeql.yml`'s job is named
-**Analyze Python** and is also a REQUIRED status check on both rulesets, replacing CodeQL
-**default setup** (Settings -> Code security), which is now switched off. Default setup
-scanned both the `python` and `actions` languages; the template scans `python` only, so
-GitHub Actions workflow scanning has no coverage until vibey-gh's template adds it.
-`pr-automation.yml` publishes **PR automation / gate**, also a REQUIRED status check on
-both rulesets, configured with `[pr_automation] scan_workflows = ["CI", "Provenance",
-"CodeQL", "Docs"]` — the default additionally names `"API drift (Cloud Agents OpenAPI)"`,
-vibey-gh's own self-test, which is not installed here.
+`pr-automation.yml`, `github-release.yml`, `repository-profile.yml`, and
+`conventional-commits.yml`. `provenance.yml`'s job is named **Provenance** and is a
+REQUIRED status check on both rulesets — it replaced a hand-written "Check fingerprints"
+step that used to live inside ci.yml's **Validate manifests and build** job.
+`codeql.yml`'s job is named **Analyze Python** and is also a REQUIRED status check on
+both rulesets, replacing CodeQL **default setup** (Settings -> Code security), which is
+now switched off. Default setup scanned both the `python` and `actions` languages; the
+template scans `python` only, so GitHub Actions workflow scanning has no coverage until
+vibey-gh's template adds it. `pr-automation.yml` publishes **PR automation / gate**, also
+a REQUIRED status check on both rulesets, configured with `[pr_automation]
+scan_workflows = ["CI", "Provenance", "CodeQL"]` — the default additionally names
+`"API drift (Cloud Agents OpenAPI)"` (vibey-gh's own self-test, not installed here) and
+`"Docs"`.
 
-`github-release.yml` is installed and REQUIRED knowing it fails on most pushes to
-`main`: it has no way to skip a push that carries no version bump, and per `[version]`
-above, most of this repository's own promotions are exactly that — docs- or
-tooling-only. `vibey_gh.github_release.publish()` raises "refusing to move existing tag"
-whenever the version file is unchanged, because the tag for that version already exists
-at an earlier SHA. There is no config knob for this and no way to guard it from this
-side of the trigger: a workflow run's overall `conclusion` is `success` once any job in
-it succeeds, so nothing this repository's own `Release` workflow does can make
-`github-release.yml`'s `workflow_run` trigger see anything other than `success`. Filed
-upstream; accepted here because it is not a required check, and because
+**`"Docs"` is a real trap, hit and fixed in this repository**: `docs.yml` is genuinely
+named `Docs`, but it only triggers on `push: branches: [main]`, never on a pull request —
+naming it in `scan_workflows` made `pr-automation.yml`'s `evaluate` job wait forever for a
+scan that can never complete for a PR, `state` never left `pending`, and
+**"PR automation / gate" never posted at all**. Made required on both rulesets, this
+silently and permanently blocked every pull request, including the real `develop -> main`
+promotion (#51), which had to be admin-merged to unblock production. `vibey-gh check`
+(1.27.0+) now validates this itself via `check_scan_workflows()` and would have caught it
+immediately: `pr_automation.scan_workflows names 'Docs' (.github/workflows/docs.yml),
+which has no pull_request or pull_request_target trigger...`. `"Docs"` was removed from
+`scan_workflows` here; the PR-time doc build this repository cares about is the
+"Build docs (strict)" job inside `CI`, already in the list.
+
+`github-release.yml` is installed and REQUIRED. Through vibey-gh 1.26.0 it failed on most
+pushes to `main` — it had no way to skip a push that carried no version bump, and per
+`[version]` above, most of this repository's own promotions are exactly that, docs- or
+tooling-only. Fixed upstream in 1.27.0: that case is now a clean no-op
+(`ReleaseResult(tag_created=False, release_created=False)`) rather than an error, gated
+behind `[github_release] require_new_version` (left at its default `false`). Full history
+in [.vibey-gh.toml](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.vibey-gh.toml)'s
+`[install]` comment.
 [.github/workflows/release-artifacts.yml](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.github/workflows/release-artifacts.yml)
-(hand-authored) plus the unchanged `github-release` job inside `release.yml` still
-produce a correct, artifact-carrying release on an actual version bump regardless of
-whether this workflow succeeds.
+(hand-authored) still attaches build artifacts to whatever release this workflow
+creates, since `vibey_gh.github_release.publish()` has no artifact-attachment capability
+of its own.
 
 `repository-profile.yml` is configured with a real `[repository_profile] description`
 and `topics` — its defaults are generic release-automation boilerplate that would
@@ -226,32 +238,32 @@ overwrite this repository's actual GitHub description — and
 `delete_branch_on_merge = false`, since `develop` heads the next promotion PR and must
 survive a merge.
 
+`conventional-commits.yml` had the same defect as `api-drift.yml` below through vibey-gh
+1.16.0 — confirmed failing on PR #48 with "vibey-gh: command not found" inside the
+msg-filter — fixed upstream in 1.27.0 (the same self-hosting detection `provenance.yml`
+already used) and re-adopted here.
+
 Not (yet) installed: `documentation.yml` (the documentation contract isn't satisfied),
 and `release-surfaces.yml` (would contest Pages ownership with docs.yml).
 `release-repair.yml` is excluded because it would spend an AI call diagnosing
 `github-release.yml`'s expected failures as if each were a real one.
 
-Two templates are deliberately excluded **permanently**, both for the same underlying
-reason: a step that does `pip install .` (or checks out and installs this repo's own
-default branch) expecting that to make the `vibey-gh` CLI itself available. It never
-does — this repo's runtime `dependencies` are deliberately `[]`, so that install only
-ever yields `vibey-skills`.
-- `api-drift.yml` — asserts `vibey_gh.surfaces` parity on whatever it installed; the
-  import fails outright.
-- `conventional-commits.yml` — its "Check out trusted normalizer" step installs this
-  repo's default branch, then calls a `vibey-gh` CLI that was never actually installed.
-  Confirmed failing on PR #48 with "vibey-gh: command not found" inside the msg-filter.
-  Not a required check, so this was silent rather than blocking — worse, since it can
-  never actually normalize a commit message.
+`api-drift.yml` is excluded **permanently**: it does `pip install .` and imports
+`vibey_gh.surfaces`, which only works when the adopting repository's own package *is*
+`vibey-gh` — false here by design, since runtime `dependencies` are deliberately `[]`.
+Confirmed unchanged in 1.27.0 and correctly scoped to a self-hosting repository, not a
+bug.
 
-`vibey-gh install` fully regenerates every file in this list from its template, including
-the `pip install` line inside it — which is **unpinned**, unlike the hand-authored
-ci.yml/release.yml. A hand-edit to pin it would immediately be flagged as "out of date" by
-`vibey-gh check`, so these workflows cannot be pinned the way Stage 1 pinned ci.yml and
-release.yml. A future vibey-gh release can still change behavior under `provenance.yml`,
-`merge-train.yml`, or `promote-to-main.yml` without warning; upgrading `vibey-gh` in
-`pyproject.toml`'s `[dev]` extra and re-running `vibey-gh install` deliberately, then
-re-verifying `vibey-gh check --ci`, is the only way to catch that before it reaches CI.
+`[install] pin_version = true` makes every rendered template pin its own `pip install` to
+the exact `vibey-gh` version currently installing, rather than the unpinned
+`pip install vibey-gh` every template used through 1.16.0 — which is what let CI silently
+jump from 1.2.0 to 1.16.0 and break on the new defaults in the first place (see below).
+`vibey-gh install` is what advances the pin now; a hand-edit to any managed file is still
+flagged "out of date" by `vibey-gh check` and reverted by the next `install`, so the pin
+is the only durable way to control which version these workflows run. Bumping
+`pyproject.toml`'s `[dev]` extra, then running `vibey-gh install` and re-verifying
+`vibey-gh check --ci`, is how an upgrade is meant to happen — deliberately, as one
+reviewed diff, never silently underneath a floating specifier.
 
 ## The fingerprint
 
@@ -275,7 +287,7 @@ Install the tooling and its hooks once per clone, so the trailer is added for yo
 push without the fingerprints is refused:
 
 ```bash
-pip install "vibey-gh==1.16.0"
+pip install "vibey-gh==1.27.0"
 vibey-gh install
 ```
 
