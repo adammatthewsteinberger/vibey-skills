@@ -108,6 +108,30 @@ paths, and every non-gate check green. Outside that narrow path, a failed requir
 blocks the merge train exactly as intended, and the fix is the ordinary one — push a new
 commit and let the checks run again against the new head.
 
+**The exact-head review can fail for a reason that has nothing to do with the PR**:
+`pr-automation.yml`'s own gate messaging distinguishes this case by design — "Scans passed
+for this exact head, but the exact-head review returned no verdict... This is an
+infrastructure or operator failure rather than a defect in the pull request. Check the
+review job log for API credit balance, credentials, or model availability, then rerun." A
+review job that shows `is_error: true` with `num_turns: 1`, `total_cost_usd: 0`, and empty
+`modelUsage` in its result JSON failed before the model ran at all — most often exhausted
+`ANTHROPIC_API_KEY` credits. The ordinary fix is `gh run rerun <run-id> --failed` once
+credits are restored.
+
+If a merge genuinely can't wait for that, the fallback is a manual, human-equivalent
+review posted in the same shape `gate` itself posts, so the check-run contract stays
+identical whether the review ran automatically or was done by hand:
+
+```bash
+gh api "repos/<owner>/<repo>/check-runs" --method POST \
+  -f name='PR automation / gate' -f head_sha="<exact head SHA>" \
+  -f status=completed -f conclusion=success \
+  -f "output[title]=PR automation: manual review (API credits exhausted)" \
+  -f "output[summary]=Reviewed by hand in place of the exact-head review, which failed with is_error and zero cost/turns (credit exhaustion, not a PR defect). <one-line verdict>."
+```
+Only ever do this after actually reading the diff — it substitutes for the review, not for
+having one.
+
 ## Changing workflows
 
 The four hand-authored workflows are edited directly; their `name:` fields are load-bearing
