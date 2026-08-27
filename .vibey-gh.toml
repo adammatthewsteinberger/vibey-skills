@@ -49,18 +49,21 @@ pin_version = true
 # inside the msg-filter. Fixed upstream in 1.27.0 (same self-hosting detection
 # provenance.yml already used); re-adopted here now that it actually works.
 #
-# api-drift.yml remains excluded, permanently: it is vibey-gh's own self-test (`pip
-# install .` then `import vibey_gh.surfaces`), unchanged in 1.27.0 and confirmed still
-# scoped to a repo that IS vibey-gh — this repo's runtime `dependencies` are deliberately
-# `[]`, so that install only ever yields `vibey-skills`.
+# api-drift.yml no longer needs excluding: it was vibey-gh's own self-test (`pip install .`
+# then `import vibey_gh.surfaces`) shipped to every adopter, and upstream stopped shipping
+# it entirely — it is hand-authored in vibey-gh now, beside its `ci.yml`. Nothing to
+# exclude, so nothing is listed.
 #
-# Deliberately NOT installed for other reasons:
-#   release-surfaces.yml     — would fight docs.yml for ownership of GitHub Pages.
-#   release-repair.yml       — watches for failures of "GitHub Release" among others and
-#                               spends an AI call diagnosing each one. Since
-#                               github-release.yml (below) is expected to fail on most
-#                               pushes to main, adopting this too would mean repeatedly
-#                               "repairing" a failure that isn't one.
+# release-repair.yml is adopted again. It was excluded because it watches for failures of
+# "GitHub Release" and spends an AI call diagnosing each, and github-release.yml used to
+# fail on most pushes to main. That stopped being true in 1.27.0: a push carrying no
+# version bump is a clean no-op now, so there is no recurring non-failure left to
+# "repair".
+#
+# release-surfaces.yml is adopted, and docs.yml is retired in the same change — the reason
+# it was excluded was that the two would fight over GitHub Pages, which is resolved by
+# there being only one of them. See [documentation].site_requirements below for what the
+# site build installs.
 #
 # codeql.yml runs "Analyze Python" only (CodeQL default setup, now switched off, also
 # scanned the "actions" language — that coverage is gone until vibey-gh's template adds
@@ -95,6 +98,8 @@ workflows = [
   "github-release.yml",
   "repository-profile.yml",
   "conventional-commits.yml",
+  "release-repair.yml",
+  "release-surfaces.yml",
 ]
 
 [pr_automation]
@@ -114,7 +119,16 @@ workflows = [
 # which has no pull_request or pull_request_target trigger...`. The PR-time doc build
 # this repository actually cares about is the "Build docs (strict)" job inside `CI`,
 # already in this list.
-scan_workflows = ["CI", "Provenance", "CodeQL"]
+#
+# "Conventional Commits" is here for the mirror image of that mistake, which 1.31.0 fixed
+# upstream and this explicit list would otherwise have reintroduced. That workflow IS
+# installed here, and its `enforce` check counts toward the merge gate — but this list is
+# also what `pr-automation.yml` renders into its `workflow_run` trigger. Left out, it can
+# gate but never announce that it finished: the last scan to complete fires the final
+# evaluation, `enforce` completes after it, and nothing looks again. The pull request then
+# sits blocked with every check green, nothing failing and nothing to rerun, until the
+# six-hourly backstop. A check that gates has to belong to a workflow that can re-trigger.
+scan_workflows = ["CI", "Provenance", "CodeQL", "Conventional Commits"]
 
 [repository_profile]
 description = "Agent Skills for vibe engineering — 644 evidence-grounded practitioner references as a Claude Code plugin marketplace"
@@ -139,36 +153,33 @@ trusted_authors = ["adammatthewsteinberger", "claude[bot]", "github-actions[bot]
 
 [documentation]
 enabled = true
-# Through 1.16.0, `required_files` (below, still defaulted) came bundled with a second,
-# hardcoded requirement: README.md and .github/README.md had to contain specific
-# vibey-gh-branded headings (`## Why vibey-gh`, etc.) and end with vibey-gh's own
-# provenance sentence — forced onto every adopter's product-facing README with no way to
-# opt out. Fixed upstream in 1.27.0: that structural requirement is now entirely
-# config-driven and defaults to empty/off. The sections below are declared explicitly,
-# matching the real "Release automation" section already written into README.md and the
-# real content already written into .github/README.md, so that enforcement keeps
-# reflecting a deliberate choice this repository made — not whatever vibey-gh's own
-# defaults happen to be on the next upgrade.
-require_provenance = true
-readme_sections = [
-  "## Why vibey-gh",
-  "## Requirements",
-  "## Architecture",
-  "## Security model",
-  "## Commands",
-  "## Configuration",
-  "## Workflows",
-  "## Troubleshooting",
-  "## Licence",
+# No narrative documentation contract is declared, which means none is enforced: every one
+# of `readme_sections`, `github_readme_sections`, `github_readme_min_words`,
+# `mermaid_terms` and `require_provenance` defaults to empty or off.
+#
+# Through 1.16.0 there was no choice — README.md had to carry vibey-gh-branded headings
+# (`## Why vibey-gh`, `## Security model`) and end with vibey-gh's own provenance
+# sentence, in the file a user opens to learn what *this* product is. 1.27.0 made that
+# configuration; this repository briefly kept declaring it anyway, which preserved the old
+# shape by hand after the requirement to have it was gone.
+#
+# This repository's product is a skills marketplace, not release tooling, and its README
+# should be free to say so. `required_files` (defaulted) still applies: those files
+# describe this project and make it navigable to an agent, which is a standard worth
+# keeping.
+# What the published-site build must install beyond ProperDocs itself. ProperDocs depends
+# on `properdocs` and its theme and on nothing this site declares, so every plugin and
+# markdown extension in `properdocs.yml` has to be named here or `properdocs build
+# --strict` fails on the first one it reaches — which is not a warning, it is the whole
+# docs channel not publishing.
+#
+# These three cover exactly what `properdocs.yml` asks for: `gen-files` and
+# `literate-nav` synthesise the skill-reference tree, and every `pymdownx.*` extension
+# comes from `pymdown-extensions`. The rest of that file — the `mkdocs` theme, `search`,
+# `admonition`, `attr_list`, `def_list`, `md_in_html`, `tables` — is built in and needs
+# nothing installed. Requires vibey-gh 1.28.0 or newer.
+site_requirements = [
+  "mkdocs-gen-files",
+  "mkdocs-literate-nav",
+  "pymdown-extensions",
 ]
-github_readme_sections = [
-  "## Delivery model",
-  "## Workflow inventory",
-  "## Exact-head PR automation",
-  "## AI trust boundary",
-  "## Credentials and settings",
-  "## Permanent-branch safety",
-  "## Failure recovery",
-  "## Changing workflows",
-]
-github_readme_min_words = 500
