@@ -302,7 +302,7 @@ admin role are already configured, along with GitHub Pages deploying from Action
 ### Commands
 
 ```bash
-pip install "vibey-gh==1.27.0"   # or: pip install -e ".[dev]"
+pip install "vibey-gh==1.32.0"   # or: pip install -e ".[dev]"
 vibey-gh install                 # writes the hooks and the managed workflow files
 vibey-gh check --ci              # exactly what CI runs
 vibey-gh version --since origin/main --explain

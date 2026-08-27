@@ -61,6 +61,32 @@ fixed upstream in 1.27.0, where that case is now a clean no-op rather than an er
 `[install]` comment for the full history. `release.yml`'s own tag-triggered release job
 still creates a correct, artifact-carrying release independently of this workflow.
 
+## Local review fallback
+
+The exact-head review runs on a paid API, and an exhausted key fails that job *before the
+model runs* — which, because the gate is a required check, turned a billing problem into a
+hard stop on every pull request (#50, #51, #52 and #54 all had to be admin-merged for
+exactly this). `[pr_automation.fallback]` closes that: when the primary returns **no verdict
+at all**, a local model on a self-hosted runner reviews the diff instead. It never overrides
+a review that actually ran — the job requires the primary to have produced no verdict, not
+merely to have failed — so genuine findings are never discarded for a weaker opinion.
+
+The verdict is deliberately narrower than the primary's. Constrained decoding guarantees the
+output *shape*, which is a stronger guarantee than the path it backs up, but not the
+*judgments*. So it assesses only what it can ground in the diff, reports the
+documentation-contract fields as unevaluated, and the gate titles the result
+`PR automation: gate (local fallback)` so a degraded verdict is never mistaken for a full
+one.
+
+This is the one place this repository uses a self-hosted runner, which GitHub says should
+"almost never be used for public repositories". Four things make it defensible:
+`trusted_only` keeps fork pull requests off the runner entirely; `pull_request_target` means
+a pull request cannot alter the workflow that reviews it; the job holds no secrets and never
+executes repository code (the diff reaches the model as text); and the runner is ephemeral
+and containerised, taking one job before being destroyed. When the runner is offline the job
+cannot be scheduled and behaviour degrades to exactly what it was before — a failed gate a
+human resolves, which is the correct fail-open direction.
+
 ## Exact-head PR automation
 
 `vibey-gh`'s design principle is that only evidence produced against a pull request's
