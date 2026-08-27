@@ -65,7 +65,7 @@ jobs:
         id: version
         run: |
           set -euo pipefail
-          python3 -m pip install --quiet "vibey-gh==1.31.0"
+          python3 -m pip install --quiet "vibey-gh==1.32.0"
           if [ "${GITHUB_REF}" = "refs/heads/develop" ]; then
             version=$(vibey-gh version --dev "${GITHUB_RUN_NUMBER}" --apply)
             publish_pypi=false
@@ -296,7 +296,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - run: python3 -m pip install --quiet "vibey-gh==1.31.0"
+      - run: python3 -m pip install --quiet "vibey-gh==1.32.0"
 
       # This was ~35 lines of inline shell doing exactly what `vibey-gh realign` does:
       # refuse unless the two branches' TREES are identical, then --force-with-lease
