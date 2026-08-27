@@ -119,7 +119,16 @@ workflows = [
 # which has no pull_request or pull_request_target trigger...`. The PR-time doc build
 # this repository actually cares about is the "Build docs (strict)" job inside `CI`,
 # already in this list.
-scan_workflows = ["CI", "Provenance", "CodeQL"]
+#
+# "Conventional Commits" is here for the mirror image of that mistake, which 1.31.0 fixed
+# upstream and this explicit list would otherwise have reintroduced. That workflow IS
+# installed here, and its `enforce` check counts toward the merge gate — but this list is
+# also what `pr-automation.yml` renders into its `workflow_run` trigger. Left out, it can
+# gate but never announce that it finished: the last scan to complete fires the final
+# evaluation, `enforce` completes after it, and nothing looks again. The pull request then
+# sits blocked with every check green, nothing failing and nothing to rerun, until the
+# six-hourly backstop. A check that gates has to belong to a workflow that can re-trigger.
+scan_workflows = ["CI", "Provenance", "CodeQL", "Conventional Commits"]
 
 [repository_profile]
 description = "Agent Skills for vibe engineering — 644 evidence-grounded practitioner references as a Claude Code plugin marketplace"
