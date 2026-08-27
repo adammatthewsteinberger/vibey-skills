@@ -82,7 +82,7 @@ docs = [
 # specifier is what let CI silently jump 1.2.0 -> 1.16.0 and break on the new defaults.
 # vibey-gh requires Python >=3.11 (tomllib); this project supports >=3.10, hence the marker.
 dev = [
-  "vibey-gh==1.34.0; python_version>='3.11'",
+  "vibey-gh==1.37.0; python_version>='3.11'",
 ]
 
 # `vibey-skills` is the CLI. `vibe-skills` (the short alias from the vibe-engineering-skills
