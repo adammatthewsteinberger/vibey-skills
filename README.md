@@ -302,7 +302,7 @@ admin role are already configured, along with GitHub Pages deploying from Action
 ### Commands
 
 ```bash
-pip install "vibey-gh==1.32.0"   # or: pip install -e ".[dev]"
+pip install "vibey-gh==1.34.0"   # or: pip install -e ".[dev]"
 vibey-gh install                 # writes the hooks and the managed workflow files
 vibey-gh check --ci              # exactly what CI runs
 vibey-gh version --since origin/main --explain
@@ -330,7 +330,7 @@ Permanent branches (`develop`, `main`) may advance but are never deleted or forc
 `develop` is realigned onto `main` only when the two trees are byte-identical, so the
 realignment can never discard work. A pull request's evidence is tied to its exact head
 commit — a check or review against an earlier commit doesn't count once the branch moves.
-Full detail in [.github/README.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.github/README.md#ai-trust-boundary).
+Full detail in [.github/AUTOMATION.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.github/AUTOMATION.md#ai-trust-boundary).
 
 ### Workflows
 
@@ -341,7 +341,7 @@ Fifteen workflows in total: five hand-authored (`CI`, `Release`, `Release artifa
 `automation-bootstrap.yml`, `github-release.yml`, `repository-profile.yml`,
 `conventional-commits.yml`). Full inventory, including which of `vibey-gh`'s shipped
 templates are deliberately not adopted and why, is in
-[.github/README.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.github/README.md#workflow-inventory).
+[.github/AUTOMATION.md](https://github.com/adammatthewsteinberger/vibey-skills/blob/main/.github/AUTOMATION.md#workflow-inventory).
 
 ### Troubleshooting
 
