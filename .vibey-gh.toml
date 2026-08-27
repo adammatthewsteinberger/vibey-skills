@@ -116,6 +116,35 @@ workflows = [
 # already in this list.
 scan_workflows = ["CI", "Provenance", "CodeQL"]
 
+[pr_automation.fallback]
+# Reviews with a local model when the paid path returns NO VERDICT AT ALL — an exhausted
+# ANTHROPIC_API_KEY, expired credentials, an unavailable model. That failure is why PRs
+# #50, #51, #52 and #54 all had to be admin-merged: the gate is a required check, so a
+# billing problem became a hard stop on every pull request. It never overrides a review
+# that actually ran, so real findings are never discarded for a weaker opinion.
+#
+# The verdict is deliberately narrower than the primary review's. Ollama constrains
+# decoding to the schema, so the output SHAPE is guaranteed — a stronger guarantee than
+# the path it backs up — but the JUDGMENTS are not, and a 14B model will emit confident
+# booleans it cannot support. It assesses only what it can ground in the diff, and the
+# gate titles the result "PR automation: gate (local fallback)" so a degraded verdict is
+# never mistaken for a full one.
+#
+# `trusted_only` is what makes this defensible on a PUBLIC repository. GitHub says
+# self-hosted runners should "almost never be used for public repositories" because any
+# user can open a pull request against them; excluding forks removes that. A fork PR
+# falls through to the existing behaviour — a failed gate a human resolves. The runner is
+# also ephemeral (one job, then destroyed) and containerised, and the job holds no
+# secrets: it exists precisely because the key is unusable.
+#
+# Requires the supervisor from the runner setup to be up on a machine with `ollama serve`
+# running. When it is not, the job cannot be scheduled and behaviour degrades to exactly
+# what it is today — which is the correct fail-open direction.
+enabled      = true
+runner_label = "vibey-local"
+model        = "qwen2.5-coder:14b"
+trusted_only = true
+
 [repository_profile]
 description = "Agent Skills for vibe engineering — 644 evidence-grounded practitioner references as a Claude Code plugin marketplace"
 topics = [

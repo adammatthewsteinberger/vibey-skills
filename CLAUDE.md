@@ -181,7 +181,7 @@ of all of that — `tools/check_fingerprints.py`, `tools/next_version.py`,
 gone; the behaviour is unchanged.
 
 ```bash
-pip install "vibey-gh==1.27.0"
+pip install "vibey-gh==1.32.0"
 vibey-gh install          # hooks + the merge-train workflow, and points core.hooksPath
 vibey-gh check            # are the fingerprints intact?
 vibey-gh version --since origin/main --explain
@@ -231,6 +231,17 @@ in [.vibey-gh.toml](https://github.com/adammatthewsteinberger/vibey-skills/blob/
 (hand-authored) still attaches build artifacts to whatever release this workflow
 creates, since `vibey_gh.github_release.publish()` has no artifact-attachment capability
 of its own.
+
+`[pr_automation.fallback]` is **enabled** here. When the paid exact-head review returns no
+verdict at all — an exhausted `ANTHROPIC_API_KEY` being the usual cause — a local model on a
+self-hosted runner (`vibey-local`) reviews the diff instead, so a billing problem stops
+being a hard stop on every pull request. It never overrides a review that ran. The verdict
+is narrower than the primary's by design: constrained decoding guarantees the output shape,
+not the judgments, so it assesses only what it can ground in the diff and the gate titles it
+`PR automation: gate (local fallback)`. `trusted_only` keeps fork pull requests off the
+runner, which is what makes a self-hosted runner defensible on a public repository. The
+runner must be running locally (`ollama serve` plus the supervisor); when it is not, the job
+cannot be scheduled and behaviour degrades to what it was before.
 
 `repository-profile.yml` is configured with a real `[repository_profile] description`
 and `topics` — its defaults are generic release-automation boilerplate that would
@@ -287,7 +298,7 @@ Install the tooling and its hooks once per clone, so the trailer is added for yo
 push without the fingerprints is refused:
 
 ```bash
-pip install "vibey-gh==1.27.0"
+pip install "vibey-gh==1.32.0"
 vibey-gh install
 ```
 
