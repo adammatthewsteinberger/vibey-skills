@@ -87,6 +87,12 @@ and containerised, taking one job before being destroyed. When the runner is off
 cannot be scheduled and behaviour degrades to exactly what it was before — a failed gate a
 human resolves, which is the correct fail-open direction.
 
+One consequence of `pull_request_target` is worth knowing before changing this workflow:
+GitHub executes the **base branch's** copy, so a pull request that adds or edits a job in
+`pr-automation.yml` cannot exercise its own change. The fallback was enabled in #59 and
+could not run there for exactly that reason; it became live for pull requests opened after
+that merged. The same bootstrap applies to any future edit here.
+
 ## Exact-head PR automation
 
 `vibey-gh`'s design principle is that only evidence produced against a pull request's
