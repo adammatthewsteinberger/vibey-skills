@@ -1,4 +1,4 @@
-# .github
+# Automation
 
 This document explains the automation that lives in this directory: what runs, why it
 runs, what it is and is not trusted to do, and how to change it safely. It is written for
