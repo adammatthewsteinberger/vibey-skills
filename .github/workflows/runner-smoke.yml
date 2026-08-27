@@ -1,0 +1,19 @@
+# Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
+name: Runner smoke
+on:
+  push:
+    branches: [feature/verify-self-hosted-runner]
+permissions:
+  contents: read
+jobs:
+  smoke:
+    name: Local runner smoke
+    runs-on: [self-hosted, vibey-local]
+    steps:
+      - name: Prove the container reaches the local model
+        run: |
+          set -euo pipefail
+          echo "runner: $(uname -a)"
+          curl -fsS --max-time 8 "${VIBEY_OLLAMA_URL:-http://host.docker.internal:11434}/api/version"
+          echo
+          echo "ollama reachable from the ephemeral runner"
