@@ -181,7 +181,7 @@ of all of that — `tools/check_fingerprints.py`, `tools/next_version.py`,
 gone; the behaviour is unchanged.
 
 ```bash
-pip install "vibey-gh==1.39.0"
+pip install "vibey-gh==1.43.0"
 vibey-gh install          # hooks + the merge-train workflow, and points core.hooksPath
 vibey-gh check            # are the fingerprints intact?
 vibey-gh version --since origin/main --explain
@@ -282,9 +282,9 @@ reviewed diff, never silently underneath a floating specifier.
 **Every code change carries it. This is mandatory and CI enforces it.**
 
 ```
-# Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
+# Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://vibewithadam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
 
-Made-With: Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
+Made-With: Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://vibewithadam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
 ```
 
 Two places, because a change can be either:
@@ -299,7 +299,7 @@ Install the tooling and its hooks once per clone, so the trailer is added for yo
 push without the fingerprints is refused:
 
 ```bash
-pip install "vibey-gh==1.39.0"
+pip install "vibey-gh==1.43.0"
 vibey-gh install
 ```
 

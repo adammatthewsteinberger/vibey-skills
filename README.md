@@ -302,7 +302,7 @@ admin role are already configured, along with GitHub Pages deploying from Action
 ### Commands
 
 ```bash
-pip install "vibey-gh==1.39.0"   # or: pip install -e ".[dev]"
+pip install "vibey-gh==1.43.0"   # or: pip install -e ".[dev]"
 vibey-gh install                 # writes the hooks and the managed workflow files
 vibey-gh check --ci              # exactly what CI runs
 vibey-gh version --since origin/main --explain
@@ -371,6 +371,6 @@ The Vizius Group — see [NOTICE.md](https://github.com/adammatthewsteinberger/v
 
 ---
 
-Built by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com) · [more open source](https://hire.adam.matthewsteinberger.com/open-source)
+Built by [Adam Matthew Steinberger](https://vibewithadam.matthewsteinberger.com) · [more open source](https://vibewithadam.matthewsteinberger.com/open-source)
 
-Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://hire.adam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
+Made with ❤️ by [Vibey](https://adammatthewsteinberger.github.io/vibey/), Developed by [Adam Matthew Steinberger](https://vibewithadam.matthewsteinberger.com/) ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
