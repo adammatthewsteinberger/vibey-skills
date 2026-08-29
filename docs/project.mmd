@@ -2,10 +2,13 @@
 %% [Adam Matthew Steinberger](https://vibewithadam.matthewsteinberger.com/)
 %% ([@adammatthewsteinberger](https://github.com/adammatthewsteinberger/)).
 %%
-%% How this repository's own release automation moves a change from a contributor's first
-%% push through to a published package, and the surfaces (CLI, SDK, API, MCP, Webhook)
-%% vibey-gh exposes that automation through. Not a diagram of the vibey-skills product
-%% itself — see the root README for that.
+%% Two things, joined at the release channel they share: (1) how a change moves from a
+%% contributor's first push through to a published package, and the surfaces (CLI, SDK,
+%% API, MCP, Webhook) vibey-gh exposes that release automation through; and (2) the
+%% vibey-skills product itself — its source modules and the two capability surfaces it
+%% exposes on its own account, a CLI and a Python SDK, plus the marketplace manifest
+%% Claude Code reads directly. vibey-skills has no HTTP API, MCP server, or webhook
+%% endpoint of its own.
 flowchart TD
     Dev[Contributor] -->|push| Topic[Topic branch]
     Topic -->|pull_request_target| BranchIntake[Branch intake]
@@ -74,3 +77,36 @@ flowchart TD
         LocalFallback -.->|trusted_only: fork PRs never reach the self-hosted runner| Fork
         LocalFallback -->|verdict labelled: gate - local fallback| MergeTrain
     end
+
+    %% ---- The vibey-skills product itself: source modules and its own two surfaces ----
+    subgraph Product[vibey-skills product — source modules & capability surfaces]
+        SkillsTree["plugins/**: 127 plugin dirs, 644 SKILL.md"] --> Init["src/vibey_skills/__init__.py: iter_skills, plugins_root, marketplace_manifest"]
+        Init --> SkillsCLI["vibey-skills CLI (cli.py)"]
+        Init --> SkillsSDK["Python SDK: from vibey_skills import iter_skills, plugins_root"]
+        SkillsTree --> MarketplaceJSON[".claude-plugin/marketplace.json"]
+
+        SkillsCLI --> ListCmd[list]
+        SkillsCLI --> InstallCmd[install]
+        SkillsCLI --> PathCmd[path]
+        SkillsCLI --> MarketCmd[marketplace]
+        SkillsCLI --> IndexCmd["index build / inspect"]
+        SkillsCLI --> SearchCmd[search]
+        SkillsCLI --> PacketCmd[packet]
+        SkillsCLI --> EvaluateCmd[evaluate]
+
+        InstallCmd -->|copy, or --link symlink; cp -n semantics| ClaudeSkillsDir["~/.claude/skills"]
+        IndexCmd --> ContextEngine["context_engine.py: SQLite FTS5 index"]
+        SearchCmd --> ContextEngine
+        PacketCmd --> ContextEngine
+        EvaluateCmd --> ContextEngine
+    end
+
+    SkillsTree --> Wheel["hatchling force-include: plugins/ -> wheel"]
+    Wheel --> PyPI
+    PyPI -->|pip install / uvx / uv tool install| SkillsCLI
+    MarketplaceJSON -.->|"/plugin marketplace add — read directly, no CLI or SDK involved"| ClaudeCodeMarketplace[Claude Code]
+
+    %% vibey-skills exposes exactly two capability surfaces of its own: the CLI and the
+    %% Python SDK. There is no HTTP API, MCP server, or webhook endpoint in this product —
+    %% the API/MCP/Webhook surfaces earlier in this diagram belong to vibey-gh, the
+    %% separate release-automation dependency, not to vibey-skills.
