@@ -12,9 +12,9 @@ Work moves `feature/* -> develop -> main`. A `feature/*` branch is squash-merged
 `develop`; `develop` is rebase-merged into `main`, which is the only method consistent
 with the `required_linear_history` rule both branch rulesets enforce. Every push to
 `develop` publishes a `<release>.dev<run_number>` build to TestPyPI; every push to `main`
-publishes the exact version in `src/vibey_skills/__init__.py` to PyPI, after the same
-TestPyPI-then-verify gate. A `v*` tag additionally attaches build artifacts to a GitHub
-Release. Two weekly trains carry ordinary work through without a human in the loop: a
+publishes the exact version in `src/vibey_skills/__init__.py` directly to PyPI — main and
+tags do not depend on a second registry. A `v*` tag additionally attaches build artifacts
+to a GitHub Release. Two weekly trains carry ordinary work through without a human in the loop: a
 merge train squash-merges ready pull requests into `develop`, and a promotion opens (and,
 once its checks pass, rebase-merges) the pull request that carries `develop` into `main`
 when the two differ. Full detail, including why `develop` used to fall behind `main` and
