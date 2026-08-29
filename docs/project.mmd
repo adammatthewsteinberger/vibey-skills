@@ -70,4 +70,7 @@ flowchart TD
         AutomergeToken[AUTOMERGE_TOKEN] -->|admin role, required review bypass| MergeTrain
         AnthropicKey[ANTHROPIC_API_KEY] -->|scoped: no merge, no settings| CurrencyResearch[Currency research agent]
         CurrencyResearch -->|opens PR only| PR
+        LocalFallback[Local review fallback: vibey-local runner + Ollama] -->|reviews only when the paid path returned no verdict| Gate
+        LocalFallback -.->|trusted_only: fork PRs never reach the self-hosted runner| Fork
+        LocalFallback -->|verdict labelled: gate - local fallback| MergeTrain
     end

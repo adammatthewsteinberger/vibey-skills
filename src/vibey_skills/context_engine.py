@@ -7,6 +7,7 @@ import hashlib
 import json
 import re
 import sqlite3
+import urllib.parse
 import time
 from collections.abc import Iterable
 from pathlib import Path
@@ -323,7 +324,10 @@ def search(index_dir: Path, request: dict[str, Any] | str, *, limit: int = 20) -
     required_plugins, excluded_plugins = set(request.get("required_plugins", [])), set(request.get("excluded_plugins", []))
     required_skills, excluded_skills = set(request.get("required_skills", [])), set(request.get("excluded_skills", []))
     index_dir, _ = _load_manifest(index_dir)
-    connection = sqlite3.connect(f"file:{index_dir / 'index.sqlite3'}?mode=ro", uri=True)
+    # URI-escape the path: SQLite's URI parser truncates at `?` or `#` and %-decodes,
+    # so an unescaped checkout path containing those opens the wrong file or none.
+    escaped = urllib.parse.quote(str(index_dir / "index.sqlite3"))
+    connection = sqlite3.connect(f"file:{escaped}?mode=ro", uri=True)
     try:
         rows = []
         if fts:
