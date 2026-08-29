@@ -99,7 +99,15 @@ flowchart TD
         SearchCmd --> ContextEngine
         PacketCmd --> ContextEngine
         EvaluateCmd --> ContextEngine
+
+        ValidateManifests["tools/validate_manifests.py: manifest & frontmatter validator"]
+        CheckLinks["tools/check_links.py: hermetic link checker"]
+        SkillsTree --> ValidateManifests
+        MarketplaceJSON --> ValidateManifests
     end
+
+    CIWorkflow -->|invokes| ValidateManifests
+    CIWorkflow -->|invokes| CheckLinks
 
     SkillsTree --> Wheel["hatchling force-include: plugins/ -> wheel"]
     Wheel --> PyPI
