@@ -125,9 +125,11 @@ because a link checker that needs the network gets switched off the first time C
 
 ## Documentation site
 
-`mkdocs.yml` builds a Material site published to
-<https://adammatthewsteinberger.github.io/vibey-skills/> by
-`.github/workflows/docs.yml`.
+`mkdocs.yml` builds a Material site that CI validates with `mkdocs build --strict` (the
+**Build docs (strict)** job in `.github/workflows/ci.yml`). The site actually published to
+<https://adammatthewsteinberger.github.io/vibey-skills/> is built separately, by
+`.github/workflows/release-surfaces.yml`, from the near-identical `properdocs.yml` (via
+ProperDocs, not mkdocs-material) after each successful `Release` run.
 
 The skills reference is **generated**, not written: `docs/gen_reference.py` synthesises a page
 per plugin and per skill from `plugins/**` at build time, exactly as the wheel maps that same
@@ -141,8 +143,8 @@ mkdocs serve
 mkdocs build --strict   # what CI runs; warnings are errors
 ```
 
-`docs.yml` also triggers on `plugins/**`, since a skill edit changes the site even when
-nothing under `docs/` was touched.
+`ci.yml`'s **Build docs (strict)** job runs on every push and pull request, so a skill
+edit under `plugins/**` is validated even when nothing under `docs/` was touched.
 
 ## Scheduled currency research
 
@@ -192,8 +194,9 @@ the version, which paths count as content versus code, and who the merge train t
 
 `[install] workflows` manages `merge-train.yml`, `promote-to-main.yml`,
 `provenance.yml`, `branch-intake.yml`, `automation-bootstrap.yml`, `codeql.yml`,
-`pr-automation.yml`, `github-release.yml`, `repository-profile.yml`, and
-`conventional-commits.yml`. `provenance.yml`'s job is named **Provenance** and is a
+`pr-automation.yml`, `github-release.yml`, `repository-profile.yml`,
+`conventional-commits.yml`, `release-repair.yml`, and `release-surfaces.yml`.
+`provenance.yml`'s job is named **Provenance** and is a
 REQUIRED status check on both rulesets — it replaced a hand-written "Check fingerprints"
 step that used to live inside ci.yml's **Validate manifests and build** job.
 `codeql.yml`'s job is named **Analyze Python** and is also a REQUIRED status check on
@@ -206,8 +209,9 @@ scan_workflows = ["CI", "Provenance", "CodeQL"]` — the default additionally na
 `"API drift (Cloud Agents OpenAPI)"` (vibey-gh's own self-test, not installed here) and
 `"Docs"`.
 
-**`"Docs"` is a real trap, hit and fixed in this repository**: `docs.yml` is genuinely
-named `Docs`, but it only triggers on `push: branches: [main]`, never on a pull request —
+**`"Docs"` is a real trap, hit and fixed in this repository**: the hand-authored `docs.yml`
+(since retired — see below) was genuinely named `Docs`, but it only triggered on
+`push: branches: [main]`, never on a pull request —
 naming it in `scan_workflows` made `pr-automation.yml`'s `evaluate` job wait forever for a
 scan that can never complete for a PR, `state` never left `pending`, and
 **"PR automation / gate" never posted at all**. Made required on both rulesets, this
@@ -255,10 +259,23 @@ survive a merge.
 msg-filter — fixed upstream in 1.27.0 (the same self-hosting detection `provenance.yml`
 already used) and re-adopted here.
 
-Not (yet) installed: `documentation.yml` (the documentation contract isn't satisfied),
-and `release-surfaces.yml` (would contest Pages ownership with docs.yml).
-`release-repair.yml` is excluded because it would spend an AI call diagnosing
-`github-release.yml`'s expected failures as if each were a real one.
+`release-repair.yml` is installed: it watches `CI`, `Provenance`, `Release`, `Release
+surfaces`, and `GitHub Release` for post-merge failures on `develop`/`main` and spends an
+AI call diagnosing and repairing each. It was excluded through vibey-gh 1.26.0 because
+`github-release.yml` failed on every no-bump push to `main`, and each of those would have
+been "repaired" as a real failure; 1.27.0 made that case a clean no-op (see above), so
+there is no longer a recurring non-failure to chase, and it was re-adopted.
+
+`release-surfaces.yml` is installed too, retiring the hand-authored `docs.yml` in the same
+change — the two used to contest ownership of GitHub Pages, which is resolved by there
+being only one publisher. It builds branch-specific ProperDocs sites (`properdocs build
+--strict` against `properdocs.yml`, not `mkdocs build`) after each successful `Release`
+run, plus an OCI release bundle in GitHub Packages. See `[documentation]` in
+`.vibey-gh.toml` for the site's install requirements and GA4 id.
+
+Not (yet) installed: `documentation.yml` — no narrative documentation contract
+(`readme_sections`, `mermaid_terms`, etc.) is declared in `.vibey-gh.toml`, so none is
+enforced.
 
 `api-drift.yml` is excluded **permanently**: it does `pip install .` and imports
 `vibey_gh.surfaces`, which only works when the adopting repository's own package *is*
