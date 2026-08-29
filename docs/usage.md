@@ -46,6 +46,24 @@ vibey-skills install --all --force
 `--link` symlinks instead of copying, so skills track the installed package version and a
 `uv tool upgrade` updates them in place.
 
+## Indexing and retrieval
+
+The context engine turns the installed skill library into a searchable index:
+
+```bash
+vibey-skills index build --output ~/.vibey-skills-index
+vibey-skills index inspect ~/.vibey-skills-index
+vibey-skills search "threat modeling" --index ~/.vibey-skills-index --limit 10
+vibey-skills packet --request "review a Terraform module" \
+    --index ~/.vibey-skills-index --output packet.md --manifest packet.json
+vibey-skills evaluate --cases cases.json --index ~/.vibey-skills-index
+```
+
+`index build` compiles every `SKILL.md` into a local SQLite index, `search` queries it,
+`packet` assembles a budgeted context packet for an agent, and `evaluate` scores
+retrieval quality. The full design, hardening notes, and evaluation methodology are in
+[the retrieval context engine page](rag-context-engine.md).
+
 ## Locating the packaged files
 
 ```bash

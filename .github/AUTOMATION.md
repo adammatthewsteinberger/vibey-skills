@@ -23,22 +23,30 @@ how that's fixed, is in
 
 ## Workflow inventory
 
-Five workflows are hand-authored because they are specific to this repository's product or
+Four workflows are hand-authored because they are specific to this repository's product or
 its release pattern: `CI` (manifest and skill-frontmatter validation, packaging, the
 wheel-completeness assertion), `Release` (the TestPyPI/PyPI publish pipeline and
 `develop`'s realignment onto `main`), `Release artifacts` (attaches the sdist/wheel to
 whatever GitHub Release `github-release.yml` creates — vibey-gh's own template has no
-way to attach files), `Docs` (the mkdocs Material site, deployed to GitHub Pages), and
-`Currency research` (a scheduled agent that audits dated claims in skill content against
-the live web). Ten more are managed by `vibey-gh install` (pinned exactly, via
-`[install] pin_version = true`) from its own templates and regenerated verbatim whenever
-that command runs: `provenance.yml` (job name **Provenance**), `codeql.yml` (job name
-**Analyze Python**), `pr-automation.yml` (publishes the **PR automation / gate** check),
-`merge-train.yml`, `promote-to-main.yml`, `branch-intake.yml`,
-`automation-bootstrap.yml`, `github-release.yml`, `repository-profile.yml`, and
-`conventional-commits.yml`. `Provenance`, `Analyze Python`, and `PR automation / gate`
+way to attach files), and `Currency research` (a scheduled agent that audits dated claims
+in skill content against the live web). Twelve more are managed by `vibey-gh install`
+(pinned exactly, via `[install] pin_version = true`) from its own templates and
+regenerated verbatim whenever that command runs: `provenance.yml` (job name
+**Provenance**), `codeql.yml` (job name **Analyze Python**), `pr-automation.yml`
+(publishes the **PR automation / gate** check), `merge-train.yml`, `promote-to-main.yml`,
+`branch-intake.yml`, `automation-bootstrap.yml`, `github-release.yml`,
+`repository-profile.yml`, `conventional-commits.yml`, `release-repair.yml`, and
+`release-surfaces.yml`. `Provenance`, `Analyze Python`, and `PR automation / gate`
 are required status checks on both branch rulesets, alongside the hand-authored `Validate
 manifests and build` and `Build docs (strict)`.
+
+`release-surfaces.yml` publishes the marketplace's real documentation site — branch-specific
+ProperDocs sites (`properdocs build --strict` against `properdocs.yml`, not `mkdocs
+build`) on GitHub Pages, plus an OCI release bundle in GitHub Packages — after each
+successful `Release` run. It retired the hand-authored `docs.yml` in the same change: the
+two used to contest ownership of Pages, which is resolved by there being only one
+publisher. `mkdocs.yml` still exists and is still built by `ci.yml`'s `Build docs
+(strict)` job, but only to validate — that build is never deployed.
 
 Not every template `vibey-gh` ships is adopted. `api-drift.yml` is excluded permanently:
 it is vibey-gh's own self-test (`pip install .` then `import vibey_gh.surfaces`), which
@@ -46,12 +54,13 @@ only works when the adopting repository's own package *is* `vibey-gh` — false 
 design, since runtime `dependencies` are deliberately empty. `conventional-commits.yml`
 had the identical defect through vibey-gh 1.16.0 and was excluded for the same reason;
 fixed upstream in 1.27.0 (the same self-hosting detection `provenance.yml` already used)
-and re-adopted here.
-`documentation.yml` is not yet adopted pending further configuration.
-`release-surfaces.yml` is excluded because it would contest ownership of GitHub Pages with
-`docs.yml`, which already publishes the marketplace's real documentation site.
-`release-repair.yml` is excluded because it would spend an AI call diagnosing
-`github-release.yml`'s expected failures (below) as if each were a real one.
+and re-adopted here. `release-repair.yml` had a comparable exclusion, for a different
+reason: through 1.26.0, `github-release.yml` failed on every no-bump push to `main`, and
+`release-repair.yml` would have spent an AI call "repairing" each of those as if it were a
+real failure; 1.27.0 made that case a clean no-op (below), so there is no longer a
+recurring non-failure to chase, and it was re-adopted alongside `release-surfaces.yml`.
+`documentation.yml` is not yet adopted pending further configuration — no narrative
+documentation contract is declared in `.vibey-gh.toml`, so none is enforced.
 
 `github-release.yml` is installed and required on this repository. Through vibey-gh
 1.26.0 it failed on most pushes to `main`, since it had no way to skip a push that
@@ -167,7 +176,7 @@ having one.
 ## Changing workflows
 
 The four hand-authored workflows are edited directly; their `name:` fields are load-bearing
-(`CI` and `Release` are watched by name elsewhere) and must not change casually. The six
+(`CI` and `Release` are watched by name elsewhere) and must not change casually. The twelve
 `vibey-gh`-managed workflows are edited by changing `.vibey-gh.toml`'s `[install]`
 `workflows` list or the relevant config table, then running `vibey-gh install` — a manual
 edit to one of these files is reported as "out of date" by `vibey-gh check` and overwritten

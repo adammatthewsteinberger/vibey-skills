@@ -11,6 +11,10 @@ mobile, architecture, quality engineering, process, and technical writing.
 *and* correct. These skills are the reference layer for that: each one is a long-form,
 source-cited document rather than a prompt snippet, written so a model can act on it.
 
+Beyond installation, the `vibey-skills` CLI ships a [retrieval context
+engine](rag-context-engine.md): build a local index of every skill, search it, and
+assemble budgeted context packets for an agent.
+
 ## Two ways to install
 
 === "Claude Code marketplace"

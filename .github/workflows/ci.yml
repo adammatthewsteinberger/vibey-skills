@@ -59,6 +59,7 @@ jobs:
       - name: Smoke-test the built wheel
         run: |
           set -euo pipefail
+          PYTHONPATH=src python3 -m unittest discover -s tests
           python3 -m venv /tmp/smoke
           /tmp/smoke/bin/pip install --quiet dist/*.whl
           /tmp/smoke/bin/vibey-skills --version
