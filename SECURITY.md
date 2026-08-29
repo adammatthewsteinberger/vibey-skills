@@ -30,6 +30,10 @@ surface is therefore narrow, and reports in these areas are in scope:
 
 - **Path traversal or arbitrary write** in the `vibey-skills install` command — for example a
   plugin or skill name that escapes the `--dest` directory.
+- **Path traversal or symlink escape** in the context-engine commands — `vibey-skills
+  index build --output` writing its index directory, symlinked skill sources or index
+  boundaries that should fail closed, and the file writes made by `packet` and
+  `evaluate`.
 - **Supply-chain integrity** — anything suggesting the published PyPI artifact does not match
   the tagged source, or a weakness in the release workflow's Trusted Publishing setup.
 - **Malicious or unsafe guidance in skill content** — a `SKILL.md` that instructs an agent to

@@ -234,14 +234,22 @@ plugins/<plugin>/.claude-plugin/plugin.json   Plugin manifest
 plugins/<plugin>/README.md              Plugin overview + skill list
 plugins/<plugin>/skills/<skill>/SKILL.md      One skill: YAML frontmatter (name, trigger) + the reference
 src/vibey_skills/                       Python package + `vibey-skills` CLI (stdlib only)
+src/vibey_skills/context_engine.py      Retrieval context engine behind `vibey-skills index / search / packet / evaluate`
 tools/validate_manifests.py             Manifest and skill-frontmatter validator
 tools/check_links.py                    Hermetic link checker (README is also the PyPI long description)
 ```
 
-CI validates every manifest and frontmatter, checks that the built wheel carries every
-`SKILL.md`, smoke-tests `vibey-skills install --all` from the wheel, and builds the docs
-site with `mkdocs build --strict` so a dead link on any of the 71 generated pages fails
-the build.
+CI validates every manifest and frontmatter, runs the unit tests for the context
+engine and its CLI, checks that the built wheel carries every `SKILL.md`, smoke-tests
+`vibey-skills install --all` from the wheel, and builds the docs site with `mkdocs build
+--strict` so a dead link on any of the 71 generated pages fails the build.
+
+Beyond installing skills, the CLI can index them for retrieval: `vibey-skills index
+build` compiles every `SKILL.md` into a local search index, `search` queries it,
+`packet` assembles a budgeted context packet for an agent, and `evaluate` scores
+retrieval quality — see the [retrieval context
+engine](https://adammatthewsteinberger.github.io/vibey-skills/rag-context-engine/)
+documentation.
 
 ## Docs & links
 
