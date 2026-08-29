@@ -206,9 +206,13 @@ now switched off. Default setup scanned both the `python` and `actions` language
 template scans `python` only, so GitHub Actions workflow scanning has no coverage until
 vibey-gh's template adds it. `pr-automation.yml` publishes **PR automation / gate**, also
 a REQUIRED status check on both rulesets, configured with `[pr_automation]
-scan_workflows = ["CI", "Provenance", "CodeQL"]` — the default additionally names
-`"API drift (Cloud Agents OpenAPI)"` (vibey-gh's own self-test, not installed here) and
-`"Docs"`.
+scan_workflows = ["CI", "Provenance", "CodeQL", "Conventional Commits"]` — the default
+additionally names `"API drift (Cloud Agents OpenAPI)"` (vibey-gh's own self-test, not
+installed here) and `"Docs"`. `"Conventional Commits"` is included here (unlike the
+default) because that workflow's `enforce` check counts toward the merge gate but is also
+what `pr-automation.yml` renders into its `workflow_run` trigger — left out, the gate could
+never re-announce completion once it was the last scan to finish, leaving the PR stuck
+green-but-unevaluated until the six-hourly backstop.
 
 **`"Docs"` is a real trap, hit and fixed in this repository**: the hand-authored `docs.yml`
 (since retired — see below) was genuinely named `Docs`, but it only triggered on
