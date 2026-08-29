@@ -4,7 +4,7 @@
 > repository and takes precedence over this document wherever they overlap.
 
 This repository is a **Claude Code plugin marketplace**: 127 plugins composed of 644 Agent
-Skills. There is no application code beyond a small packaging CLI — nearly every contribution
+Skills. The application code is a packaging CLI plus a retrieval context engine — nearly every contribution
 is Markdown (skill content) and JSON (manifests). "Correct" means valid manifests and
 accurate, well-triggered skill content.
 
